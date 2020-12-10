@@ -1,0 +1,65 @@
+$grey: #333;
+$light_grey: #faf9f9;
+
+@font-face {
+  src: url("../fonts/Righteous-Regular.ttf");
+  font-family: "Bold";
+}
+
+@font-face {
+  src: url("../fonts/Kalam-Regular.ttf");
+  font-family: "Cursive";
+}
+
+@mixin font($font_name) {
+  font-family: $font_name, Arial, Helvetica, sans-serif;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+input {
+  @include font("Bold");
+  color: #333;
+  outline: none;
+  cursor: pointer;
+}
+
+#grey_heading{
+  width: 100vw;
+  height: 20px;
+  background-color: $grey;
+}
+
+header {
+  max-width: 1250px;
+  margin: 0 auto;
+  height: 35px;
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 10px;
+  border-bottom: 1px solid $light_grey;
+  align-items: center;
+  .header_links {
+    width: 20px;
+    &:first-child{
+      cursor: pointer;
+    }
+  }
+  input {
+    margin: 0 15px;
+    flex: 1;
+    border: none;
+  }
+  p{
+    margin-left: 5px;
+    @include font('Bold');
+  }
+  a{
+    text-decoration: none;
+    display: flex;
+    color: $grey;
+  }
+}
