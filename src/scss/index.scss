@@ -15,9 +15,19 @@ $light_grey: #faf9f9;
   font-family: $font_name, Arial, Helvetica, sans-serif;
 }
 
+@mixin bg {
+  background-size: contain;
+  background-position: 50%;
+  background-repeat: no-repeat;
+}
+
 body {
   margin: 0;
   padding: 0;
+}
+
+button {
+  outline: none;
 }
 
 input {
@@ -27,24 +37,30 @@ input {
   cursor: pointer;
 }
 
-#grey_heading{
+#grey_heading {
   width: 100vw;
   height: 20px;
   background-color: $grey;
 }
 
+a {
+  @include font("Bold");
+  color: $grey;
+  text-decoration: none;
+}
+
 header {
-  max-width: 1250px;
+  height: 55px;
+  box-sizing: border-box;
   margin: 0 auto;
-  height: 35px;
   display: flex;
   justify-content: space-between;
-  padding: 5px 10px;
+  margin: 5px 10px;
   border-bottom: 1px solid $light_grey;
   align-items: center;
   .header_links {
     width: 20px;
-    &:first-child{
+    &:first-child {
       cursor: pointer;
     }
   }
@@ -52,14 +68,87 @@ header {
     margin: 0 15px;
     flex: 1;
     border: none;
+    &::placeholder {
+      color: $grey;
+    }
   }
-  p{
+  p {
     margin-left: 5px;
-    @include font('Bold');
+    @include font("Bold");
   }
-  a{
-    text-decoration: none;
+  a {
     display: flex;
-    color: $grey;
+  }
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+}
+
+aside {
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding: 15px 0;
+  #logo {
+    width: 148px;
+    &:hover {
+      opacity: 0.6;
+    }
+  }
+  #menu_button {
+    margin: 15px 0;
+    width: 25px;
+    height: 25px;
+    background-color: transparent;
+    border: none;
+    @include bg;
+  }
+  a {
+    margin: 5px 0;
+  }
+  #insta {
+    margin-top: 10px;
+    width: 25px;
+    height: 25px;
+  }
+}
+
+@media (min-width: 768px) {
+  header {
+    box-sizing: border-box;
+    padding: 10px 30px;
+  }
+  aside {
+    width: 205px;
+    align-items: flex-start;
+    margin-right: 0;
+    padding: 0;
+    a {
+      margin: 15px;
+      margin-left: 0;
+    }
+    #insta {
+      width: 20px;
+      height: 20px;
+    }
+  }
+  main {
+    box-sizing: border-box;
+    padding: 10px 30px;
+    flex-direction: row;
+  }
+}
+
+@media (min-width: 1024px) {
+  header {
+    margin: 5px auto;
+    max-width: 1250px;
+  }
+  main {
+    max-width: 1250px;
+    margin: 0 auto;
   }
 }
