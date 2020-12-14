@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import Header from 'components/Header';
+import SideBar from 'components/SideBar';
 import store from 'app/store';
 import 'css/index.css';
 
@@ -16,14 +17,17 @@ class App extends Component {
     return (
       <div>
         <Header />
-        <Switch>
-          <Route exact path="/">
-            <p>Root</p>
-          </Route>
-          <Route exact path="/*">
-            <p>Another page</p>
-          </Route>
-        </Switch>
+        <main>
+          <SideBar />
+          <Switch>
+            <Route exact path="/">
+              <p>Root</p>
+            </Route>
+            <Route exact path="/*">
+              <p>Another page</p>
+            </Route>
+          </Switch>
+        </main>
       </div>
     );
   }
