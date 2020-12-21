@@ -1,27 +1,7 @@
-$grey: #333;
-$light_grey: #faf9f9;
-
-@font-face {
-  src: url("../fonts/Righteous-Regular.ttf");
-  font-family: "Bold";
-}
-
-@font-face {
-  src: url("../fonts/Kalam-Regular.ttf");
-  font-family: "Cursive";
-}
-
-@mixin font($font_name) {
-  font-family: $font_name, Arial, Helvetica, sans-serif;
-}
-
-@mixin bg {
-  background-size: contain;
-  background-position: 50%;
-  background-repeat: no-repeat;
-}
+@import "init";
 
 body {
+  overflow-x: hidden;
   margin: 0;
   padding: 0;
 }

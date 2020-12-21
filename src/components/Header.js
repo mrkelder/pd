@@ -20,8 +20,7 @@ function Header() {
         </Link>
       </header>
     </Fragment>
-
-  )
+  );
 }
 
 export default Header;
