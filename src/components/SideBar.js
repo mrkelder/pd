@@ -40,7 +40,7 @@ function SideBar() {
       }
 
     </aside>
-  )
+  );
 }
 
-export default SideBar
+export default SideBar;
