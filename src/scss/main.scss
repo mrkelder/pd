@@ -1,0 +1,14 @@
+@import "item";
+
+#main_page {
+  width: 100%;
+  display: inline-flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+@media (min-width: 768px) {
+  #main_page {
+    justify-content: flex-start;
+  }
+}

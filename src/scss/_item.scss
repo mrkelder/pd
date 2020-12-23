@@ -1,0 +1,25 @@
+@import "init";
+
+.item {
+  margin: 5px;
+  width: 280px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  img {
+    width: 270px;
+  }
+  a {
+    font-size: 1.25rem;
+    @include font("Cursive");
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+  p {
+    margin: 5px 0;
+    font-size: 1.1875rem;
+    @include font("Bold");
+    color: $grey;
+  }
+}
