@@ -1,70 +1,176 @@
-# Getting Started with Create React App
+# Client of "PD" hoodie shop 
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+**Version 0.2**
 
-## Available Scripts
+This is a client version of a hoodie shop "Peaceful Disruption". It's an open source so you can use it for free of charge.
 
-In the project directory, you can run:
+## Links
 
-### `npm start`
+1) [Pages](#pages)
+2) [Components](#components)
+3) [SCSS](#scss)
+4) [App](#app)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Scripts
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+1) npm run sass **starts watching for any changes in *scss/\** folder**
 
-### `npm test`
+## Some important rules
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+1) Before your work pull changes from **dev** branch, maybe some new features came out
+2) Before releasing your version look for all **TODO** and **FIXME** statements in your code
+3) Before release don't forget to change the version both in the documentation and pachage.json file
 
-### `npm run build`
+## Restrictions
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+1) Names of css classes and ids are written in snake case.
+2) You have to import files into components via global paths (e.g. *components/Head.js*).
+3) All Redux reducers are stored separately in *app/\** folder.
+4) *css/* folder is immutable.
+5) Every component must have PropTypes and default values (if necessary).
+6) Comments are compulsory.
+7) All files (besides built ones) must be included in [Hierarchy](#hierarchy).
+8) The documentation must be rewritten during release-* stage.
+9) You use two asterisk symbols when you refer to something, *example*.
+10) You use pairs asterisk symbols in order to make something noticeable (e.g. shape of some object or special name), **example**.
+11) A component must be described like **Main info -> Values -> Props -> Functions -> Contexts -> Prop types**.
+12) If a functional component has a state hook, the state in the documentation must be described like **isMenuOpened / setMenuOpened**.
+13) If, for instance, a name of a function says "closeMenu", you needn't comment that.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Required skills
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+1) React
+2) React-router
+3) Redux
+4) Scss
+5) Axios
 
-### `npm run eject`
+## Hierarchy
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+```
+Root
+│ README.md
+│ .gitignore
+│ package.json
+│ package-lock.json
+│ .env
+│ .eslintcache
+│ debug.log
+│ jsconfig.json
+│
+└───node_modules
+│
+└───public
+│
+└───src
+    │
+    │ App.js
+    │ index.js
+    └───app 
+    │   │ cartReducer.js
+    │   │ context.js
+    │   │ store.js
+    │   │ windowReducer.js
+    │
+    └───components
+    │   │ Header.js
+    │   │ Item.js
+    │   │ SideBar.js
+    │
+    └───css
+    │
+    └───fonts
+    │   │ Kalam-Regular.ttf
+    │   │ Righteous-Regular.ttf
+    │
+    └───img
+    │
+    └───pages
+    │   │ Main.js
+    │
+    └───scss
+        │ _init.scss
+        │ _item.scss
+        │ index.scss
+        │ main.scss
+```
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## App
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+### cartReducer.js
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+This is a reducer for the shopping cart. Initial value looks like **{ items: [] }**. Items array takes whole objects of items.
 
-## Learn More
+Actions:
+1) cart/pushElement **pushes whole payload into state.items array, so you can add one or several items**
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### context.js
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Contains all global static values, for instance images or domain.
 
-### Code Splitting
+Contexts:
+1) infoContext **Contains information about domain**.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+### store.js
 
-### Analyzing the Bundle Size
+This is a file where all reducers are combined into one root reducer. Middleware adds reduxt dev tools extention for browsers.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+### windowReducer.js
 
-### Making a Progressive Web App
+Gives information about current window resolution. Shape **{ windowSize: document.getElementsByTagName('html')[0].clientWidth }**.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+Actions:
+1) windowSize/resize **changes information about the size of window**
 
-### Advanced Configuration
+## Components
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+### App.js (Major)
 
-### Deployment
+Contexts:
+1) InfoContext **holds information about domain**
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+### Header.js
 
-### `npm run build` fails to minify
+Header that contains a search and the shopping cart.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Values:
+1) windowSize
+2) items **items from the shopping cart**
+
+### Item.js
+
+Block of an item containing a name, price and a link to the item. Used in main and shop pages.
+
+Values:
+1) domain
+   
+Props:
+1) _id
+2) name
+3) price **in dollars**
+4) img
+
+### SideBar.js
+
+Side bar that has several links. Those are links to: main page, store, instagram.
+
+Values:
+1) windowSize
+2) pathname **current subdirectory**
+3) menuOpened / setMenuOpened
+
+Functions:
+1) openMenu
+
+## Pages
+
+### Main.js
+
+Carries recently added items in the shop.
+
+## SCSS
+
+1) _init.scss **holds the collections of colors, mixins, font-face's and so on**
+2) _item.scss **styles for *Item.js* component**
+3) index.scss **determines the main css rules throughtout all css files**
+4) main.scss **styles for *Main.js* page**
