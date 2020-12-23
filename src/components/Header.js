@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 
 function Header() {
   const { windowSize } = useSelector(store => store.windowSize);
-  const { items } = useSelector(store => store.cart);
+  const { items } = useSelector(store => store.cart); // Items from cart
 
   return (
     <Fragment>

@@ -13,9 +13,6 @@ class App extends Component {
       const windowSize = document.getElementsByTagName('html')[0].clientWidth;
       store.dispatch({ type: 'windowSize/resize', payload: windowSize });
     });
-
-    console.log(document.getElementsByTagName('html')[0].clientWidth);
-
   }
 
   render() {
