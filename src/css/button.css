@@ -16,11 +16,18 @@
   height: 45px;
   margin: 5px 0;
   transition: 0.2s;
+  cursor: pointer;
 }
 .b_button:hover {
   transition: 0.2s;
   background-color: #333;
   color: white;
+}
+
+@media (min-width: 1024px) {
+  .b_button {
+    font-size: 1rem;
+  }
 }
 
 /*# sourceMappingURL=button.css.map */

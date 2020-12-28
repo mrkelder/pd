@@ -1,6 +1,7 @@
 @import "init";
 
 #item_page {
+  box-sizing: border-box;
   padding: 0 15px;
   display: flex;
   flex-direction: column;
@@ -72,6 +73,7 @@
     }
   }
   #paypal-button-container {
+    margin-top: 5px;
     width: 100%;
   }
   #more_payment {
@@ -110,6 +112,60 @@
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
+    }
+  }
+}
+
+@media (min-width: 768px) {
+  #item_page {
+    width: 100%;
+    align-items: flex-start;
+    padding-left: 0;
+    #bread_crumbs {
+      font-size: 0.9rem;
+    }
+    #info {
+      width: 100%;
+      display: flex;
+      margin-top: 10px;
+      img {
+        width: 40vw;
+        height: 40vw;
+        max-width: 750px;
+        max-height: 750px;
+      }
+      #info_block {
+        width: 100%;
+        max-width: 265px;
+        display: flex;
+        flex-direction: column;
+        #name {
+          text-align: start;
+        }
+        #price {
+          margin: 5px 0 15px;
+        }
+        .b_button {
+          width: 100%;
+          max-width: 265px;
+        }
+        #more_payment {
+          margin: 5px 0;
+          text-align: center;
+        }
+        #social_medias {
+          margin-top: 0;
+          justify-content: space-between;
+          .social_media {
+            height: 35px;
+            margin: 0 5px 0 0;
+            img {
+              width: 18px;
+              height: 18px;
+            }
+          }
+        }
+      }
     }
   }
 }
