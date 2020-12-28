@@ -1,0 +1,119 @@
+@font-face {
+  src: url("../fonts/Righteous-Regular.ttf");
+  font-family: "Bold";
+}
+@font-face {
+  src: url("../fonts/Kalam-Regular.ttf");
+  font-family: "Cursive";
+}
+#item_page {
+  padding: 0 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+#item_page #bread_crumbs {
+  justify-content: center;
+  display: flex;
+  font-family: "Bold", Arial, Helvetica, sans-serif;
+  color: #333;
+  font-size: 1rem;
+  align-items: center;
+}
+#item_page #bread_crumbs .arrow {
+  height: 17px;
+}
+#item_page #bread_crumbs span {
+  margin: 0;
+  margin-left: 5px;
+}
+#item_page #main_photo {
+  width: 80vw;
+}
+#item_page #name {
+  font-size: 1.8rem;
+  font-family: "Cursive", Arial, Helvetica, sans-serif;
+  text-align: center;
+  word-break: break-word;
+  color: #333;
+}
+#item_page #price {
+  color: #333;
+  font-size: 1.6rem;
+  font-family: "Bold", Arial, Helvetica, sans-serif;
+  margin-bottom: 45px;
+}
+#item_page #type {
+  display: flex;
+  margin-bottom: 15px;
+}
+#item_page #type .option {
+  margin: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+#item_page #type .option span {
+  margin-bottom: 5px;
+  color: #333;
+  font-family: "Bold", Arial, Helvetica, sans-serif;
+  font-size: 0.9rem;
+}
+#item_page #type .option select {
+  font-size: 1.2rem;
+  font-family: "Bold", Arial, Helvetica, sans-serif;
+  color: #333;
+  background-color: #f4f4f4;
+  border: none;
+}
+#item_page #type .option:first-child select {
+  width: 58px;
+  height: 44px;
+}
+#item_page #type .option:last-child select {
+  width: 100px;
+  height: 44px;
+}
+#item_page #paypal-button-container {
+  width: 100%;
+}
+#item_page #more_payment {
+  text-decoration: underline;
+  font-size: 0.9rem;
+}
+#item_page #social_medias {
+  display: flex;
+  margin-top: 15px;
+}
+#item_page #social_medias .social_media {
+  display: flex;
+  align-items: center;
+  margin: 5px;
+}
+#item_page #social_medias .social_media img {
+  width: 20px;
+  margin-right: 5px;
+}
+#item_page #social_medias .social_media span {
+  font-family: "Bold", Arial, Helvetica, sans-serif;
+  font-size: 0.8rem;
+  color: #333;
+}
+#item_page #may_like {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+#item_page #may_like h3 {
+  font-family: "Cursive", Arial, Helvetica, sans-serif;
+  color: #333;
+  font-weight: lighter;
+  font-size: 1.3rem;
+}
+#item_page #may_like #posts {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/*# sourceMappingURL=itemPage.css.map */

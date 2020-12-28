@@ -42,7 +42,7 @@ header {
   display: flex;
   justify-content: space-between;
   margin: 5px 10px;
-  border-bottom: 1px solid #faf9f9;
+  border-bottom: 1px solid #f4f4f4;
   align-items: center;
 }
 header .header_links {

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { infoContext } from 'app/context';
 import { Link } from 'react-router-dom';
 import ImgNotFound from 'img/imageNotFound.png';
+import 'css/item.css';
 
 function Item({ _id, name, price, img }) {
   const domain = useContext(infoContext);

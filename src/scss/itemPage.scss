@@ -1,0 +1,115 @@
+@import "init";
+
+#item_page {
+  padding: 0 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  #bread_crumbs {
+    justify-content: center;
+    display: flex;
+    @include font("Bold");
+    color: $grey;
+    font-size: 1rem;
+    align-items: center;
+    .arrow {
+      height: 17px;
+    }
+    span {
+      margin: 0;
+      margin-left: 5px;
+    }
+  }
+  #main_photo {
+    width: 80vw;
+  }
+  #name {
+    font-size: 1.8rem;
+    @include font("Cursive");
+    text-align: center;
+    word-break: break-word;
+    color: $grey;
+  }
+  #price {
+    color: $grey;
+    font-size: 1.6rem;
+    @include font("Bold");
+    margin-bottom: 45px;
+  }
+  #type {
+    display: flex;
+    margin-bottom: 15px;
+    .option {
+      margin: 5px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      span {
+        margin-bottom: 5px;
+        color: $grey;
+        @include font("Bold");
+        font-size: 0.9rem;
+      }
+      select {
+        font-size: 1.2rem;
+        @include font("Bold");
+        color: $grey;
+        background-color: $light_grey;
+        border: none;
+      }
+      &:first-child {
+        select {
+          width: 58px;
+          height: 44px;
+        }
+      }
+      &:last-child {
+        select {
+          width: 100px;
+          height: 44px;
+        }
+      }
+    }
+  }
+  #paypal-button-container {
+    width: 100%;
+  }
+  #more_payment {
+    text-decoration: underline;
+    font-size: 0.9rem;
+  }
+  #social_medias {
+    display: flex;
+    margin-top: 15px;
+    .social_media {
+      display: flex;
+      align-items: center;
+      margin: 5px;
+      img {
+        width: 20px;
+        margin-right: 5px;
+      }
+      span {
+        @include font("Bold");
+        font-size: 0.8rem;
+        color: $grey;
+      }
+    }
+  }
+  #may_like {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    h3 {
+      @include font("Cursive");
+      color: $grey;
+      font-weight: lighter;
+      font-size: 1.3rem;
+    }
+    #posts {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+  }
+}
