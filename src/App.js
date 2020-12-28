@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import Header from 'components/Header';
 import SideBar from 'components/SideBar';
+import Footer from 'components/Footer';
 import Main from 'pages/Main';
 import ItemPage from 'pages/ItemPage';
 import store from 'app/store';
@@ -31,6 +32,7 @@ class App extends Component {
               </Route>
             </Switch>
           </main>
+          <Footer />
         </InfoContext.Provider>
       </Fragment>
     );
