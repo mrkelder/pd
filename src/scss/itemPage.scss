@@ -52,6 +52,7 @@
         font-size: 0.9rem;
       }
       select {
+        cursor: pointer;
         font-size: 1.2rem;
         @include font("Bold");
         color: $grey;
@@ -128,11 +129,11 @@
       width: 100%;
       display: flex;
       margin-top: 10px;
-      img {
+      #main_photo {
         width: 40vw;
         height: 40vw;
-        max-width: 750px;
-        max-height: 750px;
+        max-width: 470px;
+        max-height: 470px;
       }
       #info_block {
         width: 100%;
@@ -165,6 +166,14 @@
             }
           }
         }
+      }
+    }
+    #may_like {
+      h3 {
+        margin-bottom: 0;
+      }
+      #posts {
+        justify-content: flex-start;
       }
     }
   }

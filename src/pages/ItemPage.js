@@ -9,6 +9,8 @@ import tw from 'img/twitter.svg';
 import pt from 'img/pinterest.svg';
 import Item from 'components/Item';
 
+// TODO: Make the main image zoomable
+// TODO: "Add to cart" system
 
 function ItemPage() {
   const { windowSize } = useSelector(state => state.windowSize);
@@ -42,7 +44,7 @@ function ItemPage() {
               <span>Awesome hoodie</span>
             </div>
             <img src={`http://${domain}/static/a_hoodie.webp`} alt="hoodie" id="main_photo" />
-            <span id="name">Awesome hoodie</span>
+            <span id="name">AWESOME HOODIE</span>
             <span id="price">$40.00</span>
             <div id="type">
               <div className="option">
@@ -85,9 +87,9 @@ function ItemPage() {
             <div id="may_like">
               <h3>You may also like</h3>
               <div id="posts">
-                <Item />
-                <Item />
-                <Item />
+                {
+                  new Array(4).fill(3).map((i, index) => <Item type="small" key={`hoodie_${index}`} price={40} name="Awesome hoodie" img="a_hoodie.webp" />)
+                }
               </div>
             </div>
           </Fragment>
@@ -101,7 +103,7 @@ function ItemPage() {
             <div id="info">
               <img src={`http://${domain}/static/a_hoodie.webp`} alt="hoodie" id="main_photo" />
               <div id="info_block">
-                <span id="name">Awesome hoodie</span>
+                <span id="name">AWESOME HOODIE</span>
                 <span id="price">$40.00</span>
                 <div id="type">
                   <div className="option">
@@ -141,6 +143,14 @@ function ItemPage() {
                     <span>Pin it</span>
                   </a>
                 </div>
+              </div>
+            </div>
+            <div id="may_like">
+              <h3>You may also like</h3>
+              <div id="posts">
+                {
+                  new Array(4).fill(3).map((i, index) => <Item type="small" key={`hoodie_${index}`} price={40} name="Awesome hoodie" img="a_hoodie.webp" />)
+                }
               </div>
             </div>
           </Fragment>

@@ -61,6 +61,7 @@
   font-size: 0.9rem;
 }
 #item_page #type .option select {
+  cursor: pointer;
   font-size: 1.2rem;
   font-family: "Bold", Arial, Helvetica, sans-serif;
   color: #333;
@@ -132,11 +133,11 @@
     display: flex;
     margin-top: 10px;
   }
-  #item_page #info img {
+  #item_page #info #main_photo {
     width: 40vw;
     height: 40vw;
-    max-width: 750px;
-    max-height: 750px;
+    max-width: 470px;
+    max-height: 470px;
   }
   #item_page #info #info_block {
     width: 100%;
@@ -169,6 +170,12 @@
   #item_page #info #info_block #social_medias .social_media img {
     width: 18px;
     height: 18px;
+  }
+  #item_page #may_like h3 {
+    margin-bottom: 0;
+  }
+  #item_page #may_like #posts {
+    justify-content: flex-start;
   }
 }
 
