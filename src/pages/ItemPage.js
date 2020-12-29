@@ -17,12 +17,12 @@ import 'css/itemPage.css';
 function ItemPage() {
   const { windowSize } = useSelector(state => state.windowSize);
   const body = document.getElementsByTagName('body')[0];
-  const payPalButton = useRef();
+  const payPalButton = useRef(); // ref to PayPal button
   const domain = useContext(infoContext);
-  const [buttonPlaced, setButtonPlaced] = useState(false);
-  const [isZoomShown, setZoomShown] = useState(false);
-  const allPhotos = ['a_hoodie.webp', 'a_hoodie_s.jpg', 'a_hoodie_back.webp'];
-  const [photoIndex, setPhotoIndex] = useState(0);
+  const [buttonPlaced, setButtonPlaced] = useState(false); // whether PayPal button has appeared or not
+  const [isZoomShown, setZoomShown] = useState(false); // turns on/off bigger version of images
+  const allPhotos = ['a_hoodie.webp', 'a_hoodie_back.webp']; // all photos for an item (one or two)
+  const [photoIndex, setPhotoIndex] = useState(0); // index of current picked photo
 
   function changePhotoIndex(number) {
     if (allPhotos.length - 1 < photoIndex + number) setPhotoIndex(0);
@@ -70,7 +70,13 @@ function ItemPage() {
                 <span className="arrow">{'>'}</span>
                 <span>Awesome hoodie</span>
               </div>
-              <img src={`http://${domain}/static/a_hoodie.webp`} alt="hoodie" id="main_photo" />
+              <img src={`http://${domain}/static/${allPhotos[photoIndex]}`} alt="hoodie" id="main_photo" />
+              {allPhotos.length > 1 &&
+                <div id="choose_photo">
+                  <img src={`http://${domain}/static/${allPhotos[0]}`} alt="change_photo" onClick={() => { setPhotoIndex(0) }} />
+                  <img src={`http://${domain}/static/${allPhotos[1]}`} alt="change_photo" onClick={() => { setPhotoIndex(1) }} />
+                </div>
+              }
               <span id="name">AWESOME HOODIE</span>
               <span id="price">$40.00</span>
               <div id="type">
@@ -128,7 +134,15 @@ function ItemPage() {
                 <span>Awesome hoodie</span>
               </div>
               <div id="info">
-                <img onClick={showZoom} src={`http://${domain}/static/a_hoodie.webp`} alt="hoodie" id="main_photo" />
+                <div id="photos">
+                  <img onClick={showZoom} src={`http://${domain}/static/${allPhotos[photoIndex]}`} alt="hoodie" id="main_photo" />
+                  {allPhotos.length > 1 &&
+                    <div id="choose_photo">
+                      <img src={`http://${domain}/static/${allPhotos[0]}`} alt="change_photo" onClick={() => { setPhotoIndex(0) }} />
+                      <img src={`http://${domain}/static/${allPhotos[1]}`} alt="change_photo" onClick={() => { setPhotoIndex(1) }} />
+                    </div>
+                  }
+                </div>
                 <div id="info_block">
                   <span id="name">AWESOME HOODIE</span>
                   <span id="price">$40.00</span>

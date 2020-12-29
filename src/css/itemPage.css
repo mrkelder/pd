@@ -29,7 +29,15 @@
   margin-left: 5px;
 }
 #item_page #main_photo {
-  width: 80vw;
+  width: 100%;
+}
+#item_page #choose_photo {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+#item_page #choose_photo img {
+  width: 50%;
 }
 #item_page #name {
   font-size: 1.8rem;
@@ -179,12 +187,26 @@
     display: flex;
     margin-top: 10px;
   }
-  #item_page #info #main_photo {
+  #item_page #info #photos {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+  #item_page #info #photos #main_photo {
     cursor: zoom-in;
     width: 40vw;
     height: 40vw;
     max-width: 470px;
     max-height: 470px;
+  }
+  #item_page #info #photos #choose_photo {
+    justify-content: flex-start;
+  }
+  #item_page #info #photos #choose_photo img {
+    margin: 5px;
+    cursor: pointer;
+    max-width: 150px;
+    max-height: 150px;
   }
   #item_page #info #info_block {
     width: 100%;
