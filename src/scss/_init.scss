@@ -20,3 +20,12 @@ $light_grey: #f4f4f4;
   background-position: 50%;
   background-repeat: no-repeat;
 }
+
+@mixin img_btn($size) {
+  cursor: pointer;
+  width: $size;
+  height: $size;
+  @include bg;
+  background-color: transparent;
+  border: none;
+}
