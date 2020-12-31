@@ -8,7 +8,7 @@ function Main() {
       {
         new Array(4).fill(20).map((i, index) => <Item key={`hoodie_${index}`} price={40} name="Awesome hoodie" img="a_hoodie.webp" />)
       }
-      < Item />
+      <Item />
     </div>
   );
 }

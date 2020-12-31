@@ -1,0 +1,236 @@
+@import "init";
+
+#item_page {
+  box-sizing: border-box;
+  padding: 0 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  #bread_crumbs {
+    justify-content: center;
+    display: flex;
+    @include font("Bold");
+    color: $grey;
+    font-size: 1rem;
+    align-items: center;
+    .arrow {
+      height: 17px;
+    }
+    span {
+      margin: 0;
+      margin-left: 5px;
+    }
+  }
+  #main_photo {
+    width: 100%;
+  }
+  #choose_photo {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    img {
+      width: 50%;
+    }
+  }
+  #name {
+    font-size: 1.8rem;
+    @include font("Cursive");
+    text-align: center;
+    word-break: break-word;
+    color: $grey;
+  }
+  #price {
+    color: $grey;
+    font-size: 1.6rem;
+    @include font("Bold");
+    margin-bottom: 45px;
+  }
+  #type {
+    display: flex;
+    margin-bottom: 15px;
+    .option {
+      margin: 5px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      span {
+        margin-bottom: 5px;
+        color: $grey;
+        @include font("Bold");
+        font-size: 0.9rem;
+      }
+      select {
+        cursor: pointer;
+        font-size: 1.2rem;
+        @include font("Bold");
+        color: $grey;
+        background-color: $light_grey;
+        border: none;
+      }
+      &:first-child {
+        select {
+          width: 58px;
+          height: 44px;
+        }
+      }
+      &:last-child {
+        select {
+          width: 100px;
+          height: 44px;
+        }
+      }
+    }
+  }
+  #paypal-button-container {
+    margin-top: 5px;
+    width: 100%;
+  }
+  #more_payment {
+    text-decoration: underline;
+    font-size: 0.9rem;
+  }
+  #social_medias {
+    display: flex;
+    margin-top: 15px;
+    .social_media {
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      margin: 5px;
+      &:hover {
+        opacity: 0.8;
+      }
+      img {
+        width: 20px;
+        margin-right: 5px;
+      }
+      span {
+        @include font("Bold");
+        font-size: 0.8rem;
+        color: $grey;
+      }
+    }
+  }
+  #may_like {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    h3 {
+      @include font("Cursive");
+      color: $grey;
+      font-weight: lighter;
+      font-size: 1.3rem;
+    }
+    #posts {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+  }
+}
+
+@media (min-width: 768px) {
+  #zoom {
+    padding: 15px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: white;
+    width: 100vw;
+    height: 100vh;
+    z-index: 100;
+    #close_btn {
+      top: 15px;
+      right: 15px;
+      position: absolute;
+      @include img_btn(25px);
+    }
+    #zoom_photo {
+      max-width: 80vw;
+      max-height: 100vh;
+    }
+    .arrow_btn {
+      @include img_btn(35px);
+    }
+  }
+  #item_page {
+    width: 100%;
+    align-items: flex-start;
+    padding-left: 0;
+    #bread_crumbs {
+      font-size: 0.9rem;
+    }
+    #info {
+      width: 100%;
+      display: flex;
+      margin-top: 10px;
+      #photos {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        #main_photo {
+          cursor: zoom-in;
+          width: 40vw;
+          height: 40vw;
+          max-width: 470px;
+          max-height: 470px;
+        }
+        #choose_photo {
+          width: 40vw;
+          max-width: 470px;
+          justify-content: center;
+          img {
+            margin: 5px;
+            cursor: pointer;
+            max-width: 150px;
+            max-height: 150px;
+          }
+        }
+      }
+      #info_block {
+        width: 100%;
+        max-width: 265px;
+        display: flex;
+        flex-direction: column;
+        #name {
+          text-align: start;
+        }
+        #price {
+          margin: 5px 0 15px;
+        }
+        .b_button {
+          width: 100%;
+          max-width: 265px;
+        }
+        #more_payment {
+          margin: 5px 0;
+          text-align: center;
+        }
+        #social_medias {
+          margin-top: 0;
+          justify-content: space-between;
+          .social_media {
+            height: 35px;
+            margin: 0 5px 0 0;
+            img {
+              width: 18px;
+              height: 18px;
+            }
+          }
+        }
+      }
+    }
+    #may_like {
+      h3 {
+        margin-bottom: 0;
+      }
+      #posts {
+        justify-content: flex-start;
+      }
+    }
+  }
+}
