@@ -180,8 +180,10 @@
           max-height: 470px;
         }
         #choose_photo {
-          justify-content: flex-start;
-          img{
+          width: 40vw;
+          max-width: 470px;
+          justify-content: center;
+          img {
             margin: 5px;
             cursor: pointer;
             max-width: 150px;

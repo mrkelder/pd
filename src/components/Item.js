@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import ImgNotFound from 'img/imageNotFound.png';
 import 'css/item.css';
 
+// TODO: add default photos to the items (to show something if the connection is lost)
 function Item({ _id, name, price, img, type }) {
   const domain = useContext(infoContext);
 

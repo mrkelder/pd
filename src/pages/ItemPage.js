@@ -13,6 +13,7 @@ import 'css/itemPage.css';
 
 // TODO: "Add to cart" system
 // TODO: make the title change
+// FIXME: create a space for two photos, even though they might not appear (optimisation staff)
 
 function ItemPage() {
   const { windowSize } = useSelector(state => state.windowSize);
@@ -23,6 +24,8 @@ function ItemPage() {
   const [isZoomShown, setZoomShown] = useState(false); // turns on/off bigger version of images
   const allPhotos = ['a_hoodie.webp', 'a_hoodie_back.webp']; // all photos for an item (one or two)
   const [photoIndex, setPhotoIndex] = useState(0); // index of current picked photo
+  const [size, setSize] = useState('xs');
+  const [color, setColor] = useState('Black');
 
   function changePhotoIndex(number) {
     if (allPhotos.length - 1 < photoIndex + number) setPhotoIndex(0);
@@ -82,8 +85,8 @@ function ItemPage() {
               <div id="type">
                 <div className="option">
                   <span>Size</span>
-                  <select>
-                    <option value="xs" checked="checked">XS</option>
+                  <select value={size} onChange={({ target: { value } }) => { setSize(value); }}>
+                    <option value="xs" selected>XS</option>
                     <option value="s">S</option>
                     <option value="m">M</option>
                     <option value="l">L</option>
@@ -92,7 +95,7 @@ function ItemPage() {
                 </div>
                 <div className="option">
                   <span>Color</span>
-                  <select>
+                  <select value={color} onChange={({ target: { value } }) => { setColor(value); }}>
                     <option value="black" checked="checked">Black</option>
                     <option value="white">White</option>
                     <option value="orange">Orange</option>
@@ -149,7 +152,7 @@ function ItemPage() {
                   <div id="type">
                     <div className="option">
                       <span>Size</span>
-                      <select>
+                      <select value={size} onChange={({ target: { value } }) => { setSize(value); }}>
                         <option value="xs" checked="checked">XS</option>
                         <option value="s">S</option>
                         <option value="m">M</option>
@@ -159,7 +162,7 @@ function ItemPage() {
                     </div>
                     <div className="option">
                       <span>Color</span>
-                      <select>
+                      <select value={color} onChange={({ target: { value } }) => { setColor(value); }}>
                         <option value="black" checked="checked">Black</option>
                         <option value="white">White</option>
                         <option value="orange">Orange</option>

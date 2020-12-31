@@ -200,7 +200,9 @@
     max-height: 470px;
   }
   #item_page #info #photos #choose_photo {
-    justify-content: flex-start;
+    width: 40vw;
+    max-width: 470px;
+    justify-content: center;
   }
   #item_page #info #photos #choose_photo img {
     margin: 5px;
