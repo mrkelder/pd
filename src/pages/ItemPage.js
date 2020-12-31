@@ -86,7 +86,7 @@ function ItemPage() {
                 <div className="option">
                   <span>Size</span>
                   <select value={size} onChange={({ target: { value } }) => { setSize(value); }}>
-                    <option value="xs" selected>XS</option>
+                    <option value="xs" checked>XS</option>
                     <option value="s">S</option>
                     <option value="m">M</option>
                     <option value="l">L</option>
