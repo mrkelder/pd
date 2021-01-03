@@ -17,6 +17,9 @@
 .item img,
 .item_s img {
   width: 270px;
+  height: 270px;
+  background-color: #C7C7C7;
+  outline: none;
 }
 .item a,
 .item_s a {
@@ -41,6 +44,8 @@
 }
 .item_s img {
   width: 180px;
+  height: 180px;
+  background-color: #C7C7C7;
 }
 
 /*# sourceMappingURL=item.css.map */

@@ -22,7 +22,7 @@ function SideBar() {
       </Link>
       { windowSize < 768 ?
         <Fragment>
-          <button id="menu_button" onClick={openMenu} style={{ backgroundImage: `url('${menuOpened ? bc : bo}')` }} />
+          <button id="menu_button" onClick={openMenu} onFocus={() => { setMenuOpened(true); }} tabIndex="0" style={{ backgroundImage: `url('${menuOpened ? bc : bo}')` }} />
           {menuOpened &&
             <Fragment>
               <Link to="/" style={{ fontWeight: `${pathname === '/' ? 'bold' : 'normal'}` }}>Home</Link>

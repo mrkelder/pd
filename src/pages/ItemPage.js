@@ -1,24 +1,27 @@
-import React, { Fragment, useContext, useEffect, useRef, useState } from 'react';
+import React, { Fragment, useContext, useEffect, useRef, useState, lazy, Suspense } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { infoContext } from 'app/context';
 import Button from 'components/Button';
-import Item from 'components/Item';
+import ItemPreloaded from 'components/ItemPreloaded';
+import ImgNotFound from 'img/imageNotFound.png';
 import fb from 'img/fb.svg';
 import tw from 'img/twitter.svg';
 import pt from 'img/pinterest.svg';
 import close from 'img/close.svg';
 import arrow from 'img/arrow.svg';
 import 'css/itemPage.css';
+const Item = lazy(() => import('components/Item'));
 
-// TODO: "Add to cart" system
-// TODO: make the title change
-// FIXME: create a space for two photos, even though they might not appear (optimisation staff)
+// TODO: "Add to cart" system (put off for the next version)
 
 function ItemPage() {
   const { windowSize } = useSelector(state => state.windowSize);
   const body = document.getElementsByTagName('body')[0];
   const payPalButton = useRef(); // ref to PayPal button
+  const mainPhoto = useRef();
+  const firstPhoto = useRef();
+  const secondPhoto = useRef();
   const domain = useContext(infoContext);
   const [buttonPlaced, setButtonPlaced] = useState(false); // whether PayPal button has appeared or not
   const [isZoomShown, setZoomShown] = useState(false); // turns on/off bigger version of images
@@ -35,6 +38,7 @@ function ItemPage() {
 
   function showZoom() {
     // Shows/hides a big version of the images
+    window.scroll(0, 0);
     if (isZoomShown) {
       payPalButton.current.style = 'block';
       body.style.overflowY = 'scroll';
@@ -45,6 +49,40 @@ function ItemPage() {
     }
     setZoomShown(!isZoomShown);
   }
+
+  useEffect(() => {
+    window.scroll(0, 0);
+  }, []);
+
+  useEffect(() => {
+    // The main photo is not loaded
+    const mainPhotoImg = mainPhoto.current;
+    if (mainPhotoImg) {
+      mainPhotoImg.addEventListener('error', () => {
+        mainPhotoImg.src = ImgNotFound;
+      });
+    }
+  }, [mainPhoto]);
+
+  useEffect(() => {
+    // The first photo is not loaded
+    const firstPhotoImg = firstPhoto.current;
+    if (firstPhotoImg) {
+      firstPhotoImg.addEventListener('error', () => {
+        firstPhotoImg.src = ImgNotFound;
+      });
+    }
+  }, [firstPhoto]);
+
+  useEffect(() => {
+    // The second photo is not loaded
+    const secondPhotoImg = secondPhoto.current;
+    if (secondPhotoImg) {
+      secondPhotoImg.addEventListener('error', () => {
+        secondPhotoImg.src = ImgNotFound;
+      });
+    }
+  }, [secondPhoto]);
 
   useEffect(() => {
     if (window.paypal && !buttonPlaced) {
@@ -73,11 +111,11 @@ function ItemPage() {
                 <span className="arrow">{'>'}</span>
                 <span>Awesome hoodie</span>
               </div>
-              <img src={`http://${domain}/static/${allPhotos[photoIndex]}`} alt="hoodie" id="main_photo" />
+              <img src={`http://${domain}/static/${allPhotos[photoIndex]}`} ref={mainPhoto} alt="hoodie" id="main_photo" />
               {allPhotos.length > 1 &&
                 <div id="choose_photo">
-                  <img src={`http://${domain}/static/${allPhotos[0]}`} alt="change_photo" onClick={() => { setPhotoIndex(0) }} />
-                  <img src={`http://${domain}/static/${allPhotos[1]}`} alt="change_photo" onClick={() => { setPhotoIndex(1) }} />
+                  <img className="change_photo" src={`http://${domain}/static/${allPhotos[0]}`} ref={firstPhoto} alt="change_photo" onClick={() => { setPhotoIndex(0) }} tabIndex="0" onKeyDown={() => { setPhotoIndex(0) }} />
+                  <img className="change_photo" src={`http://${domain}/static/${allPhotos[1]}`} ref={secondPhoto} alt="change_photo" onClick={() => { setPhotoIndex(1) }} tabIndex="0" onKeyDown={() => { setPhotoIndex(1) }} />
                 </div>
               }
               <span id="name">AWESOME HOODIE</span>
@@ -115,7 +153,7 @@ function ItemPage() {
                   <img src={tw} alt="media" />
                   <span>Tweet</span>
                 </a>
-                <a className="social_media" data-pin-url="https://pin.it/2QyLzV9" data-pin-custom="false" href="https://www.pinterest.com/pin/create/button/" data-pin-do="buttonBookmark">
+                <a className="social_media" tabIndex="0" data-pin-url="https://pin.it/2QyLzV9" data-pin-custom="false" href="https://www.pinterest.com/pin/create/button/" data-pin-do="buttonBookmark">
                   <img src={pt} alt="media" />
                   <span>Pin it</span>
                 </a>
@@ -124,7 +162,10 @@ function ItemPage() {
                 <h3>You may also like</h3>
                 <div id="posts">
                   {
-                    new Array(4).fill(3).map((i, index) => <Item type="small" key={`hoodie_${index}`} price={40} name="Awesome hoodie" img="a_hoodie.webp" />)
+                    new Array(4).fill(20).map((i, index) =>
+                      <Suspense key={`hoodie_${index}`} fallback={<ItemPreloaded type="small" />}>
+                        <Item type="small" price={40} name="Awesome hoodie" img="a_hoodie.webp" />
+                      </Suspense>)
                   }
                 </div>
               </div>
@@ -138,11 +179,11 @@ function ItemPage() {
               </div>
               <div id="info">
                 <div id="photos">
-                  <img onClick={showZoom} src={`http://${domain}/static/${allPhotos[photoIndex]}`} alt="hoodie" id="main_photo" />
+                  <img onClick={showZoom} ref={mainPhoto} src={`http://${domain}/static/${allPhotos[photoIndex]}`} alt="hoodie" id="main_photo" />
                   {allPhotos.length > 1 &&
                     <div id="choose_photo">
-                      <img src={`http://${domain}/static/${allPhotos[0]}`} alt="change_photo" onClick={() => { setPhotoIndex(0) }} />
-                      <img src={`http://${domain}/static/${allPhotos[1]}`} alt="change_photo" onClick={() => { setPhotoIndex(1) }} />
+                      <img className="change_photo" src={`http://${domain}/static/${allPhotos[0]}`} ref={firstPhoto} alt="change_photo" onClick={() => { setPhotoIndex(0) }} tabIndex="0" onKeyDown={() => { setPhotoIndex(0) }} />
+                      <img className="change_photo" src={`http://${domain}/static/${allPhotos[1]}`} ref={secondPhoto} alt="change_photo" onClick={() => { setPhotoIndex(1) }} tabIndex="0" onKeyDown={() => { setPhotoIndex(1) }} />
                     </div>
                   }
                 </div>
@@ -182,7 +223,7 @@ function ItemPage() {
                       <img src={tw} alt="media" />
                       <span>Tweet</span>
                     </a>
-                    <a className="social_media" data-pin-url="https://pin.it/2QyLzV9" data-pin-custom="false" href="https://www.pinterest.com/pin/create/button/" data-pin-do="buttonBookmark">
+                    <a className="social_media" tabIndex="0" data-pin-url="https://pin.it/2QyLzV9" data-pin-custom="false" href="https://www.pinterest.com/pin/create/button/" data-pin-do="buttonBookmark">
                       <img src={pt} alt="media" />
                       <span>Pin it</span>
                     </a>
@@ -193,7 +234,10 @@ function ItemPage() {
                 <h3>You may also like</h3>
                 <div id="posts">
                   {
-                    new Array(4).fill(3).map((i, index) => <Item type="small" key={`hoodie_${index}`} price={40} name="Awesome hoodie" img="a_hoodie.webp" />)
+                    new Array(4).fill(20).map((i, index) =>
+                      <Suspense key={`hoodie_${index}`} fallback={<ItemPreloaded type="small" />}>
+                        <Item type="small" price={40} name="Awesome hoodie" img="a_hoodie.webp" />
+                      </Suspense>)
                   }
                 </div>
               </div>

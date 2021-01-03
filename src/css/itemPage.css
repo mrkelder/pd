@@ -38,6 +38,10 @@
 }
 #item_page #choose_photo img {
   width: 50%;
+  outline: none;
+}
+#item_page #choose_photo img:focus, #item_page #choose_photo img:hover {
+  opacity: 0.5;
 }
 #item_page #name {
   font-size: 1.8rem;
@@ -100,7 +104,7 @@
   cursor: pointer;
   display: flex;
   align-items: center;
-  margin: 5px;
+  margin: 5px 10px;
 }
 #item_page #social_medias .social_media:hover {
   opacity: 0.8;
