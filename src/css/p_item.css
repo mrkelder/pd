@@ -1,0 +1,50 @@
+@font-face {
+  src: url("../fonts/Righteous-Regular.ttf");
+  font-family: "Bold";
+}
+@font-face {
+  src: url("../fonts/Kalam-Regular.ttf");
+  font-family: "Cursive";
+}
+.p_item,
+.p_item_s {
+  margin: 5px;
+  width: 280px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.p_item .p_item_img,
+.p_item_s .p_item_img {
+  width: 270px;
+  height: 270px;
+  background-color: #C7C7C7;
+}
+.p_item .p_item_name,
+.p_item_s .p_item_name {
+  margin-top: 15px;
+  width: 165px;
+  border-radius: 15px;
+  height: 15px;
+  background-color: #C7C7C7;
+}
+.p_item .p_item_p,
+.p_item_s .p_item_p {
+  margin-top: 15px;
+  width: 75px;
+  border-radius: 15px;
+  height: 15px;
+  background-color: #C7C7C7;
+}
+
+.p_item_s {
+  margin: 10px;
+  width: 180px;
+}
+.p_item_s .p_item_img {
+  width: 180px;
+  height: 180px;
+  background-color: #C7C7C7;
+}
+
+/*# sourceMappingURL=p_item.css.map */

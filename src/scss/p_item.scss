@@ -1,0 +1,39 @@
+@import "init";
+
+.p_item,
+.p_item_s {
+  margin: 5px;
+  width: 280px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  .p_item_img {
+    width: 270px;
+    height: 270px;
+    background-color: $grey;
+  }
+  .p_item_name {
+    margin-top: 15px;
+    width: 165px;
+    border-radius: 15px;
+    height: 15px;
+    background-color: $grey;
+  }
+  .p_item_p {
+    margin-top: 15px;
+    width: 75px;
+    border-radius: 15px;
+    height: 15px;
+    background-color: $grey;
+  }
+}
+
+.p_item_s {
+  margin: 10px;
+  width: 180px;
+  .p_item_img {
+    width: 180px;
+    height: 180px;
+    background-color: $grey;
+  }
+}

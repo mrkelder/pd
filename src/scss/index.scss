@@ -1,5 +1,9 @@
 @import "init";
 
+* {
+  outline-color: $black;
+}
+
 body {
   overflow-x: hidden;
   margin: 0;
@@ -20,46 +24,16 @@ input {
 #grey_heading {
   width: 100vw;
   height: 20px;
-  background-color: $grey;
+  background-color: $black;
 }
 
 a {
   @include font("Bold");
-  color: $grey;
+  color: $black;
   text-decoration: none;
 }
 
-header {
-  height: 55px;
-  box-sizing: border-box;
-  margin: 0 auto;
-  display: flex;
-  justify-content: space-between;
-  margin: 5px 10px;
-  border-bottom: 1px solid $light_grey;
-  align-items: center;
-  .header_links {
-    width: 20px;
-    &:first-child {
-      cursor: pointer;
-    }
-  }
-  input {
-    margin: 0 15px;
-    flex: 1;
-    border: none;
-    &::placeholder {
-      color: $grey;
-    }
-  }
-  p {
-    margin-left: 5px;
-    @include font("Bold");
-  }
-  a {
-    display: flex;
-  }
-}
+
 
 main {
   display: flex;

@@ -3,6 +3,7 @@ import search_black from 'img/search_black.svg';
 import cart from 'img/cart.svg';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import 'css/header.css';
 
 function Header() {
   const { windowSize } = useSelector(store => store.windowSize);
