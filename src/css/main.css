@@ -1,35 +1,3 @@
-@font-face {
-  src: url("../fonts/Righteous-Regular.ttf");
-  font-family: "Bold";
-}
-@font-face {
-  src: url("../fonts/Kalam-Regular.ttf");
-  font-family: "Cursive";
-}
-.item {
-  margin: 5px;
-  width: 280px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-.item img {
-  width: 270px;
-}
-.item a {
-  font-size: 1.25rem;
-  font-family: "Cursive", Arial, Helvetica, sans-serif;
-}
-.item a:hover {
-  opacity: 0.8;
-}
-.item p {
-  margin: 5px 0;
-  font-size: 1.1875rem;
-  font-family: "Bold", Arial, Helvetica, sans-serif;
-  color: #333;
-}
-
 #main_page {
   width: 100%;
   display: inline-flex;

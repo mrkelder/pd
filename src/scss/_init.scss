@@ -1,5 +1,6 @@
-$grey: #333;
-$light_grey: #faf9f9;
+$black: #333;
+$grey: #C7C7C7;
+$light_grey: #f4f4f4;
 
 @font-face {
   src: url("../fonts/Righteous-Regular.ttf");
@@ -19,4 +20,13 @@ $light_grey: #faf9f9;
   background-size: contain;
   background-position: 50%;
   background-repeat: no-repeat;
+}
+
+@mixin img_btn($size) {
+  cursor: pointer;
+  width: $size;
+  height: $size;
+  @include bg;
+  background-color: transparent;
+  border: none;
 }

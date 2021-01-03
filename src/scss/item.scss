@@ -1,6 +1,7 @@
 @import "init";
 
-.item {
+.item,
+.item_s {
   margin: 5px;
   width: 280px;
   display: flex;
@@ -8,6 +9,9 @@
   align-items: center;
   img {
     width: 270px;
+    height: 270px;
+    background-color: $grey;
+    outline: none;
   }
   a {
     font-size: 1.25rem;
@@ -20,6 +24,16 @@
     margin: 5px 0;
     font-size: 1.1875rem;
     @include font("Bold");
-    color: $grey;
+    color: $black;
+  }
+}
+
+.item_s {
+  margin: 10px;
+  width: 180px;
+  img {
+    width: 180px;
+    height: 180px;
+    background-color: $grey;
   }
 }

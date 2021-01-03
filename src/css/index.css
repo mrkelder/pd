@@ -6,6 +6,10 @@
   src: url("../fonts/Kalam-Regular.ttf");
   font-family: "Cursive";
 }
+* {
+  outline-color: #333;
+}
+
 body {
   overflow-x: hidden;
   margin: 0;
@@ -33,38 +37,6 @@ a {
   font-family: "Bold", Arial, Helvetica, sans-serif;
   color: #333;
   text-decoration: none;
-}
-
-header {
-  height: 55px;
-  box-sizing: border-box;
-  margin: 0 auto;
-  display: flex;
-  justify-content: space-between;
-  margin: 5px 10px;
-  border-bottom: 1px solid #faf9f9;
-  align-items: center;
-}
-header .header_links {
-  width: 20px;
-}
-header .header_links:first-child {
-  cursor: pointer;
-}
-header input {
-  margin: 0 15px;
-  flex: 1;
-  border: none;
-}
-header input::placeholder {
-  color: #333;
-}
-header p {
-  margin-left: 5px;
-  font-family: "Bold", Arial, Helvetica, sans-serif;
-}
-header a {
-  display: flex;
 }
 
 main {

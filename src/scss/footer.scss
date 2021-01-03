@@ -1,0 +1,11 @@
+@import "init";
+
+footer {
+  width: 100%;
+  p {
+    font-size: 0.9rem;
+    text-align: center;
+    color: $black;
+    @include font("Bold");
+  }
+}

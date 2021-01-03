@@ -1,0 +1,51 @@
+@font-face {
+  src: url("../fonts/Righteous-Regular.ttf");
+  font-family: "Bold";
+}
+@font-face {
+  src: url("../fonts/Kalam-Regular.ttf");
+  font-family: "Cursive";
+}
+.item,
+.item_s {
+  margin: 5px;
+  width: 280px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.item img,
+.item_s img {
+  width: 270px;
+  height: 270px;
+  background-color: #C7C7C7;
+  outline: none;
+}
+.item a,
+.item_s a {
+  font-size: 1.25rem;
+  font-family: "Cursive", Arial, Helvetica, sans-serif;
+}
+.item a:hover,
+.item_s a:hover {
+  opacity: 0.8;
+}
+.item p,
+.item_s p {
+  margin: 5px 0;
+  font-size: 1.1875rem;
+  font-family: "Bold", Arial, Helvetica, sans-serif;
+  color: #333;
+}
+
+.item_s {
+  margin: 10px;
+  width: 180px;
+}
+.item_s img {
+  width: 180px;
+  height: 180px;
+  background-color: #C7C7C7;
+}
+
+/*# sourceMappingURL=item.css.map */
