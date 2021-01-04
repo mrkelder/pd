@@ -79,7 +79,6 @@ function Shop() {
         alert('Pardon 😠?!');
         break;
     }
-    console.log(copiedArray)
     setAllItems(copiedArray);
     setFilter(value);
   }
