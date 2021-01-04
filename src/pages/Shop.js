@@ -1,12 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Item from 'components/Item';
 import 'css/shop.css';
 
+// TODO: Make filter work
 
 function Shop() {
   const { windowSize } = useSelector(state => state.windowSize);
+  const [filter, setFilter] = useState('title-ascending');
+  // const allItems = [];
+
+  function changeSequence({ target: { value } }) {
+    setFilter(value);
+  }
 
   return (
     <div id="shop_page">
@@ -19,7 +26,7 @@ function Shop() {
           </div>
           <h1>Products</h1>
         </div>
-        <select defaultValue="title-ascending">
+        <select defaultValue="title-ascending" onChange={changeSequence} value={filter}>
           <option value="manual">Featured</option>
           <option value="best-selling">Best selling</option>
           <option value="title-ascending">Alphabetically, A-Z</option>
@@ -32,7 +39,7 @@ function Shop() {
       </div>
       <div id="shop_items">
         {
-          new Array(21).fill(5).map((i, index) => <Item type={windowSize < 768 ? 'small' : 'big'} img="a_hoodie.webp" key={`item_${index}`} />)
+          new Array(1).fill(5).map((i, index) => <Item type={windowSize < 768 ? 'small' : 'big'} img="a_hoodie.webp" key={`item_${index}`} />)
         }
       </div>
     </div>
