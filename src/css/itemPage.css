@@ -72,14 +72,6 @@
   font-family: "Bold", Arial, Helvetica, sans-serif;
   font-size: 0.9rem;
 }
-#item_page #type .option select {
-  cursor: pointer;
-  font-size: 1.2rem;
-  font-family: "Bold", Arial, Helvetica, sans-serif;
-  color: #333;
-  background-color: #f4f4f4;
-  border: none;
-}
 #item_page #type .option:first-child select {
   width: 58px;
   height: 44px;

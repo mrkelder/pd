@@ -5,6 +5,7 @@ import SideBar from 'components/SideBar';
 import Footer from 'components/Footer';
 import Main from 'pages/Main';
 import ItemPage from 'pages/ItemPage';
+import Shop from 'pages/Shop';
 import store from 'app/store';
 import { infoContext as InfoContext } from 'app/context';
 import 'css/index.css';
@@ -26,6 +27,7 @@ class App extends Component {
             <SideBar />
             <Switch>
               <Route exact path="/" component={Main} />
+              <Route exact path="/shop" component={Shop} />
               <Route exact path="/item/*" component={ItemPage} />
               <Route exact path="/*">
                 <p>Another page</p>

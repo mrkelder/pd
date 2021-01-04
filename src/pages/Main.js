@@ -3,6 +3,8 @@ import ItemPreloaded from 'components/ItemPreloaded';
 import 'css/main.css';
 const Item = lazy(() => import('components/Item'));
 
+// TODO: you forgot to put a red van 😨
+
 function Main() {
   useEffect(() => {
     window.scroll(0, 0);
@@ -17,6 +19,7 @@ function Main() {
           </Suspense>
         )
       }
+      {/* The red van should be here 🚚 */}
     </div>
   );
 }

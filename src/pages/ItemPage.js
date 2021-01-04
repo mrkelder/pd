@@ -123,8 +123,8 @@ function ItemPage() {
               <div id="type">
                 <div className="option">
                   <span>Size</span>
-                  <select value={size} onChange={({ target: { value } }) => { setSize(value); }}>
-                    <option value="xs" checked>XS</option>
+                  <select value={size} defaultValue="xs" onChange={({ target: { value } }) => { setSize(value); }}>
+                    <option value="xs">XS</option>
                     <option value="s">S</option>
                     <option value="m">M</option>
                     <option value="l">L</option>
@@ -193,8 +193,8 @@ function ItemPage() {
                   <div id="type">
                     <div className="option">
                       <span>Size</span>
-                      <select value={size} onChange={({ target: { value } }) => { setSize(value); }}>
-                        <option value="xs" checked="checked">XS</option>
+                      <select value={size} defaultValue="xs" onChange={({ target: { value } }) => { setSize(value); }}>
+                        <option value="xs">XS</option>
                         <option value="s">S</option>
                         <option value="m">M</option>
                         <option value="l">L</option>

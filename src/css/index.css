@@ -20,6 +20,15 @@ button {
   outline: none;
 }
 
+select {
+  cursor: pointer;
+  font-size: 1.2rem;
+  font-family: "Bold", Arial, Helvetica, sans-serif;
+  color: #333;
+  background-color: #f4f4f4;
+  border: none;
+}
+
 input {
   font-family: "Bold", Arial, Helvetica, sans-serif;
   color: #333;
@@ -69,6 +78,10 @@ aside #menu_button {
 }
 aside a {
   margin: 5px 0;
+}
+aside a:hover, aside a:focus {
+  outline: none;
+  opacity: 0.8;
 }
 aside #insta {
   margin-top: 10px;
