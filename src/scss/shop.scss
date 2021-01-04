@@ -1,0 +1,43 @@
+@import "init";
+
+#shop_page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 15px;
+  #bread_crumbs {
+    justify-content: center;
+    display: flex;
+    @include font("Bold");
+    color: $black;
+    font-size: 1rem;
+    align-items: center;
+    .arrow {
+      height: 17px;
+    }
+    span {
+      margin: 0;
+      margin-left: 5px;
+    }
+  }
+  h1 {
+    @include font("Cursive");
+    color: $black;
+    font-weight: normal;
+    margin-top: 10px;
+  }
+  select {
+    width: 200px;
+    height: 45px;
+  }
+  #shop_items {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    width: 88vw;
+    margin: 15px auto;
+    .item_s{
+      margin: 5px;
+    }
+  }
+}

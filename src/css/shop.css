@@ -1,0 +1,51 @@
+@font-face {
+  src: url("../fonts/Righteous-Regular.ttf");
+  font-family: "Bold";
+}
+@font-face {
+  src: url("../fonts/Kalam-Regular.ttf");
+  font-family: "Cursive";
+}
+#shop_page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 15px;
+}
+#shop_page #bread_crumbs {
+  justify-content: center;
+  display: flex;
+  font-family: "Bold", Arial, Helvetica, sans-serif;
+  color: #333;
+  font-size: 1rem;
+  align-items: center;
+}
+#shop_page #bread_crumbs .arrow {
+  height: 17px;
+}
+#shop_page #bread_crumbs span {
+  margin: 0;
+  margin-left: 5px;
+}
+#shop_page h1 {
+  font-family: "Cursive", Arial, Helvetica, sans-serif;
+  color: #333;
+  font-weight: normal;
+  margin-top: 10px;
+}
+#shop_page select {
+  width: 200px;
+  height: 45px;
+}
+#shop_page #shop_items {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  width: 88vw;
+  margin: 15px auto;
+}
+#shop_page #shop_items .item_s {
+  margin: 5px;
+}
+
+/*# sourceMappingURL=shop.css.map */

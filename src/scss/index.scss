@@ -14,6 +14,15 @@ button {
   outline: none;
 }
 
+select {
+  cursor: pointer;
+  font-size: 1.2rem;
+  @include font("Bold");
+  color: $black;
+  background-color: $light_grey;
+  border: none;
+}
+
 input {
   @include font("Bold");
   color: #333;
@@ -32,8 +41,6 @@ a {
   color: $black;
   text-decoration: none;
 }
-
-
 
 main {
   display: flex;
@@ -62,6 +69,11 @@ aside {
   }
   a {
     margin: 5px 0;
+    &:hover,
+    &:focus {
+      outline: none;
+      opacity: 0.8;
+    }
   }
   #insta {
     margin-top: 10px;
