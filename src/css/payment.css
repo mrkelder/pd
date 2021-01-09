@@ -1,0 +1,224 @@
+@font-face {
+  src: url("../fonts/Righteous-Regular.ttf");
+  font-family: "Bold";
+}
+@font-face {
+  src: url("../fonts/Kalam-Regular.ttf");
+  font-family: "Cursive";
+}
+@font-face {
+  src: url("../fonts/Roboto-Regular.ttf");
+  font-family: "Roboto";
+}
+#payment_page hr {
+  margin: 15px 10px;
+  max-width: 526px;
+  border: 0.5px solid #c7c7c7;
+}
+#payment_page #payment_heading {
+  margin: 0;
+  border: none;
+  display: flex;
+  height: 95px;
+  padding: 21px 14px;
+  background-size: contain;
+  background-position: 50%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-image: url("../img/background.webp");
+  background-color: #333;
+  box-sizing: border-box;
+}
+#payment_page #payment_heading a {
+  width: 50px;
+}
+#payment_page #payment_heading a img {
+  width: 50px;
+  height: 50px;
+}
+#payment_page #summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 10px;
+  background-color: #f4f4f4;
+  border: 1px solid #c7c7c7;
+  height: 72px;
+}
+#payment_page #summary div:first-child {
+  display: flex;
+  align-items: center;
+}
+#payment_page #summary div:first-child * {
+  margin: 0 3px;
+}
+#payment_page #summary div:first-child img {
+  width: 20px;
+  height: 20px;
+}
+#payment_page #summary div:first-child img:last-child {
+  width: 12px;
+  height: 12px;
+}
+#payment_page #summary div:first-child span {
+  color: #197bbd;
+  font-family: "Roboto", Arial, Helvetica, sans-serif;
+  font-size: 0.9rem;
+}
+#payment_page #summary div:last-child {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+#payment_page #summary div:last-child span {
+  font-family: "Roboto", Arial, Helvetica, sans-serif;
+}
+#payment_page #summary div:last-child span:first-child {
+  color: #737373;
+  font-size: 0.7rem;
+  text-decoration: line-through;
+}
+#payment_page #summary div:last-child span:last-child {
+  font-size: 1.1rem;
+  color: #333;
+  font-weight: bold;
+}
+#payment_page #summary_items {
+  box-sizing: border-box;
+  background-color: #f4f4f4;
+  overflow: hidden;
+}
+#payment_page #summary_items .info_block {
+  display: flex;
+  margin: 15px 10px;
+  max-width: 526px;
+  font-family: "Roboto", Arial, Helvetica, sans-serif;
+  justify-content: space-between;
+  align-items: center;
+}
+#payment_page #summary_items .info_block * {
+  margin: 0;
+}
+#payment_page #summary_items .info_block div {
+  display: flex;
+  align-items: center;
+}
+#payment_page #summary_items .info_block div .additional {
+  display: flex;
+  align-items: center;
+  margin: 0 5px;
+}
+#payment_page #summary_items .info_block div .additional p {
+  color: #333;
+}
+#payment_page #summary_items .info_block div .additional img {
+  width: 18px;
+  margin: 0 5px;
+}
+#payment_page #summary_items .info_block div p {
+  font-size: 0.9rem;
+  color: #535353;
+}
+#payment_page #summary_items .info_block div b {
+  color: #333;
+  font-size: 0.9rem;
+}
+#payment_page #summary_items .info_block div:last-child p {
+  font-size: 0.8rem;
+}
+#payment_page #summary_items .total div:first-child p {
+  color: #333;
+}
+#payment_page #summary_items .total div:last-child {
+  display: flex;
+  align-items: center;
+}
+#payment_page #summary_items .total div:last-child p {
+  font-size: 0.7rem;
+}
+#payment_page #summary_items .total div:last-child b {
+  margin-left: 10px;
+  font-size: 1.4rem;
+}
+#payment_page section {
+  display: flex;
+  box-sizing: border-box;
+  padding: 0 10px;
+  flex-direction: column;
+  max-width: 546px;
+  margin: 5px auto;
+}
+#payment_page section #bread_crumbs {
+  margin: 10px 0;
+}
+#payment_page section #bread_crumbs a,
+#payment_page section #bread_crumbs p {
+  font-family: "Roboto", Arial, Helvetica, sans-serif;
+  font-size: 0.85rem;
+}
+#payment_page section #bread_crumbs a {
+  height: 20px;
+  color: #197bbd;
+}
+#payment_page section #bread_crumbs p {
+  color: #737373;
+  margin: 0;
+}
+#payment_page section form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+#payment_page section form h2 {
+  font-family: "Roboto", Arial, Helvetica, sans-serif;
+  font-weight: lighter;
+  color: #333;
+  font-size: 1.15rem;
+  margin: 10px 0 5px;
+}
+#payment_page section form .c_input {
+  margin: 7px 0;
+}
+#payment_page footer {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  max-width: 546px;
+  margin-bottom: 10px;
+  padding: 0 10px;
+}
+#payment_page footer hr {
+  width: 100%;
+  margin: 10px 0;
+}
+#payment_page footer p {
+  font-size: 0.75rem;
+  margin: 0;
+  margin-bottom: 5px;
+  color: #737373;
+  font-family: "Roboto", Arial, Helvetica, sans-serif;
+}
+
+@media (min-width: 552px) {
+  #payment_page hr {
+    margin: 15px auto;
+  }
+  #payment_page #summary {
+    justify-content: center;
+  }
+  #payment_page #summary div:first-child {
+    margin-right: 283px;
+  }
+  #payment_page #summary_items .bin_item,
+#payment_page #summary_items .p_bin_item,
+#payment_page #summary_items .info_block,
+#payment_page #summary_items hr {
+    margin: 15px auto;
+  }
+  #payment_page footer {
+    margin: 5px auto;
+  }
+}
+
+/*# sourceMappingURL=payment.css.map */

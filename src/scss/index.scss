@@ -83,10 +83,6 @@ aside {
 }
 
 @media (min-width: 768px) {
-  header {
-    box-sizing: border-box;
-    padding: 10px 30px;
-  }
   aside {
     width: 205px;
     align-items: flex-start;
@@ -109,10 +105,6 @@ aside {
 }
 
 @media (min-width: 1024px) {
-  header {
-    margin: 5px auto;
-    max-width: 1250px;
-  }
   main {
     max-width: 1250px;
     margin: 0 auto;

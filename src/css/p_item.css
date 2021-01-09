@@ -6,6 +6,10 @@
   src: url("../fonts/Kalam-Regular.ttf");
   font-family: "Cursive";
 }
+@font-face {
+  src: url("../fonts/Roboto-Regular.ttf");
+  font-family: "Roboto";
+}
 .p_item,
 .p_item_s {
   margin: 5px;
@@ -18,7 +22,7 @@
 .p_item_s .p_item_img {
   width: 270px;
   height: 270px;
-  background-color: #C7C7C7;
+  background-color: #c7c7c7;
 }
 .p_item .p_item_name,
 .p_item_s .p_item_name {
@@ -26,7 +30,7 @@
   width: 165px;
   border-radius: 15px;
   height: 15px;
-  background-color: #C7C7C7;
+  background-color: #c7c7c7;
 }
 .p_item .p_item_p,
 .p_item_s .p_item_p {
@@ -34,7 +38,7 @@
   width: 75px;
   border-radius: 15px;
   height: 15px;
-  background-color: #C7C7C7;
+  background-color: #c7c7c7;
 }
 
 .p_item_s {
@@ -44,7 +48,7 @@
 .p_item_s .p_item_img {
   width: 180px;
   height: 180px;
-  background-color: #C7C7C7;
+  background-color: #c7c7c7;
 }
 
 /*# sourceMappingURL=p_item.css.map */

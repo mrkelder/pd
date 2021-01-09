@@ -1,0 +1,47 @@
+@import "init";
+
+.p_bin_item {
+  margin: 15px 10px;
+  max-width: 532px;
+  height: 65px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  .p_bin_item_info {
+    display: flex;
+    .p_bin_item_image {
+      width: 65px;
+      height: 65px;
+      border-radius: 8px;
+      background-color: $grey;
+      border: 1px solid $grey;
+    }
+    .info {
+      margin-left: 10px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      * {
+        margin: 5px 0;
+      }
+      .name {
+        width: 105px;
+        height: 15px;
+        border-radius: 15px;
+        background-color: $grey;
+      }
+      .option {
+        width: 75px;
+        height: 15px;
+        border-radius: 15px;
+        background-color: $grey;
+      }
+    }
+  }
+  .p_bin_item_price {
+    width: 45px;
+    height: 15px;
+    border-radius: 15px;
+    background-color: $grey;
+  }
+}

@@ -1,6 +1,8 @@
 $black: #333;
-$grey: #C7C7C7;
+$grey: #c7c7c7;
+$dark_grey: #737373;
 $light_grey: #f4f4f4;
+$blue: #197bbd;
 
 @font-face {
   src: url("../fonts/Righteous-Regular.ttf");
@@ -10,6 +12,11 @@ $light_grey: #f4f4f4;
 @font-face {
   src: url("../fonts/Kalam-Regular.ttf");
   font-family: "Cursive";
+}
+
+@font-face {
+  src: url("../fonts/Roboto-Regular.ttf");
+  font-family: "Roboto";
 }
 
 @mixin font($font_name) {

@@ -1,0 +1,228 @@
+@import "init";
+
+#payment_page {
+  hr {
+    margin: 15px 10px;
+    max-width: 526px;
+    border: 0.5px solid $grey;
+  }
+  #payment_heading {
+    margin: 0;
+    border: none;
+    display: flex;
+    height: 95px;
+    padding: 21px 14px;
+    @include bg;
+    background-size: cover;
+    background-image: url("../img/background.webp");
+    background-color: $black;
+    box-sizing: border-box;
+    a {
+      width: 50px;
+      img {
+        width: 50px;
+        height: 50px;
+      }
+    }
+  }
+  #summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px;
+    background-color: $light_grey;
+    border: 1px solid $grey;
+    height: 72px;
+    div {
+      &:first-child {
+        display: flex;
+        align-items: center;
+        * {
+          margin: 0 3px;
+        }
+        img {
+          width: 20px;
+          height: 20px;
+          &:last-child {
+            width: 12px;
+            height: 12px;
+          }
+        }
+        span {
+          color: $blue;
+          @include font("Roboto");
+          font-size: 0.9rem;
+        }
+      }
+      &:last-child {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        span {
+          @include font("Roboto");
+          &:first-child {
+            color: $dark_grey;
+            font-size: 0.7rem;
+            text-decoration: line-through;
+          }
+          &:last-child {
+            font-size: 1.1rem;
+            color: $black;
+            font-weight: bold;
+          }
+        }
+      }
+    }
+  }
+  #summary_items {
+    box-sizing: border-box;
+    background-color: $light_grey;
+    overflow: hidden;
+    .info_block {
+      display: flex;
+      margin: 15px 10px;
+      max-width: 526px;
+      @include font("Roboto");
+      justify-content: space-between;
+      align-items: center;
+      * {
+        margin: 0;
+      }
+      div {
+        display: flex;
+        align-items: center;
+        .additional {
+          display: flex;
+          align-items: center;
+          margin: 0 5px;
+          p {
+            color: $black;
+          }
+          img {
+            width: 18px;
+            margin: 0 5px;
+          }
+        }
+        p {
+          font-size: 0.9rem;
+          color: #535353;
+        }
+        b {
+          color: $black;
+          font-size: 0.9rem;
+        }
+        &:last-child {
+          p {
+            font-size: 0.8rem;
+          }
+        }
+      }
+    }
+    .total {
+      div {
+        &:first-child {
+          p {
+            color: $black;
+          }
+        }
+        &:last-child {
+          display: flex;
+          align-items: center;
+          p {
+            font-size: 0.7rem;
+          }
+          b {
+            margin-left: 10px;
+            font-size: 1.4rem;
+          }
+        }
+      }
+    }
+  }
+  section {
+    display: flex;
+    box-sizing: border-box;
+    padding: 0 10px;
+    flex-direction: column;
+    max-width: 546px;
+    margin: 5px auto;
+    #bread_crumbs {
+      margin: 10px 0;
+      a,
+      p {
+        @include font("Roboto");
+        font-size: 0.85rem;
+      }
+      a {
+        height: 20px;
+        color: $blue;
+      }
+      p {
+        color: $dark_grey;
+        margin: 0;
+      }
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      h2 {
+        @include font("Roboto");
+        font-weight: lighter;
+        color: $black;
+        font-size: 1.15rem;
+        margin: 10px 0 5px;
+      }
+      .c_input {
+        margin: 7px 0;
+      }
+    }
+  }
+  footer {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    max-width: 546px;
+    margin-bottom: 10px;
+    padding: 0 10px;
+    hr {
+      width: 100%;
+      margin: 10px 0;
+    }
+    p {
+      font-size: 0.75rem;
+      margin: 0;
+      margin-bottom: 5px;
+      color: $dark_grey;
+      @include font("Roboto");
+    }
+  }
+}
+
+@media (min-width: 552px) {
+  #payment_page {
+    hr {
+      margin: 15px auto;
+    }
+    #summary {
+      justify-content: center;
+      div {
+        &:first-child {
+          margin-right: 283px;
+        }
+      }
+    }
+    #summary_items {
+      .bin_item,
+      .p_bin_item,
+      .info_block,
+      hr {
+        margin: 15px auto;
+      }
+    }
+    footer {
+      margin: 5px auto;
+    }
+  }
+}

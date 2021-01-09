@@ -1,0 +1,59 @@
+@font-face {
+  src: url("../fonts/Righteous-Regular.ttf");
+  font-family: "Bold";
+}
+@font-face {
+  src: url("../fonts/Kalam-Regular.ttf");
+  font-family: "Cursive";
+}
+@font-face {
+  src: url("../fonts/Roboto-Regular.ttf");
+  font-family: "Roboto";
+}
+.p_bin_item {
+  margin: 15px 10px;
+  max-width: 532px;
+  height: 65px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.p_bin_item .p_bin_item_info {
+  display: flex;
+}
+.p_bin_item .p_bin_item_info .p_bin_item_image {
+  width: 65px;
+  height: 65px;
+  border-radius: 8px;
+  background-color: #c7c7c7;
+  border: 1px solid #c7c7c7;
+}
+.p_bin_item .p_bin_item_info .info {
+  margin-left: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.p_bin_item .p_bin_item_info .info * {
+  margin: 5px 0;
+}
+.p_bin_item .p_bin_item_info .info .name {
+  width: 105px;
+  height: 15px;
+  border-radius: 15px;
+  background-color: #c7c7c7;
+}
+.p_bin_item .p_bin_item_info .info .option {
+  width: 75px;
+  height: 15px;
+  border-radius: 15px;
+  background-color: #c7c7c7;
+}
+.p_bin_item .p_bin_item_price {
+  width: 45px;
+  height: 15px;
+  border-radius: 15px;
+  background-color: #c7c7c7;
+}
+
+/*# sourceMappingURL=p_binItem.css.map */
