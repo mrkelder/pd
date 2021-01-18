@@ -151,6 +151,88 @@
     flex-direction: column;
     max-width: 546px;
     margin: 5px auto;
+    #second_stage {
+      h2 {
+        // margin-left: 5px !important;
+        margin: 10px 5px;
+      }
+      #change_info,
+      #choose_shipping {
+        padding: 12px 16px;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        border: 1px solid $grey;
+        border-radius: 5px;
+        min-height: 140px;
+        hr {
+          margin: 5px 0;
+        }
+        .change_info_option {
+          display: flex;
+          flex-direction: column;
+          .change_info_heading {
+            display: flex;
+            justify-content: space-between;
+            span {
+              &:first-child {
+                color: $dark_grey;
+                @include font("Roboto");
+                font-size: 0.9rem;
+              }
+              &:last-child {
+                color: $blue;
+                @include font("Roboto");
+                font-size: 0.75rem;
+              }
+            }
+          }
+          address {
+            margin-top: 5px;
+            @include font("Roboto");
+            font-style: normal;
+            color: $black;
+            font-size: 0.95rem;
+          }
+        }
+      }
+      #choose_shipping {
+        padding-left: 3px;
+        .change_info_option {
+          height: 40px;
+          align-items: flex-start;
+          flex-direction: row;
+          justify-content: space-between;
+          .change_shipping_info {
+            flex: 1;
+            margin: 0 5px;
+            display: flex;
+            flex-direction: column;
+            .shipping_name {
+              @include font("Roboto");
+              font-size: 0.95rem;
+              color: $black;
+            }
+            .shipping_time {
+              @include font("Roboto");
+              font-size: 0.8rem;
+              color: $dark_grey;
+            }
+          }
+          .price {
+            color: $black;
+            font-weight: bolder;
+            @include font("Roboto");
+            font-size: 0.9rem;
+          }
+        }
+      }
+      .submit_btn {
+        margin-top: 10px;
+        width: 100%;
+      }
+    }
     #bread_crumbs {
       margin: 10px 0;
       a,
@@ -167,17 +249,17 @@
         margin: 0;
       }
     }
+    h2 {
+      @include font("Roboto");
+      font-weight: lighter;
+      color: $black;
+      font-size: 1.15rem;
+      margin: 10px 0 5px;
+    }
     form {
       display: flex;
       flex-direction: column;
       width: 100%;
-      h2 {
-        @include font("Roboto");
-        font-weight: lighter;
-        color: $black;
-        font-size: 1.15rem;
-        margin: 10px 0 5px;
-      }
       .c_input {
         margin: 7px 0;
       }
@@ -328,6 +410,16 @@
           margin-right: 0 !important;
           margin-left: 0 !important;
         }
+      }
+    }
+  }
+}
+
+@media (min-width: 1265px) {
+  #payment_page {
+    #payment_heading {
+      #link_block {
+        width: 1180px;
       }
     }
   }
