@@ -55,6 +55,7 @@ function Payment() {
   const [city, setCity] = useState('');
   const [postalCode, setPostalCode] = useState('');
   const [chosenCountry, setChosenCountry] = useState('none');
+  const [newsCheckbox, setNewsCheckbox] = useState(false);
   /********************* Validation statuses *********************/
   const [emailE, setEmailE] = useState(false);
   const [fNameE, setFNameE] = useState(false);
@@ -68,7 +69,6 @@ function Payment() {
   const compared_radio = useRef();
   /********************* Stage managers *********************/
   const [stage, setStage] = useState(0); // stage of purchase
-  const [informationStage, setInformationStage] = useState(true);
   const [shippingStage, setShippingStage] = useState(false);
   const [paymentStage, setPaymentStage] = useState(false);
 
@@ -224,7 +224,7 @@ function Payment() {
         <section id="input_sec">
           <Breadcrumbs id="bread_crumbs" style={styleForBreadCrumbs} separator={<img src={arrow} alt="arrow" style={{ transform: 'rotate(180deg)', width: '8px' }} />} aria-label="breadcrumb">
             <Link to="/cart" >Cart</Link>
-            <BreadCrumb status={informationStage} stageChanger={stageChanger} index={0}>Information</BreadCrumb>
+            <BreadCrumb status={true} stageChanger={stageChanger} index={0}>Information</BreadCrumb>
             <BreadCrumb status={shippingStage} stageChanger={stageChanger} index={1}>Shipping</BreadCrumb>
             <BreadCrumb status={paymentStage} stageChanger={stageChanger} index={2}>Payment</BreadCrumb>
           </Breadcrumbs>
@@ -238,6 +238,8 @@ function Payment() {
                     <Checkbox
                       name="checkedB"
                       color="primary"
+                      checked={newsCheckbox}
+                      onChange={() => { setNewsCheckbox(!newsCheckbox) }}
                     />
                   }
                   label={<Typography style={styles.formControlLabel}>Keep me up to date on news and exclusive offers</Typography>}
