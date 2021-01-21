@@ -148,12 +148,12 @@ function Payment() {
     else
       setSubmitStyle({ height: '60px', fontSize: '.8rem', textTransform: 'none', fontWeight: 'bold', fontFamily: 'Arial' });
     // Changes a width of the bread crumbs
-    if (windowSize >= 1000 && compared_h2.current !== undefined)
+    if (windowSize >= 1000 && compared_h2.current !== undefined && stage === 0)
       setStyleForBreadCrumbs({ width: compared_h2.current.clientWidth });
-    else if (windowSize >= 1000 && compared_radio.current !== undefined)
+    else if (windowSize >= 1000 && compared_radio.current !== undefined && stage === 1)
       setStyleForBreadCrumbs({ width: compared_radio.current.clientWidth });
     else setStyleForBreadCrumbs(null);
-  }, [windowSize]);
+  }, [windowSize, stage]);
 
   useEffect(() => {
     // Fetches all countries
