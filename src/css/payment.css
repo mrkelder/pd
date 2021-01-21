@@ -40,6 +40,7 @@
   height: 50px;
 }
 #payment_page #summary {
+  cursor: pointer;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -187,6 +188,7 @@
 }
 #payment_page #input_sec #second_stage #change_info .change_info_option .change_info_heading span:last-child,
 #payment_page #input_sec #second_stage #choose_shipping .change_info_option .change_info_heading span:last-child {
+  cursor: pointer;
   color: #197bbd;
   font-family: "Roboto", Arial, Helvetica, sans-serif;
   font-size: 0.75rem;
@@ -198,6 +200,7 @@
   font-style: normal;
   color: #333;
   font-size: 0.95rem;
+  word-break: break-word;
 }
 #payment_page #input_sec #second_stage #choose_shipping {
   padding-left: 3px;
@@ -370,6 +373,20 @@
     padding-right: 6%;
     align-items: flex-end;
     height: calc(100vh - 8em);
+  }
+  #payment_page #input_sec #second_stage {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 572px !important;
+    margin-right: 0 !important;
+    margin-left: 0 !important;
+  }
+  #payment_page #input_sec #second_stage .submit_btn {
+    width: 184px;
+    height: 50px;
+    margin: 10px auto;
+    margin-right: 0;
   }
   #payment_page #input_sec > * {
     max-width: 572px !important;

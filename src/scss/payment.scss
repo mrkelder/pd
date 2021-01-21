@@ -31,6 +31,7 @@
     }
   }
   #summary {
+    cursor: pointer;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -182,6 +183,7 @@
                 font-size: 0.9rem;
               }
               &:last-child {
+                cursor: pointer;
                 color: $blue;
                 @include font("Roboto");
                 font-size: 0.75rem;
@@ -194,6 +196,7 @@
             font-style: normal;
             color: $black;
             font-size: 0.95rem;
+            word-break: break-word;
           }
         }
       }
@@ -390,6 +393,20 @@
       padding-right: 6%;
       align-items: flex-end;
       height: calc(100vh - 8em);
+      #second_stage {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        max-width: 572px !important;
+        margin-right: 0 !important;
+        margin-left: 0 !important;
+        .submit_btn {
+          width: 184px;
+          height: 50px;
+          margin: 10px auto;
+          margin-right: 0;
+        }
+      }
       > {
         * {
           max-width: 572px !important;

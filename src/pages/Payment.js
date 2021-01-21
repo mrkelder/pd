@@ -10,6 +10,7 @@ import blue_arrow from 'img/blue_arrow.svg';
 import discount from 'img/discount.svg';
 import arrow from 'img/arrow.svg';
 import 'css/payment.css';
+import axios from 'axios';
 
 const BinItem = lazy(() => import('components/BinItem'));
 
@@ -20,14 +21,6 @@ const styles = createStyles({
   }
 });
 
-// const radioStyles = () => ({
-//   radio: {
-//     '&$checked': {
-//       color: '#197bbd'
-//     }
-//   }
-// });
-
 const theme = createMuiTheme({
   palette: {
     primary: {
@@ -36,19 +29,48 @@ const theme = createMuiTheme({
   }
 });
 
-function Input({ label, name }) {
-  return <TextField className="c_input" label={label} variant="outlined" size="small" name={name} />;
+function Input({ label, name, onChange, value, error }) {
+  return <TextField className="c_input" error={error} value={value} onChange={onChange} label={label} variant="outlined" size="small" name={name} />;
+}
+
+function BreadCrumb({ children, status, index, stageChanger }) {
+  return <p style={status ? { color: '#197bbd', cursor: 'pointer' } : { fontWeight: 'bold' }} onClick={() => { if (status) stageChanger(index); }}>{children}</p>;
 }
 
 function Payment() {
   const { windowSize } = useSelector(state => state.windowSize);
   const [submitStyle, setSubmitStyle] = useState({ height: '65px', fontSize: '1rem', textTransform: 'none', fontWeight: 'bold', fontFamily: 'Arial' });
   const [isSummaryOpened, setSummaryOpened] = useState(false);
-  const [styleForBreadCrumbs, setStyleForBreadCrumbs] = useState(null);
+  const [styleForBreadCrumbs, setStyleForBreadCrumbs] = useState(null); // width for bread crumbs
+  const [allCountries, setAllCountries] = useState([]); // list of countries to select
+  // eslint-disable-next-line
+  const re = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+  /********************* Input management *********************/
   const [shipping, setShipping] = useState('fs');
-  const [stage, setStage] = useState(1); // stage of purchase
+  const [email, setEmail] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [address, setAddress] = useState('');
+  const [optional, setOptional] = useState('');
+  const [city, setCity] = useState('');
+  const [postalCode, setPostalCode] = useState('');
+  const [chosenCountry, setChosenCountry] = useState('none');
+  /********************* Validation statuses *********************/
+  const [emailE, setEmailE] = useState(false);
+  const [fNameE, setFNameE] = useState(false);
+  const [lNameE, setLNameE] = useState(false);
+  const [addressE, setAddressE] = useState(false);
+  const [cityE, setCityE] = useState(false);
+  const [countryE, setCountryE] = useState(false);
+  const [postalE, setPostalE] = useState(false);
+  /********************* Compared elements for bread crubms' width *********************/
   const compared_h2 = useRef();
-  // const classes = radioStyles();
+  const compared_radio = useRef();
+  /********************* Stage managers *********************/
+  const [stage, setStage] = useState(0); // stage of purchase
+  const [informationStage, setInformationStage] = useState(true);
+  const [shippingStage, setShippingStage] = useState(false);
+  const [paymentStage, setPaymentStage] = useState(false);
 
   function openSummary() {
     setSummaryOpened(!isSummaryOpened);
@@ -62,6 +84,63 @@ function Payment() {
     setShipping(value);
   }
 
+  function changeCountry({ target: { value } }) {
+    setChosenCountry(value);
+  }
+
+  function checkInputs() {
+    if (re.test(email)) setEmailE(false);
+    else {
+      setEmailE(true);
+      return false;
+    }
+
+    if ([...firstName].length > 0) setFNameE(false);
+    else {
+      setFNameE(true);
+      return false;
+    }
+
+    if ([...lastName].length > 0) setLNameE(false);
+    else {
+      setLNameE(true);
+      return false;
+    }
+
+    if ([...address].length > 0) setAddressE(false);
+    else {
+      setAddressE(true);
+      return false;
+    }
+
+    if ([...city].length > 1) setCityE(false);
+    else {
+      setCityE(true);
+      return false;
+    }
+
+    if (chosenCountry !== 'none') setCountryE(false);
+    else {
+      setCountryE(true);
+      return false;
+    }
+
+    if ([...postalCode].length > 0) setPostalE(false);
+    else {
+      setPostalE(true);
+      return false;
+    }
+
+    return true;
+  }
+
+  function nextStage() {
+    if (checkInputs() && stage === 0) {
+      setStage(1);
+      setShippingStage(true);
+    }
+  }
+
   useEffect(() => {
     // Changes a shape of a submit button
     if (windowSize < 768)
@@ -71,8 +150,19 @@ function Payment() {
     // Changes a width of the bread crumbs
     if (windowSize >= 1000 && compared_h2.current !== undefined)
       setStyleForBreadCrumbs({ width: compared_h2.current.clientWidth });
+    else if (windowSize >= 1000 && compared_radio.current !== undefined)
+      setStyleForBreadCrumbs({ width: compared_radio.current.clientWidth });
     else setStyleForBreadCrumbs(null);
   }, [windowSize]);
+
+  useEffect(() => {
+    // Fetches all countries
+    async function fetchData() {
+      const { data } = await axios.get('https://restcountries.eu/rest/v2/all?fields=name');
+      setAllCountries(data);
+    }
+    fetchData();
+  }, []);
 
   return (
     <div id="payment_page">
@@ -134,14 +224,15 @@ function Payment() {
         <section id="input_sec">
           <Breadcrumbs id="bread_crumbs" style={styleForBreadCrumbs} separator={<img src={arrow} alt="arrow" style={{ transform: 'rotate(180deg)', width: '8px' }} />} aria-label="breadcrumb">
             <Link to="/cart" >Cart</Link>
-            <p style={stage === 0 ? { fontWeight: 'bold' } : { color: '#197bbd', cursor: 'pointer' }} onClick={() => { stageChanger(0); }}>Information</p>
-            <p style={stage === 1 ? { fontWeight: 'bold' } : null}>Shipping</p>
+            <BreadCrumb status={informationStage} stageChanger={stageChanger} index={0}>Information</BreadCrumb>
+            <BreadCrumb status={shippingStage} stageChanger={stageChanger} index={1}>Shipping</BreadCrumb>
+            <BreadCrumb status={paymentStage} stageChanger={stageChanger} index={2}>Payment</BreadCrumb>
           </Breadcrumbs>
           <ThemeProvider theme={theme}>
             {stage === 0 &&
-              <form>
+              <form name="shipping">
                 <h2 ref={compared_h2}>Contact Information</h2>
-                <Input label="Email or mobile phone number" />
+                <Input name="shippingEmail" value={email} error={emailE} onChange={({ target: { value } }) => { setEmail(value) }} label="Email" />
                 <FormControlLabel
                   control={
                     <Checkbox
@@ -153,27 +244,27 @@ function Payment() {
                 />
                 <h2>Shipping address</h2>
                 <div className="inline_inputs">
-                  <Input label="First name" name="checkout[shipping_address][first_name]" />
+                  <Input value={firstName} error={fNameE} onChange={({ target: { value } }) => { setFirstName(value) }} label="First name" name="checkout[shipping_address][first_name]" />
                   <div className="gap" />
-                  <Input label="Last name" name="checkout[shipping_address][last_name]" />
+                  <Input value={lastName} error={lNameE} onChange={({ target: { value } }) => { setLastName(value) }} label="Last name" name="checkout[shipping_address][last_name]" />
                 </div>
-                <Input label="Address" name="checkout[shipping_address][address1]" />
-                <Input label="Apartment, suite, etc. (optional)" name="checkout[shipping_address][address2]" />
-                <Input label="City" name="checkout[shipping_address][city]" />
+                <Input value={address} error={addressE} onChange={({ target: { value } }) => { setAddress(value) }} label="Address" name="checkout[shipping_address][address1]" />
+                <Input value={optional} onChange={({ target: { value } }) => { setOptional(value) }} label="Apartment, suite, etc. (optional)" name="checkout[shipping_address][address2]" />
+                <Input value={city} error={cityE} onChange={({ target: { value } }) => { setCity(value) }} label="City" name="checkout[shipping_address][city]" />
                 <div className="inline_inputs">
                   <FormControl variant="outlined" className="c_input" size="small">
                     <InputLabel id="demo-simple-select-outlined-label">Country</InputLabel>
-                    <Select labelId="demo-simple-select-outlined-label" value="none" label="Country">
+                    <Select error={countryE} onChange={changeCountry} labelId="demo-simple-select-outlined-label" value={chosenCountry} label="Country">
                       <MenuItem value="none">---</MenuItem>
-                      <MenuItem value="usa">the USA</MenuItem>
-                      <MenuItem value="canada">Canada</MenuItem>
-                      <MenuItem value="ukraine">Ukraine</MenuItem>
+                      {
+                        allCountries.map(({ name }) => <MenuItem value={name.toLowerCase()} key={name}>{name}</MenuItem>)
+                      }
                     </Select>
                   </FormControl>
                   <div className="gap" />
-                  <Input label="Postal code" />
+                  <Input value={postalCode} error={postalE} onChange={({ target: { value } }) => { setPostalCode(value) }} label="Postal code" />
                 </div>
-                <Button type="submit" onClick={e => { e.preventDefault(); }} className="c_input submit_btn" variant="contained" size="medium" color="primary" style={submitStyle}>Continue to shipping</Button>
+                <Button type="submit" onClick={e => { e.preventDefault(); nextStage(); }} className="c_input submit_btn" variant="contained" size="medium" color="primary" style={submitStyle}>Continue to shipping</Button>
               </form>
             }
             {stage === 1 &&
@@ -184,7 +275,7 @@ function Payment() {
                       <span>Contact</span>
                       <span onClick={() => { stageChanger(0); }}>Change</span>
                     </div>
-                    <address>someEmail@gmail.com</address>
+                    <address>{email}</address>
                   </div>
                   <hr />
                   <div className="change_info_option">
@@ -192,10 +283,10 @@ function Payment() {
                       <span>Ship to</span>
                       <span onClick={() => { stageChanger(0) }}>Change</span>
                     </div>
-                    <address>Ulitsa shorca, Киев, 472758, Ukraine</address>
+                    <address>{address}, {city}, {postalCode}, {chosenCountry[0].toUpperCase()}{[...chosenCountry].filter((i, index) => index !== 0)}</address>
                   </div>
                 </div>
-                <h2>Shipping to</h2>
+                <h2 ref={compared_radio}>Shipping to</h2>
                 <RadioGroup name="gender1" value={shipping} onChange={changeShipping}>
                   <div id="choose_shipping">
                     <div className="change_info_option">
