@@ -1,0 +1,65 @@
+@import "init";
+
+.bin_item {
+  margin: 15px 10px;
+  max-width: 532px;
+  height: 65px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  .bin_item_info {
+    display: flex;
+    .bin_item_image {
+      background-color: white;
+      position: relative;
+      width: 65px;
+      height: 65px;
+      @include bg;
+      border-radius: 8px;
+      border: 1px solid $grey;
+      div {
+        width: 21px;
+        height: 21px;
+        background-color: $dark_grey;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        @include font("Roboto");
+        font-size: 0.75rem;
+        position: absolute;
+        right: -10px;
+        top: -6px;
+      }
+    }
+    .info {
+      margin-left: 10px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      * {
+        margin: 2px 0;
+      }
+      span {
+        font-weight: lighter;
+        @include font("Roboto");
+        &:first-child {
+          font-size: 0.9rem;
+          color: $black;
+          font-weight: bold;
+        }
+        &:last-child {
+          color: $dark_grey;
+          font-size: 0.7rem;
+        }
+      }
+    }
+  }
+  .bin_item_price {
+    @include font("Roboto");
+    color: $black;
+    font-size: 0.9rem;
+    font-weight: bold;
+  }
+}

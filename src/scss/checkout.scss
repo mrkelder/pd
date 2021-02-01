@@ -1,0 +1,35 @@
+@import "init";
+
+form {
+  margin: 10px 0;
+}
+
+.StripeElement {
+  box-sizing: border-box;
+  height: 48px;
+  margin: 10px 15px;
+  padding: 0.94em 0.8em;
+  @include font("Roboto");
+  color: $black;
+  background-color: white;
+  border: 1.5px solid transparent;
+  border-radius: 4px;
+  border-color: $grey;
+  box-shadow: 0 1px 3px 0 #e6ebf1;
+  -webkit-transition: box-shadow 150ms ease;
+  transition: box-shadow 150ms ease, border-color 0.1s;
+}
+
+.StripeElement--focus {
+  box-shadow: 0 1px 3px 0 #cfd7df;
+  border-color: $blue;
+  transition: border-color 0.2s;
+}
+
+.StripeElement--invalid {
+  border-color: red;
+}
+
+.StripeElement--webkit-autofill {
+  background-color: #fefde5 !important;
+}

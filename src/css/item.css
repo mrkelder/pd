@@ -6,6 +6,10 @@
   src: url("../fonts/Kalam-Regular.ttf");
   font-family: "Cursive";
 }
+@font-face {
+  src: url("../fonts/Roboto-Regular.ttf");
+  font-family: "Roboto";
+}
 .item,
 .item_s {
   margin: 5px;
@@ -18,7 +22,7 @@
 .item_s img {
   width: 270px;
   height: 270px;
-  background-color: #C7C7C7;
+  background-color: #c7c7c7;
   outline: none;
 }
 .item a,
@@ -51,7 +55,7 @@
 .item_s img {
   width: 130px;
   height: 130px;
-  background-color: #C7C7C7;
+  background-color: #c7c7c7;
 }
 
 /*# sourceMappingURL=item.css.map */

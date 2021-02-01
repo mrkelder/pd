@@ -6,6 +6,10 @@
   src: url("../fonts/Kalam-Regular.ttf");
   font-family: "Cursive";
 }
+@font-face {
+  src: url("../fonts/Roboto-Regular.ttf");
+  font-family: "Roboto";
+}
 .b_button {
   color: #333;
   border: 2px solid #333;
