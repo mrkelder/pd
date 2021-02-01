@@ -4,13 +4,23 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import BinItemPreloaded from 'components/BinItemPreloaded';
+import CheckoutForm from 'components/CheckoutForm';
 import logo from 'img/logo.gif';
 import blue_cart from 'img/blue_cart.svg';
 import blue_arrow from 'img/blue_arrow.svg';
 import discount from 'img/discount.svg';
 import arrow from 'img/arrow.svg';
-import 'css/payment.css';
+import card_img from 'img/card.svg';
+import cards from 'img/cards.PNG';
+import paypal_img from 'img/paypal.png'
 import axios from 'axios';
+import { loadStripe } from '@stripe/stripe-js';
+import { Elements } from '@stripe/react-stripe-js';
+import 'css/payment.css';
+
+// TODO: remember, some countries don't have any postal code at all
+
+const stripePromise = loadStripe('pk_test_51IC5ZBADb9E0nwKcSjPJqFvgMJRktxAc2r1kRVaQe8sBB1tq05TVRX2RtfHUBWgBsNObX8Sn4y7YbU6NvD33anYf00ark0zPfX');
 
 const BinItem = lazy(() => import('components/BinItem'));
 
@@ -30,7 +40,7 @@ const theme = createMuiTheme({
 });
 
 function Input({ label, name, onChange, value, error }) {
-  return <TextField className="c_input" error={error} value={value} onChange={onChange} label={label} variant="outlined" size="small" name={name} />;
+  return <TextField className="c_input" error={error} value={value} onChange={onChange} label={label} variant="outlined" size="small" name={name} style={{ backgroundColor: 'white' }} />;
 }
 
 function BreadCrumb({ children, status, index, stageChanger }) {
@@ -56,6 +66,23 @@ function Payment() {
   const [postalCode, setPostalCode] = useState('');
   const [chosenCountry, setChosenCountry] = useState('none');
   const [newsCheckbox, setNewsCheckbox] = useState(false);
+  const [paymentSystem, setPaymentSystem] = useState('card');
+  const [billingAdress, setBillingAdress] = useState('default');
+  /********************* Billing address management *********************/
+  const [firstNameAd, setFirstNameAd] = useState('');
+  const [lastNameAd, setLastNameAd] = useState('');
+  const [addressAd, setAddressAd] = useState('');
+  const [optionalAd, setOptionalAd] = useState('');
+  const [cityAd, setCityAd] = useState('');
+  const [postalCodeAd, setPostalCodeAd] = useState('');
+  const [chosenCountryAd, setChosenCountryAd] = useState('none');
+  /********************* Billing validation statuses *********************/
+  const [fNameEAd, setFNameEAd] = useState(false);
+  const [lNameEAd, setLNameEAd] = useState(false);
+  const [addressEAd, setAddressEAd] = useState(false);
+  const [cityEAd, setCityEAd] = useState(false);
+  const [countryEAd, setCountryEAd] = useState(false);
+  const [postalEAd, setPostalEAd] = useState(false);
   /********************* Validation statuses *********************/
   const [emailE, setEmailE] = useState(false);
   const [fNameE, setFNameE] = useState(false);
@@ -66,7 +93,6 @@ function Payment() {
   const [postalE, setPostalE] = useState(false);
   /********************* Compared elements for bread crubms' width *********************/
   const compared_h2 = useRef();
-  const compared_radio = useRef();
   /********************* Stage managers *********************/
   const [stage, setStage] = useState(0); // stage of purchase
   const [shippingStage, setShippingStage] = useState(false);
@@ -86,6 +112,10 @@ function Payment() {
 
   function changeCountry({ target: { value } }) {
     setChosenCountry(value);
+  }
+
+  function changeCountryAd({ target: { value } }) {
+    setChosenCountryAd(value);
   }
 
   function checkInputs() {
@@ -134,10 +164,61 @@ function Payment() {
     return true;
   }
 
+  function checkAdInputs() {
+    if ([...firstNameAd].length > 0) setFNameEAd(false);
+    else {
+      setFNameEAd(true);
+      return false;
+    }
+
+    if ([...lastNameAd].length > 0) setLNameEAd(false);
+    else {
+      setLNameEAd(true);
+      return false;
+    }
+
+    if ([...addressAd].length > 0) setAddressEAd(false);
+    else {
+      setAddressEAd(true);
+      return false;
+    }
+
+    if ([...cityAd].length > 1) setCityEAd(false);
+    else {
+      setCityEAd(true);
+      return false;
+    }
+
+    if (chosenCountryAd !== 'none') setCountryEAd(false);
+    else {
+      setCountryEAd(true);
+      return false;
+    }
+
+    if ([...postalCodeAd].length > 0) setPostalEAd(false);
+    else {
+      setPostalEAd(true);
+      return false;
+    }
+
+    return true;
+  }
+
   function nextStage() {
     if (checkInputs() && stage === 0) {
       setStage(1);
       setShippingStage(true);
+    }
+    else if (checkInputs() && stage === 1) {
+      setStage(2);
+      setPaymentStage(true);
+    }
+    else if (checkInputs() && stage === 2) {
+      if (billingAdress === 'default' || (billingAdress !== 'default' && checkAdInputs())) alert("Your purchase is done. Have fun ❤");
+    }
+    else {
+      // If a customer tries to pay while having inappropriate presonal data
+      setStage(0);
     }
   }
 
@@ -148,10 +229,8 @@ function Payment() {
     else
       setSubmitStyle({ height: '60px', fontSize: '.8rem', textTransform: 'none', fontWeight: 'bold', fontFamily: 'Arial' });
     // Changes a width of the bread crumbs
-    if (windowSize >= 1000 && compared_h2.current !== undefined && stage === 0)
+    if (windowSize >= 1000 && compared_h2.current !== undefined)
       setStyleForBreadCrumbs({ width: compared_h2.current.clientWidth });
-    else if (windowSize >= 1000 && compared_radio.current !== undefined && stage === 1)
-      setStyleForBreadCrumbs({ width: compared_radio.current.clientWidth });
     else setStyleForBreadCrumbs(null);
   }, [windowSize, stage]);
 
@@ -288,7 +367,7 @@ function Payment() {
                     <address>{address}, {city}, {postalCode}, {chosenCountry[0].toUpperCase()}{[...chosenCountry].filter((i, index) => index !== 0)}</address>
                   </div>
                 </div>
-                <h2 ref={compared_radio}>Shipping to</h2>
+                <h2 ref={compared_h2}>Shipping to</h2>
                 <RadioGroup name="gender1" value={shipping} onChange={changeShipping}>
                   <div id="choose_shipping">
                     <div className="change_info_option">
@@ -310,7 +389,108 @@ function Payment() {
                     </div>
                   </div>
                 </RadioGroup>
-                <Button type="submit" onClick={e => { e.preventDefault(); }} className="c_input submit_btn" variant="contained" size="medium" color="primary" style={submitStyle}>Continue to shipping</Button>
+                <Button type="submit" onClick={e => { e.preventDefault(); nextStage(); }} className="c_input submit_btn" variant="contained" size="medium" color="primary" style={submitStyle}>Continue to shipping</Button>
+              </div>
+            }
+            {stage === 2 &&
+              <div id="third_stage">
+                <div id="change_info">
+                  <div className="change_info_option">
+                    <div className="change_info_heading">
+                      <span>Contact</span>
+                      <span onClick={() => { stageChanger(0); }}>Change</span>
+                    </div>
+                    <address>{email}</address>
+                  </div>
+                  <hr />
+                  <div className="change_info_option">
+                    <div className="change_info_heading">
+                      <span>Ship to</span>
+                      <span onClick={() => { stageChanger(0) }}>Change</span>
+                    </div>
+                    <address>{address}, {city}, {postalCode}, {chosenCountry[0].toUpperCase()}{[...chosenCountry].filter((i, index) => index !== 0)}</address>
+                  </div>
+                  <hr />
+                  <div className="change_info_option">
+                    <div className="change_info_heading">
+                      <span>Method</span>
+                      <span onClick={() => { stageChanger(1) }}>Change</span>
+                    </div>
+                    <address>{shipping === 'fs' ? 'Canada Post Small Packet International Surface' : 'Canada Post Small Packet International Air'} {shipping === 'fs' ? <b>$27.88</b> : <b>$40.10</b>}</address>
+                  </div>
+                </div>
+                <h2 ref={compared_h2}>Payment</h2>
+                <span className="message">All transactions are secure and encrypted.</span>
+                <RadioGroup name="gender2" value={paymentSystem} onChange={({ target: { value } }) => { setPaymentSystem(value); }}>
+                  <div className="choice_block">
+                    <div className="choice_heading">
+                      <div>
+                        <Radio value="card" color="primary" name="payment" />
+                        <b>Credit Card</b>
+                      </div>
+                      <img src={cards} alt="cards" style={{ width: '125px' }} />
+                    </div>
+                    <motion.div className="choice_content" animate={paymentSystem === 'card' ? { height: 'auto' } : { height: 0 }} transition={{ duration: .2 }} initial={false}>
+                      <Elements stripe={stripePromise}>
+                        <CheckoutForm />
+                      </Elements>
+                    </motion.div>
+                    <div className="choice_heading">
+                      <div>
+                        <Radio value="paypal" color="primary" name="payment" />
+                        <img src={paypal_img} alt="paypal" style={{ width: '100px' }} />
+                      </div>
+                    </div>
+                    <motion.div className="choice_content" animate={paymentSystem === 'paypal' ? { height: 'auto' } : { height: 0 }} transition={{ duration: .2 }} initial={false}>
+                      <img src={card_img} alt="card" />
+                      <p>After clicking “Complete order”, the PayPal window will emerge to complete your purchase securely.</p>
+                    </motion.div>
+                  </div>
+                </RadioGroup>
+                <h2>Billing address</h2>
+                <span className="message">Select the address that matches your card or payment method.</span>
+                <RadioGroup name="gender3" value={billingAdress} onChange={({ target: { value } }) => { setBillingAdress(value); }}>
+                  <div className="choice_block">
+                    <div className="choice_heading">
+                      <div>
+                        <Radio value="default" color="primary" name="payment" />
+                        <b>Same as shipping address</b>
+                      </div>
+                    </div>
+                    <div className="choice_heading">
+                      <div>
+                        <Radio value="difAddress" color="primary" name="payment" />
+                        <b>Use a different billing address</b>
+                      </div>
+                    </div>
+                    <motion.div className="choice_content" animate={billingAdress === 'difAddress' ? { height: 'auto' } : { height: 0 }} transition={{ duration: .2 }} initial={false}>
+                      <form name="billingAddress">
+                        <div className="inline_inputs">
+                          <Input value={firstNameAd} error={fNameEAd} onChange={({ target: { value } }) => { setFirstNameAd(value) }} label="First name" name="checkout[shipping_address][first_name]" />
+                          <div className="gap" />
+                          <Input value={lastNameAd} error={lNameEAd} onChange={({ target: { value } }) => { setLastNameAd(value) }} label="Last name" name="checkout[shipping_address][last_name]" />
+                        </div>
+                        <Input value={addressAd} error={addressEAd} onChange={({ target: { value } }) => { setAddressAd(value) }} label="Address" name="checkout[shipping_address][address1]" />
+                        <Input value={optionalAd} onChange={({ target: { value } }) => { setOptionalAd(value) }} label="Apartment, suite, etc. (optional)" name="checkout[shipping_address][address2]" />
+                        <Input value={cityAd} error={cityEAd} onChange={({ target: { value } }) => { setCityAd(value) }} label="City" name="checkout[shipping_address][city]" />
+                        <div className="inline_inputs">
+                          <FormControl variant="outlined" className="c_input" size="small">
+                            <InputLabel id="demo-simple-select-outlined-label">Country</InputLabel>
+                            <Select style={{ backgroundColor: 'white' }} error={countryEAd} onChange={changeCountryAd} labelId="demo-simple-select-outlined-label" value={chosenCountryAd} label="Country">
+                              <MenuItem value="none">---</MenuItem>
+                              {
+                                allCountries.map(({ name }) => <MenuItem value={name.toLowerCase()} key={name}>{name}</MenuItem>)
+                              }
+                            </Select>
+                          </FormControl>
+                          <div className="gap" />
+                          <Input value={postalCodeAd} error={postalEAd} onChange={({ target: { value } }) => { setPostalCodeAd(value) }} label="Postal code" />
+                        </div>
+                      </form>
+                    </motion.div>
+                  </div>
+                </RadioGroup>
+                <Button type="submit" onClick={e => { e.preventDefault(); nextStage(); }} className="c_input submit_btn" variant="contained" size="medium" color="primary" style={(submitStyle, { textTransform: 'none' })}>{paymentSystem === 'card' ? 'Pay now' : 'Complete order'}</Button>
               </div>
             }
           </ThemeProvider>

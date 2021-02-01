@@ -152,10 +152,16 @@
     flex-direction: column;
     max-width: 546px;
     margin: 5px auto;
-    #second_stage {
+    #second_stage,
+    #third_stage {
       h2 {
-        // margin-left: 5px !important;
         margin: 10px 5px;
+      }
+      .message {
+        color: $dark_grey;
+        @include font("Roboto");
+        font-size: 0.85rem;
+        margin: 0 5px;
       }
       #change_info,
       #choose_shipping {
@@ -166,9 +172,8 @@
         justify-content: space-between;
         border: 1px solid $grey;
         border-radius: 5px;
-        min-height: 140px;
         hr {
-          margin: 5px 0;
+          margin: 10px 0;
         }
         .change_info_option {
           display: flex;
@@ -234,6 +239,70 @@
       .submit_btn {
         margin-top: 10px;
         width: 100%;
+      }
+    }
+    #third_stage {
+      .choice_block {
+        margin: 5px 0;
+        border: 1px solid $grey;
+        border-radius: 5px;
+        min-height: 50px;
+        .choice_heading {
+          box-sizing: border-box;
+          padding-right: 10px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          background-color: white;
+          border-bottom: 1px solid $grey;
+          div {
+            display: flex;
+            align-items: center;
+            b {
+              color: $black;
+              @include font("Roboto");
+              font-size: 0.85rem;
+            }
+          }
+          &:nth-child(1) {
+            border-radius: 5px 5px 0 0;
+          }
+          &:nth-child(3) {
+            border-radius: 0 0 5px 5px;
+            border-bottom-color: transparent;
+          }
+        }
+        .choice_content {
+          display: flex;
+          align-items: center;
+          box-sizing: border-box;
+          background-color: $light_grey;
+          overflow: hidden;
+          &:last-child {
+            flex-direction: column;
+            img {
+              margin: 25px 0 5px;
+            }
+            p {
+              @include font("Roboto");
+              font-size: 0.9rem;
+              text-align: center;
+              width: 275px;
+              color: $dark_grey;
+              margin-bottom: 25px;
+            }
+            form {
+              > {
+                div {
+                  margin: 10px;
+                }
+              }
+              .inline_inputs {
+                margin: 0 10px;
+              }
+            }
+          }
+        }
       }
     }
     #bread_crumbs {
@@ -393,7 +462,8 @@
       padding-right: 6%;
       align-items: flex-end;
       height: calc(100vh - 8em);
-      #second_stage {
+      #second_stage,
+      #third_stage {
         display: flex;
         flex-direction: column;
         width: 100%;
@@ -428,6 +498,9 @@
           margin-left: 0 !important;
         }
       }
+    }
+    footer {
+      padding: 0 5px;
     }
   }
 }
