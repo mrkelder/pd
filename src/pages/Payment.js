@@ -255,7 +255,7 @@ function Payment() {
       <main>
         {windowSize < 1000 &&
           <Fragment>
-            <div id="summary" tabIndex="0" onClick={openSummary} onKeyDown={openSummary}>
+            <div id="summary" tabIndex="0" onClick={openSummary} onKeyDown={({ key }) => { if (key !== 'Tab') openSummary(); }}>
               <div>
                 <img src={blue_cart} alt="cart" />
                 <span>Show order summary</span>
@@ -303,9 +303,9 @@ function Payment() {
         <section id="input_sec">
           <Breadcrumbs id="bread_crumbs" style={styleForBreadCrumbs} separator={<img src={arrow} alt="arrow" style={{ transform: 'rotate(180deg)', width: '8px' }} />} aria-label="breadcrumb">
             <Link to="/cart" >Cart</Link>
-            <BreadCrumb status={true} stageChanger={stageChanger} index={0}>Information</BreadCrumb>
-            <BreadCrumb status={shippingStage} stageChanger={stageChanger} index={1}>Shipping</BreadCrumb>
-            <BreadCrumb status={paymentStage} stageChanger={stageChanger} index={2}>Payment</BreadCrumb>
+            <BreadCrumb status={true} stageChanger={stageChanger} index={0}><span tabIndex="0" onKeyDown={({ key }) => { if (key !== 'Tab') stageChanger(0); }}>Information</span></BreadCrumb>
+            <BreadCrumb status={shippingStage} stageChanger={stageChanger} index={1} ><span tabIndex="0" onKeyDown={({ key }) => { if (shippingStage && key !== 'Tab') stageChanger(1); }}>Shipping</span></BreadCrumb>
+            <BreadCrumb status={paymentStage} stageChanger={stageChanger} index={2}><span tabIndex="0" onKeyDown={({ key }) => { if (paymentStage && key !== 'Tab') stageChanger(2); }}>Payment</span></BreadCrumb>
           </Breadcrumbs>
           <ThemeProvider theme={theme}>
             {stage === 0 &&
@@ -354,7 +354,7 @@ function Payment() {
                   <div className="change_info_option">
                     <div className="change_info_heading">
                       <span>Contact</span>
-                      <span onClick={() => { stageChanger(0); }}>Change</span>
+                      <span onClick={() => { stageChanger(0); }} tabIndex="0" onKeyDown={({ key }) => { if (key !== 'Tab' && key !== 'Shift') stageChanger(0); }}>Change</span>
                     </div>
                     <address>{email}</address>
                   </div>
@@ -362,7 +362,7 @@ function Payment() {
                   <div className="change_info_option">
                     <div className="change_info_heading">
                       <span>Ship to</span>
-                      <span onClick={() => { stageChanger(0) }}>Change</span>
+                      <span onClick={() => { stageChanger(0); }} tabIndex="0" onKeyDown={({ key }) => { if (key !== 'Tab' && key !== 'Shift') stageChanger(0); }}>Change</span>
                     </div>
                     <address>{address}, {city}, {postalCode}, {chosenCountry[0].toUpperCase()}{[...chosenCountry].filter((i, index) => index !== 0)}</address>
                   </div>
@@ -398,7 +398,7 @@ function Payment() {
                   <div className="change_info_option">
                     <div className="change_info_heading">
                       <span>Contact</span>
-                      <span onClick={() => { stageChanger(0); }}>Change</span>
+                      <span onClick={() => { stageChanger(0); }} tabIndex="0" onKeyDown={({ key }) => { if (key !== 'Tab' && key !== 'Shift') stageChanger(0); }}>Change</span>
                     </div>
                     <address>{email}</address>
                   </div>
@@ -406,7 +406,7 @@ function Payment() {
                   <div className="change_info_option">
                     <div className="change_info_heading">
                       <span>Ship to</span>
-                      <span onClick={() => { stageChanger(0) }}>Change</span>
+                      <span onClick={() => { stageChanger(0) }} tabIndex="0" onKeyDown={({ key }) => { if (key !== 'Tab' && key !== 'Shift') stageChanger(0); }}>Change</span>
                     </div>
                     <address>{address}, {city}, {postalCode}, {chosenCountry[0].toUpperCase()}{[...chosenCountry].filter((i, index) => index !== 0)}</address>
                   </div>
@@ -414,14 +414,14 @@ function Payment() {
                   <div className="change_info_option">
                     <div className="change_info_heading">
                       <span>Method</span>
-                      <span onClick={() => { stageChanger(1) }}>Change</span>
+                      <span onClick={() => { stageChanger(1) }} tabIndex="0" onKeyDown={({ key }) => { if (key !== 'Tab' && key !== 'Shift') stageChanger(1); }}>Change</span>
                     </div>
                     <address>{shipping === 'fs' ? 'Canada Post Small Packet International Surface' : 'Canada Post Small Packet International Air'} {shipping === 'fs' ? <b>$27.88</b> : <b>$40.10</b>}</address>
                   </div>
                 </div>
                 <h2 ref={compared_h2}>Payment</h2>
                 <span className="message">All transactions are secure and encrypted.</span>
-                <RadioGroup name="gender2" value={paymentSystem} onChange={({ target: { value } }) => { setPaymentSystem(value); }}>
+                <RadioGroup name="gender2" value={paymentSystem} onChange={({ target: { value } }) => { setPaymentSystem(value); }} >
                   <div className="choice_block">
                     <div className="choice_heading">
                       <div>
