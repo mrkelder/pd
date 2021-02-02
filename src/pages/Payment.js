@@ -18,8 +18,6 @@ import { loadStripe } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
 import 'css/payment.css';
 
-// TODO: remember, some countries don't have any postal code at all
-
 const stripePromise = loadStripe('pk_test_51IC5ZBADb9E0nwKcSjPJqFvgMJRktxAc2r1kRVaQe8sBB1tq05TVRX2RtfHUBWgBsNObX8Sn4y7YbU6NvD33anYf00ark0zPfX');
 
 const BinItem = lazy(() => import('components/BinItem'));
@@ -82,7 +80,6 @@ function Payment() {
   const [addressEAd, setAddressEAd] = useState(false);
   const [cityEAd, setCityEAd] = useState(false);
   const [countryEAd, setCountryEAd] = useState(false);
-  const [postalEAd, setPostalEAd] = useState(false);
   /********************* Validation statuses *********************/
   const [emailE, setEmailE] = useState(false);
   const [fNameE, setFNameE] = useState(false);
@@ -90,7 +87,6 @@ function Payment() {
   const [addressE, setAddressE] = useState(false);
   const [cityE, setCityE] = useState(false);
   const [countryE, setCountryE] = useState(false);
-  const [postalE, setPostalE] = useState(false);
   /********************* Compared elements for bread crubms' width *********************/
   const compared_h2 = useRef();
   /********************* Stage managers *********************/
@@ -154,13 +150,6 @@ function Payment() {
       setCountryE(true);
       return false;
     }
-
-    if ([...postalCode].length > 0) setPostalE(false);
-    else {
-      setPostalE(true);
-      return false;
-    }
-
     return true;
   }
 
@@ -194,13 +183,6 @@ function Payment() {
       setCountryEAd(true);
       return false;
     }
-
-    if ([...postalCodeAd].length > 0) setPostalEAd(false);
-    else {
-      setPostalEAd(true);
-      return false;
-    }
-
     return true;
   }
 
@@ -343,7 +325,7 @@ function Payment() {
                     </Select>
                   </FormControl>
                   <div className="gap" />
-                  <Input value={postalCode} error={postalE} onChange={({ target: { value } }) => { setPostalCode(value) }} label="Postal code" />
+                  <Input value={postalCode} onChange={({ target: { value } }) => { setPostalCode(value) }} label="Postal code" />
                 </div>
                 <Button type="submit" onClick={e => { e.preventDefault(); nextStage(); }} className="c_input submit_btn" variant="contained" size="medium" color="primary" style={submitStyle}>Continue to shipping</Button>
               </form>
@@ -364,7 +346,7 @@ function Payment() {
                       <span>Ship to</span>
                       <span onClick={() => { stageChanger(0); }} tabIndex="0" onKeyDown={({ key }) => { if (key !== 'Tab' && key !== 'Shift') stageChanger(0); }}>Change</span>
                     </div>
-                    <address>{address}, {city}, {postalCode}, {chosenCountry[0].toUpperCase()}{[...chosenCountry].filter((i, index) => index !== 0)}</address>
+                    <address>{address}, {city}, {[...postalCode].length === 0 ? 'now postal code' : postalCode}, {chosenCountry[0].toUpperCase()}{[...chosenCountry].filter((i, index) => index !== 0)}</address>
                   </div>
                 </div>
                 <h2 ref={compared_h2}>Shipping to</h2>
@@ -484,7 +466,7 @@ function Payment() {
                             </Select>
                           </FormControl>
                           <div className="gap" />
-                          <Input value={postalCodeAd} error={postalEAd} onChange={({ target: { value } }) => { setPostalCodeAd(value) }} label="Postal code" />
+                          <Input value={postalCodeAd} onChange={({ target: { value } }) => { setPostalCodeAd(value) }} label="Postal code" />
                         </div>
                       </form>
                     </motion.div>
