@@ -14,10 +14,15 @@
     outline: none;
   }
   a {
+    text-align: center;
     font-size: 1.25rem;
     @include font("Cursive");
     &:hover {
       opacity: 0.8;
+    }
+    &:focus {
+      outline: none;
+      opacity: 0.4;
     }
   }
   p {
@@ -30,10 +35,10 @@
 
 .item_s {
   margin: 10px;
-  width: 180px;
+  width: 130px;
   img {
-    width: 180px;
-    height: 180px;
+    width: 130px;
+    height: 130px;
     background-color: $grey;
   }
 }

@@ -6,6 +6,10 @@
   src: url("../fonts/Kalam-Regular.ttf");
   font-family: "Cursive";
 }
+@font-face {
+  src: url("../fonts/Roboto-Regular.ttf");
+  font-family: "Roboto";
+}
 #item_page {
   box-sizing: border-box;
   padding: 0 15px;
@@ -71,14 +75,6 @@
   color: #333;
   font-family: "Bold", Arial, Helvetica, sans-serif;
   font-size: 0.9rem;
-}
-#item_page #type .option select {
-  cursor: pointer;
-  font-size: 1.2rem;
-  font-family: "Bold", Arial, Helvetica, sans-serif;
-  color: #333;
-  background-color: #f4f4f4;
-  border: none;
 }
 #item_page #type .option:first-child select {
   width: 58px;

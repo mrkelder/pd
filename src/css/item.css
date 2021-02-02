@@ -6,6 +6,10 @@
   src: url("../fonts/Kalam-Regular.ttf");
   font-family: "Cursive";
 }
+@font-face {
+  src: url("../fonts/Roboto-Regular.ttf");
+  font-family: "Roboto";
+}
 .item,
 .item_s {
   margin: 5px;
@@ -18,17 +22,23 @@
 .item_s img {
   width: 270px;
   height: 270px;
-  background-color: #C7C7C7;
+  background-color: #c7c7c7;
   outline: none;
 }
 .item a,
 .item_s a {
+  text-align: center;
   font-size: 1.25rem;
   font-family: "Cursive", Arial, Helvetica, sans-serif;
 }
 .item a:hover,
 .item_s a:hover {
   opacity: 0.8;
+}
+.item a:focus,
+.item_s a:focus {
+  outline: none;
+  opacity: 0.4;
 }
 .item p,
 .item_s p {
@@ -40,12 +50,12 @@
 
 .item_s {
   margin: 10px;
-  width: 180px;
+  width: 130px;
 }
 .item_s img {
-  width: 180px;
-  height: 180px;
-  background-color: #C7C7C7;
+  width: 130px;
+  height: 130px;
+  background-color: #c7c7c7;
 }
 
 /*# sourceMappingURL=item.css.map */
