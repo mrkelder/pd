@@ -1,12 +1,66 @@
+@import "init";
+
 #main_page {
   width: 100%;
   display: inline-flex;
   flex-wrap: wrap;
   justify-content: center;
+  #red_bus {
+    margin: 10px 0;
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    img {
+      width: 100%;
+    }
+    div {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      h2 {
+        font-weight: lighter;
+        text-align: center;
+        @include font("Cursive");
+        margin-bottom: 2px;
+        color: $black;
+        margin-top: 0;
+        max-width: 450px;
+      }
+      strong {
+        color: $black;
+        @include font("Bold");
+      }
+    }
+  }
 }
 
 @media (min-width: 768px) {
   #main_page {
     justify-content: flex-start;
+    #red_bus {
+      flex-direction: row;
+      width: 100%;
+      img {
+        width: 350px;
+      }
+      div {
+        align-items: flex-start;
+        h2,
+        strong {
+          text-align: start;
+        }
+      }
+    }
+  }
+}
+
+@media (min-width: 1024px) {
+  #main_page {
+    #red_bus {
+      img {
+        width: 480px;
+      }
+    }
   }
 }

@@ -1,13 +1,72 @@
+@font-face {
+  src: url("../fonts/Righteous-Regular.ttf");
+  font-family: "Bold";
+}
+@font-face {
+  src: url("../fonts/Kalam-Regular.ttf");
+  font-family: "Cursive";
+}
+@font-face {
+  src: url("../fonts/Roboto-Regular.ttf");
+  font-family: "Roboto";
+}
 #main_page {
   width: 100%;
   display: inline-flex;
   flex-wrap: wrap;
   justify-content: center;
 }
+#main_page #red_bus {
+  margin: 10px 0;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+#main_page #red_bus img {
+  width: 100%;
+}
+#main_page #red_bus div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+#main_page #red_bus div h2 {
+  font-weight: lighter;
+  text-align: center;
+  font-family: "Cursive", Arial, Helvetica, sans-serif;
+  margin-bottom: 2px;
+  color: #333;
+  margin-top: 0;
+  max-width: 450px;
+}
+#main_page #red_bus div strong {
+  color: #333;
+  font-family: "Bold", Arial, Helvetica, sans-serif;
+}
 
 @media (min-width: 768px) {
   #main_page {
     justify-content: flex-start;
+  }
+  #main_page #red_bus {
+    flex-direction: row;
+    width: 100%;
+  }
+  #main_page #red_bus img {
+    width: 350px;
+  }
+  #main_page #red_bus div {
+    align-items: flex-start;
+  }
+  #main_page #red_bus div h2,
+#main_page #red_bus div strong {
+    text-align: start;
+  }
+}
+@media (min-width: 1024px) {
+  #main_page #red_bus img {
+    width: 480px;
   }
 }
 

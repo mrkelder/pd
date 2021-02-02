@@ -1,6 +1,6 @@
 # Client of "PD" hoodie shop 
 
-**Version 0.3.0**
+**Version 0.4.0**
 
 This is a client version of a hoodie shop "Peaceful Disruption". It's an open source so you can use it for free of charge.
 
@@ -72,6 +72,7 @@ Root
     │   │ context.js
     │   │ store.js
     │   │ windowReducer.js
+    │   │ PageManager.js
     │
     └───components
     │   │ Header.js
@@ -80,18 +81,24 @@ Root
     │   │ Footer.js
     │   │ ItemPreloaded.js
     │   │ Button.js
+    │   │ BinItem.js
+    │   │ BinItemPreloaded.js
+    │   │ CheckoutForm.js
     │
     └───css
     │
     └───fonts
     │   │ Kalam-Regular.ttf
     │   │ Righteous-Regular.ttf
+    │   │ Roboto-Regular.ttf
     │
     └───img
     │
     └───pages
     │   │ Main.js
     │   │ ItemPage.js
+    │   │ Payment.js
+    │   │ Shop.js
     │
     └───scss
         │ _init.scss
@@ -103,23 +110,35 @@ Root
         │ itemPage.scss
         │ main.scss
         │ p_item.scss
+        │ binItem.scss
+        │ checkout.scss
+        │ p_binItem.scss
+        │ payment.scss
+        │ shop.scss
 ```
 
 ## App
+
+### PageManager.js
+
+A basic page manager, which is supposed to manage routes instead of basic <Switch> element. The reason is because some pages like **Payment.js** require to erase header and footer. Page manager solves such kind of problem.
+
+Values:
+1) pathname - url.
 
 ### cartReducer.js
 
 This is a reducer for the shopping cart. Initial value looks like **{ items: [] }**. Items array takes whole objects of items.
 
 Actions:
-1) cart/pushElement **pushes whole payload into state.items array, so you can add one or several items**
+1) cart/pushElement - pushes whole payload into state.items array, so you can add one or several items.
 
 ### context.js
 
 Contains all global static values, for instance images or domain.
 
 Contexts:
-1) infoContext **Contains information about domain**.
+1) infoContext - Contains information about domain.
 
 ### store.js
 
@@ -130,24 +149,24 @@ This is a file where all reducers are combined into one root reducer. Middleware
 Gives information about current window resolution. Shape **{ windowSize: <window_resolution> }**.
 
 Actions:
-1) windowSize/resize **changes information about the size of window**
+1) windowSize / resize - changes information about the size of window.
 
 ## Components
 
 ### App.js (Major)
 
 Contexts:
-1) InfoContext **holds information about domain**
+1) InfoContext - holds information about domain.
 
 ### ItemPreloaded.js
 
 Preloaded version of an item block, used for a suspense.
 
 Props:
-1) type **size of a block**
+1) type - size of a block.
 
 Prop types:
-1) type **'small' or 'big'**
+1) type - **'small'** or **'big'**.
 
 ### Footer.js
 
@@ -158,12 +177,12 @@ Simple footer with the copyright.
 White button with black borders.
 
 Props:
-1) click **function on a click**
-2) children **value of a button**
+1) click - function on a click.
+2) children - value of the button.
 
 Prop types:
-1) click **function**
-2) children **string**
+1) click - function.
+2) children - string.
 
 ### Header.js
 
@@ -171,7 +190,7 @@ Header that contains a search and the shopping cart.
 
 Values:
 1) windowSize
-2) items **items from the shopping cart**
+2) items - items from the shopping cart.
 
 ### Item.js
 
@@ -184,16 +203,16 @@ Values:
 Props:
 1) _id
 2) name
-3) price **in dollars**
+3) price - **in dollars**.
 4) img
-5) type **size of an item block**
+5) type - size of an item block.
 
 Prop types:
-1) _id **string**
-2) name **string**
-3) price **number**
-4) img **string**
-5) type **'big' or 'small'**
+1) _id - string.
+2) name - string.
+3) price - number.
+4) img - string.
+5) type - **'big'** or **'small'**.
 
 ### SideBar.js
 
@@ -201,11 +220,47 @@ Side bar that has several links. Those are links to: main page, store, instagram
 
 Values:
 1) windowSize
-2) pathname **current subdirectory**
+2) pathname - current subdirectory.
 3) menuOpened / setMenuOpened
 
 Functions:
 1) openMenu
+
+### BinItem.js
+
+An item, shown during the purchase process.
+
+Values:
+1) domain
+
+Props:
+1) name
+2) price
+3) amount - quantity of items.
+4) option - size and color, like **XS / White**.
+5) img
+
+Prop types:
+1) name - string.
+2) price - number.
+3) amount - number.
+4) option - string.
+5) img - string.
+
+### BinItemPreloaded.js
+
+Preloaded version of *BinItem.js*.
+
+Values:
+1) stripe - stripe object.
+2) elements - stripe elements.
+
+Functions:
+1) handleSubmit - submits the checout form.
+
+### CheckoutForm.js
+
+Stripe based checkout form. Used during payment process.
 
 ## Pages
 
@@ -219,29 +274,112 @@ A page dedicated to an item.
 
 Values:
 1) windowSize
-2) body **DOM element of body tag**
-3) payPalButton **ref to PayPal button**
-4) mainPhoto **ref to the main photo**
-5) firstPhoto **ref to the first item's available photos**
-6) secondPhoto **ref to the second item's available photos**
+2) body - DOM element of body tag.
+3) payPalButton - ref to PayPal button.
+4) mainPhoto - ref to the main photo.
+5) firstPhoto - ref to the first item's available photos.
+6) secondPhoto - ref to the second item's available photos.
 7) domain
-8) buttonPlaced / setButtonPlaced **whether PayPal button has appeared or not**
-9) isZoomShown / setZoomShown **whether a gallery is opened or not**
+8) buttonPlaced / setButtonPlaced - whether PayPal button has appeared or not.
+9) isZoomShown / setZoomShown - whether a gallery is opened or not.
 10) allPhotos
-11) photoIndex / setPhotoIndex **index of a picked photo**
-12) size / setSize **size of T-shirt, hoodie or whatever**
-13) color / setColor **color of T-shirt, hoodie or whatever**
+11) photoIndex / setPhotoIndex - index of a picked photo.
+12) size / setSize - size of T-shirt, hoodie or whatever.
+13) color / setColor - color of T-shirt, hoodie or whatever.
 
 Functions:
 1) changePhotoIndex
 
+### Payment.js
+
+Page where a user can purchase hoodies.
+
+Values:
+1) stripePromise - loading stripe.
+2) styles - styles for the "keep me noticed" checkbox.
+3) theme - color theme for material-ui elements.
+4) windowSize
+5) submitStyle / setSubmitStyle - styles for a submit button.
+6) isSummaryOpened / setSummaryOpened - whether the summary is opened or not.
+7) styleForBreadCrumbs / setStyleForBreadCrumbs - bread crumbs' width.
+8) allCountries / setAllCountries - a list of countries to choose.
+9) re - regular expression for email.
+10) shipping - type of shipping: **fs** or **ss**.
+<!-- The values below this comment are inputs' values -->
+11) firstName / setFirstName
+12) lastName / setLastName
+13) address / setAddress
+14) optional / setOptional
+15) city / setCity
+16) postalCode / setPostalCode
+17) chosenCountry / setChosenCountry
+18) newsCheckbox / setNewsCheckbox
+19) paymentSystem / setPaymentSystem
+20) billingAddress / setBillingAddress
+<!-- The values above this comment are inputs' values -->
+<!-- The values below this comment are extra billing address inputs' values -->
+21) firstNameAd / setFirstNameAd
+22) lastNameAd / setLastNameAd
+23) addressAd / setAddressAd
+24) optionalAd / setOptionalAd
+25) cityAd / setCityAd
+26) postalCodeAd / setPostalCodeAd
+27) chosenCountryAd / setChosenCountryAd
+<!-- The values above this comment are extra billing address inputs' values -->
+<!-- The values below this comment are error statuses -->
+28) fNameEAd / setFNameEAd
+29) lNameEAd / setLNameEAd
+30) addressEAd / setAddressEAd
+31) cityEAd / setCityEAd
+32) countryEAd / setCountryEAd
+33) postalEAd / setPostalEAd
+34) emailE / setEmailE
+35) fNameE / setFNameE
+36) lNameE / setLNameE
+37) addressE / setAddressE
+38) cityE / setCityE
+39) countryE / setCountryE
+40) postalE / setPostalE
+<!-- The values above this comment are error statuses -->
+41) compared_h2 - element where the bread crumbs element takes width.
+42) stage / setStage - stage of the a purchase.
+43) shippingStage / setShippingStage - whether it's shipping stage or not.
+44) paymentStage / setPaymentStage - whether it's payment stage or not.
+
+Functions:
+1) openSummary
+2) stageChanger
+3) changeShipping
+4) changeCountry
+5) changeCountryAd
+6) checkInputs - checks inputs on the first page.
+7) checkAdInputs - checks additional billing address inputs if needed.
+8) nextStage - moves on the next stage depending on what's going on.
+
+### Shop.js
+
+Basically shop page.
+
+Values:
+1) windowSize
+2) filter / setFilter - filter of sorting.
+3) allItems / setAllItems - items in the page.
+
+Functions:
+1) changeSequence - changes sorting option.
+
 ## SCSS
 
-1) _init.scss **holds the collections of colors, mixins, font-face's and so on**
-2) item.scss **styles for *Item.js* component**
-3) index.scss **determines the main css rules throughtout all css files**
-4) main.scss **styles for *Main.js* page**
-5) button.scss **styles for *Button.js* component**
+1) _init.scss - holds the collections of colors, mixins, font-face's and so on.
+2) item.scss - styles for *Item.js* component.
+3) index.scss - determines the main css rules throughtout all css files.
+4) main.scss - styles for *Main.js* page.
+5) button.scss - styles for *Button.js* component.
 6) footer.scss
-7) ItemPage.scss
-8) p_item.scss **styles for *ItemPreloaded.js* components**
+7) itemPage.scss
+8) p_item.scss - styles for *ItemPreloaded.js* component.
+9) bitItems.scss - styles for *BitItem.js* component.
+10) checkout.scss - styles for *CheckoutForm.js* component.
+11) p_binItem.scss - styles for *BitItemPreloaded.js* component.
+12) payment.scss - styles for *Payment.js* page.
+13) shop.scss - styles for *Shop.js* page.
