@@ -4,8 +4,6 @@ import { Link } from 'react-router-dom';
 import Item from 'components/Item';
 import 'css/shop.css';
 
-// TODO: Make filter work
-
 function Shop() {
   const { windowSize } = useSelector(state => state.windowSize);
   const [filter, setFilter] = useState('title-ascending');
@@ -16,7 +14,6 @@ function Shop() {
 
   function changeSequence({ target: { value } }) {
     const copiedArray = allItems;
-    console.log()
     switch (value) {
       case 'best-selling':
         // Amount of buys

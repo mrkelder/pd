@@ -67,7 +67,7 @@ function Payment() {
   const [chosenCountry, setChosenCountry] = useState('none');
   const [newsCheckbox, setNewsCheckbox] = useState(false);
   const [paymentSystem, setPaymentSystem] = useState('card');
-  const [billingAdress, setBillingAdress] = useState('default');
+  const [billingAddress, setBillingAddress] = useState('default');
   /********************* Billing address management *********************/
   const [firstNameAd, setFirstNameAd] = useState('');
   const [lastNameAd, setLastNameAd] = useState('');
@@ -214,7 +214,7 @@ function Payment() {
       setPaymentStage(true);
     }
     else if (checkInputs() && stage === 2) {
-      if (billingAdress === 'default' || (billingAdress !== 'default' && checkAdInputs())) alert("Your purchase is done. Have fun ❤");
+      if (billingAddress === 'default' || (billingAddress !== 'default' && checkAdInputs())) alert("Your purchase is done. Have fun ❤");
     }
     else {
       // If a customer tries to pay while having inappropriate presonal data
@@ -449,7 +449,7 @@ function Payment() {
                 </RadioGroup>
                 <h2>Billing address</h2>
                 <span className="message">Select the address that matches your card or payment method.</span>
-                <RadioGroup name="gender3" value={billingAdress} onChange={({ target: { value } }) => { setBillingAdress(value); }}>
+                <RadioGroup name="gender3" value={billingAddress} onChange={({ target: { value } }) => { setBillingAddress(value); }}>
                   <div className="choice_block">
                     <div className="choice_heading">
                       <div>
@@ -463,7 +463,7 @@ function Payment() {
                         <b>Use a different billing address</b>
                       </div>
                     </div>
-                    <motion.div className="choice_content" animate={billingAdress === 'difAddress' ? { height: 'auto' } : { height: 0 }} transition={{ duration: .2 }} initial={false}>
+                    <motion.div className="choice_content" animate={billingAddress === 'difAddress' ? { height: 'auto' } : { height: 0 }} transition={{ duration: .2 }} initial={false}>
                       <form name="billingAddress">
                         <div className="inline_inputs">
                           <Input value={firstNameAd} error={fNameEAd} onChange={({ target: { value } }) => { setFirstNameAd(value) }} label="First name" name="checkout[shipping_address][first_name]" />
