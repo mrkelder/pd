@@ -12,7 +12,7 @@ function Cart() {
   return (
     <div id="cart_page">
       <Breadcrumbs id="bread_crumbs" separator={<img src={arrow} alt="arrow" style={{ transform: 'rotate(180deg)', width: '8px' }} />} aria-label="breadcrumb">
-        <Link to="/" >Home</Link>
+        <Link to="/">Home</Link>
         <p>Your Shopping Cart</p>
       </Breadcrumbs>
       { windowSize >= 1000 &&
@@ -22,10 +22,10 @@ function Cart() {
           <span>Total</span>
         </div>
       }
-
       <div id="cart_items">
+        <CartItem />
         {
-          new Array(15).fill(1).map(i => <CartItem key={Math.random()} />)
+          new Array(15).fill(1).map((i, index) => <CartItem img="a_hoodie.webp" price={Math.floor(Math.random() * (100 - 0))} key={`cart_${index}`} />)
         }
       </div>
     </div>
