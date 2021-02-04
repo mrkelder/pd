@@ -92,6 +92,28 @@
       }
     }
   }
+  #details {
+    width: 375px;
+    h2{
+      @include font('Bold');
+      font-size: 1rem;
+      color: $black;
+      font-weight: normal;
+      margin-bottom: 2px;
+    }
+    textarea {
+      width: 100%;
+      max-width: 100%;
+      background-color: $light_grey;
+      border-radius: 2px;
+      @include font('Bold');
+      padding: 5px;
+      color: $black;
+      &:focus {
+        outline: auto;
+      }
+    }
+  }
 }
 
 @media (min-width: 396px) {

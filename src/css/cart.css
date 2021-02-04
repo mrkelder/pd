@@ -104,6 +104,28 @@
 #cart_page #cart_items .cart_item .cart_item_info div input:focus {
   outline: auto;
 }
+#cart_page #details {
+  width: 375px;
+}
+#cart_page #details h2 {
+  font-family: "Bold", Arial, Helvetica, sans-serif;
+  font-size: 1rem;
+  color: #333;
+  font-weight: normal;
+  margin-bottom: 2px;
+}
+#cart_page #details textarea {
+  width: 100%;
+  max-width: 100%;
+  background-color: #f4f4f4;
+  border-radius: 2px;
+  font-family: "Bold", Arial, Helvetica, sans-serif;
+  padding: 5px;
+  color: #333;
+}
+#cart_page #details textarea:focus {
+  outline: auto;
+}
 
 @media (min-width: 396px) {
   #cart_page #cart_items .cart_item .cart_item_photo {
