@@ -15,7 +15,7 @@ function Header() {
       <header>
         <img src={search_black} alt="search" className="header_links" />
         {windowSize >= 768 && <input type="text" placeholder="Search" />}
-        <Link to="/">
+        <Link to="/cart">
           <img src={cart} alt="search" id="cart" className="header_links" />
           {windowSize >= 768 && <p>Cart ({items.length})</p>}
         </Link>
