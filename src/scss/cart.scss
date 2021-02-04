@@ -112,6 +112,8 @@
         margin-bottom: 2px;
       }
       textarea {
+        height: 100px;
+        border: none;
         resize: vertical;
         background-color: $light_grey;
         border-radius: 2px;
@@ -120,6 +122,49 @@
         color: $black;
         &:focus {
           outline: auto;
+        }
+      }
+    }
+    #checkout {
+      margin-top: 50px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      #free_shipping {
+        display: flex;
+        align-items: center;
+        margin-bottom: 5px;
+        * {
+          color: $red;
+          @include font("Bold");
+          font-size: 1.2rem;
+        }
+        img {
+          margin-right: 10px;
+          width: 15px;
+        }
+      }
+      #sub {
+        @include font("Cursive");
+        color: $black;
+        font-size: 1.3rem;
+        margin: 0;
+      }
+      #taxes {
+        margin-top: 15px;
+        margin-bottom: 35px;
+        color: $black;
+        @include font("Bold");
+        font-style: italic;
+        font-size: 1.2rem;
+        text-align: center;
+      }
+      .b_button {
+        &:nth-child(4) {
+          width: 262px;
+        }
+        &:last-child {
+          width: 150px;
         }
       }
     }
@@ -157,6 +202,17 @@
       align-items: flex-start;
       #details {
         max-width: 495px;
+        h2 {
+          margin-bottom: 10px;
+        }
+      }
+      #checkout {
+        width: 100%;
+        align-items: flex-end;
+        margin-left: 50px;
+        #taxes {
+          text-align: end;
+        }
       }
     }
   }
@@ -224,6 +280,9 @@
   #cart_page {
     #cart_items_options {
       margin-left: 470px;
+    }
+    #payment {
+      width: 972px;
     }
   }
 }

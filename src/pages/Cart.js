@@ -3,7 +3,9 @@ import { Breadcrumbs } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import CartItem from 'components/CartItem';
+import Button from 'components/Button';
 import arrow from 'img/arrow.svg';
+import red_discount from 'img/red_discount.svg';
 import 'css/cart.css';
 
 function Cart() {
@@ -33,6 +35,16 @@ function Cart() {
         <div id="details">
           <h2>Special instructions for seller</h2>
           <textarea value={details} onChange={({ target: { value } }) => { setDetails(value); }} />
+        </div>
+        <div id="checkout">
+          <div id="free_shipping">
+            <img src={red_discount} alt="red_discount" />
+            <span>FREE SHIPPING -$10.00</span>
+          </div>
+          <span id="sub">Subtotal $230.00</span>
+          <span id="taxes">Taxes and shipping calculated at checkout</span>
+          <Button>CONTINUE SHOPPING</Button>
+          <Button>CHECK OUT</Button>
         </div>
       </section>
     </div>
