@@ -14,7 +14,8 @@ function Item({ _id, name, price, img, type }) {
     const image = imgRef.current;
     if (image) {
       image.addEventListener('error', () => {
-        imgRef.current.src = ImgNotFound;
+        if (imgRef.current)
+          imgRef.current.src = ImgNotFound;
       });
     }
   }, [imgRef]);

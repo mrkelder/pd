@@ -1,6 +1,6 @@
 # Client of "PD" hoodie shop 
 
-**Version 0.4.0**
+**Version 0.5.0**
 
 This is a client version of a hoodie shop "Peaceful Disruption". It's an open source so you can use it for free of charge.
 
@@ -84,6 +84,7 @@ Root
     │   │ BinItem.js
     │   │ BinItemPreloaded.js
     │   │ CheckoutForm.js
+    │   │ CartItem.js
     │
     └───css
     │
@@ -99,6 +100,7 @@ Root
     │   │ ItemPage.js
     │   │ Payment.js
     │   │ Shop.js
+    │   │ Cart.js
     │
     └───scss
         │ _init.scss
@@ -115,6 +117,7 @@ Root
         │ p_binItem.scss
         │ payment.scss
         │ shop.scss
+        │ cart.scss
 ```
 
 ## App
@@ -262,6 +265,34 @@ Functions:
 
 Stripe based checkout form. Used during payment process.
 
+### CartItem.js
+
+Item which is used in *Cart.js* page.
+
+Values:
+1) windowSize
+2) valueQ / setValueQ - quanitty.
+3) domain
+
+Props:
+1) id
+2) name
+3) price
+4) option - size and color, e.g. **XS / white**.
+5) quantity
+6) img
+
+Functions:
+1) changeValue - changes amount of items.
+
+Prop types:
+1) id - string.
+2) name - string.
+3) price - number.
+4) option - string.
+5) quantity - number.
+6) img - string.
+
 ## Pages
 
 ### Main.js
@@ -368,6 +399,14 @@ Values:
 Functions:
 1) changeSequence - changes sorting option.
 
+### Cart.js
+
+A cart with items.
+
+Values:
+1) windowSize
+2) details / setDetails - size and color, like **XS / White**.
+
 ## SCSS
 
 1) _init.scss - holds the collections of colors, mixins, font-face's and so on.
@@ -383,3 +422,4 @@ Functions:
 11) p_binItem.scss - styles for *BitItemPreloaded.js* component.
 12) payment.scss - styles for *Payment.js* page.
 13) shop.scss - styles for *Shop.js* page.
+14) cart.scss - styles for *Cart.js* page and *CartItem.js* component.
