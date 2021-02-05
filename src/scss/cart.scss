@@ -34,6 +34,7 @@
         width: 175px;
         height: 175px;
         @include bg;
+        background-color: $grey;
       }
       .cart_item_remove {
         margin-top: 15px;

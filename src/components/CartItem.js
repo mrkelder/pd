@@ -15,12 +15,8 @@ function CartItem({ img, name, price, option, quantity, id }) {
   }, [quantity]);
 
   function changeValue({ target: { value } }) {
-    if (value > 0) {
-      setValueQ(value);
-    }
-    else {
-      setValueQ(1);
-    }
+    if (value > 0) setValueQ(value);
+    else setValueQ(1);
   }
 
   return (
