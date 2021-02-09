@@ -8,6 +8,7 @@ import ItemPage from 'pages/ItemPage';
 import Shop from 'pages/Shop';
 import Payment from 'pages/Payment';
 import Cart from 'pages/Cart';
+import Editor from 'pages/Editor';
 
 function Pages() {
   const { pathname } = useLocation();
@@ -26,6 +27,7 @@ function Pages() {
               <Route exact path="/shop" component={Shop} />
               <Route exact path="/item/*" component={ItemPage} />
               <Route exact path="/cart" component={Cart}/>
+              <Route exact path="/editor" component={Editor}/>
               <Route exact path="/*">
                 <p>404</p>
               </Route>
