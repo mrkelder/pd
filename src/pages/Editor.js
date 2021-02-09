@@ -51,6 +51,11 @@ function Editor() {
     else setImageIndex(imageIndex + num);
   }
 
+  function deleteElement() {
+    const element = canvas.getActiveObject();
+    if (element) canvas.remove(element);
+  }
+
   return (
     <div id="editor_page">
       <div id="interface">
@@ -70,7 +75,7 @@ function Editor() {
           <img src={text} alt="edirot_image" />
           <span>Text</span>
         </button>
-        <button>
+        <button onClick={deleteElement}>
           <img src={deleteImage} alt="edirot_image" />
           <span>Delete</span>
         </button>
