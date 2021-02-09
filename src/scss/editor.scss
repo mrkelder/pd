@@ -30,6 +30,7 @@
   #tool_bar {
     background-color: red;
     display: flex;
+    justify-content: space-between;
     width: 100%;
     height: 65px;
     position: relative;
@@ -39,14 +40,16 @@
       left: 0;
       position: absolute;
     }
-    button {
+    .editor_button,
+    label {
+      padding: 0;
+      flex: 1;
       cursor: pointer;
       box-sizing: border-box;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      flex: 1;
       background-color: white;
       border: 1px solid $grey;
       transition: background-color 0.2s;
@@ -61,6 +64,13 @@
         margin-top: 2px;
         @include font("Roboto");
         color: $black;
+      }
+      div {
+        border: none !important;
+        &:focus,
+        &:hover {
+          outline: none !important;
+        }
       }
     }
   }

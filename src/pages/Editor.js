@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState, useRef } from 'react';
 import { fabric } from 'fabric';
 import arrow from 'img/blue_arrow.svg';
 import { infoContext } from 'app/context';
@@ -16,11 +16,16 @@ function Editor() {
   const [canvas, setCanvas] = useState(null);
   const [color, setColor] = useState('#cf1');
   const [colorOpen, setOpenColor] = useState(false);
+  const fileElement = useRef();
 
   useEffect(() => {
     const canvasInst = new fabric.Canvas('canvas_editor');
     canvasInst.selection = false;
     setCanvas(canvasInst);
+  }, []);
+
+  useEffect(() => {
+
   }, []);
 
   function addText() {
@@ -34,6 +39,22 @@ function Editor() {
     textbox.setControlsVisibility({ mt: false, mb: false });
     canvas.add(textbox).setActiveObject(textbox);
     canvas.moveTo(textbox, 999);
+    setOpenColor(false);
+  }
+
+  function addImage(e) {
+    const [file] = e.target.files;
+    console.log(file)
+    const reader = new FileReader();
+    reader.onload = f => {
+      const data = f.target.result;
+      fabric.Image.fromURL(data, img => {
+        const oImg = img.set({ left: 0, top: 0, angle: 0 }).scale(0.1);
+        oImg.setControlsVisibility({ mt: false, mb: false, ml: false, mr: false });
+        canvas.add(oImg).renderAll();
+      });
+    };
+    reader.readAsDataURL(file);
   }
 
   function changeColor({ rgb: { a, r, g, b } }) {
@@ -54,6 +75,7 @@ function Editor() {
   function deleteElement() {
     const element = canvas.getActiveObject();
     if (element) canvas.remove(element);
+    setOpenColor(false);
   }
 
   return (
@@ -67,22 +89,25 @@ function Editor() {
       </div>
       <div id="tool_bar">
         {colorOpen && <ColorPicker onChange={changeColor} color={color} />}
-        <button onClick={() => { setOpenColor(!colorOpen); }}>
+        <input onChange={addImage} ref={fileElement} type="file" id="file_editor" style={{ display: "none" }} />
+        <button className="editor_button" onClick={() => { setOpenColor(!colorOpen); }}>
           <img src={colorImage} alt="edirot_image" />
           <span>Color</span>
         </button>
-        <button onClick={addText}>
+        <button className="editor_button" onClick={addText}>
           <img src={text} alt="edirot_image" />
           <span>Text</span>
         </button>
-        <button onClick={deleteElement}>
+        <button className="editor_button" onClick={deleteElement}>
           <img src={deleteImage} alt="edirot_image" />
           <span>Delete</span>
         </button>
-        <button>
-          <img src={file} alt="edirot_image" />
-          <span>File</span>
-        </button>
+        <label htmlFor="file_editor" tabIndex="0">
+          <div className="editor_button">
+            <img src={file} alt="edirot_image" />
+            <span>File</span>
+          </div>
+        </label>
       </div>
     </div>
 
