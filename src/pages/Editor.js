@@ -59,6 +59,7 @@ function Editor() {
       });
     };
     reader.readAsDataURL(file);
+    setOpenColor(false);
   }
 
   function changeColor({ rgb: { a, r, g, b } }) {
@@ -104,6 +105,8 @@ function Editor() {
       element.opacity = 0;
       element.hoverCursor = 'default';
     }
+
+    setOpenColor(false);
   }
 
   function deleteElement() {
