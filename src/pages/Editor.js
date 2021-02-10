@@ -14,8 +14,10 @@ function Editor() {
   const images = ['a_hoodie.webp', 'a_hoodie_back.webp'];
   const [imageIndex, setImageIndex] = useState(0);
   const [canvas, setCanvas] = useState(null);
-  const [color, setColor] = useState('#cf1');
+  const [color, setColor] = useState('#333');
   const [colorOpen, setOpenColor] = useState(false);
+  const [elements, setElements] = useState([[], []]);
+  const [removedElements, setRemovedElements] = useState([]);
   const fileElement = useRef();
 
   useEffect(() => {
@@ -24,9 +26,10 @@ function Editor() {
     setCanvas(canvasInst);
   }, []);
 
-  useEffect(() => {
-
-  }, []);
+  function addToElementsCollection(element) {
+    if (imageIndex === 0) setElements([[...elements[0], element], elements[1]]);
+    else setElements([elements[0], [...elements[1], element]]);
+  }
 
   function addText() {
     const textbox = new fabric.Textbox('New Text', {
@@ -39,18 +42,19 @@ function Editor() {
     textbox.setControlsVisibility({ mt: false, mb: false });
     canvas.add(textbox).setActiveObject(textbox);
     canvas.moveTo(textbox, 999);
+    addToElementsCollection(textbox);
     setOpenColor(false);
   }
 
   function addImage(e) {
     const [file] = e.target.files;
-    console.log(file)
     const reader = new FileReader();
     reader.onload = f => {
       const data = f.target.result;
       fabric.Image.fromURL(data, img => {
         const oImg = img.set({ left: 0, top: 0, angle: 0 }).scale(0.1);
         oImg.setControlsVisibility({ mt: false, mb: false, ml: false, mr: false });
+        addToElementsCollection(oImg);
         canvas.add(oImg).renderAll();
       });
     };
@@ -67,14 +71,50 @@ function Editor() {
   }
 
   function changeImageIndex(num) {
-    if (imageIndex + num < 0) setImageIndex(images.length - 1);
-    else if (imageIndex + num > images.length - 1) setImageIndex(0);
-    else setImageIndex(imageIndex + num);
+    const nextIndex = imageIndex + num;
+    let eventualIndex = nextIndex;
+    if (nextIndex < 0) {
+      setImageIndex(images.length - 1);
+      eventualIndex = images.length - 1;
+    }
+    else if (nextIndex > images.length - 1) {
+      setImageIndex(0);
+      eventualIndex = 0;
+    }
+    else setImageIndex(nextIndex);
+
+    canvas.getObjects().forEach(element => {
+      element.set({ selectable: false });
+      element.opacity = 0;
+      element.hoverCursor = 'default';
+    });
+
+    canvas.discardActiveObject().renderAll();
+
+    for (const element of elements[eventualIndex]) {
+      // Renders the needed objects
+      element.set({ selectable: true });
+      element.opacity = 1;
+      canvas.bringToFront(element);
+      element.hoverCursor = 'move';
+    }
+
+    for (const element of removedElements) {
+      element.set({ selectable: false });
+      element.opacity = 0;
+      element.hoverCursor = 'default';
+    }
   }
 
   function deleteElement() {
     const element = canvas.getActiveObject();
-    if (element) canvas.remove(element);
+    if (element) {
+      element.set({ selectable: false });
+      element.opacity = 0;
+      element.hoverCursor = 'default';
+      canvas.discardActiveObject().renderAll();
+      setRemovedElements([...removedElements, element]);
+    }
     setOpenColor(false);
   }
 
