@@ -93,4 +93,22 @@
   outline: none !important;
 }
 
+@media (min-width: 768px) {
+  #editor_page {
+    width: 100%;
+  }
+  #editor_page #interface {
+    margin: 0 auto;
+    max-width: 750px;
+    width: 100%;
+  }
+  #editor_page #interface .arrow {
+    cursor: pointer;
+  }
+  #editor_page #tool_bar {
+    margin: 0 auto;
+    width: 530px;
+  }
+}
+
 /*# sourceMappingURL=editor.css.map */

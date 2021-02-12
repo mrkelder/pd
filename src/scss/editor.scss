@@ -75,3 +75,21 @@
     }
   }
 }
+
+@media (min-width: 768px) {
+  #editor_page {
+    width: 100%;
+    #interface {
+      margin: 0 auto;
+      max-width: 750px;
+      width: 100%;
+      .arrow{
+        cursor: pointer;
+      }
+    }
+    #tool_bar {
+      margin: 0 auto;
+      width: 530px;
+    }
+  }
+}
