@@ -7,6 +7,7 @@ import deleteImage from 'img/delete.png';
 import colorImage from 'img/color.png';
 import text from 'img/text.png';
 import ColorPicker from 'react-color';
+import Button from 'components/Button';
 import 'css/editor.css';
 
 function Editor() {
@@ -25,6 +26,10 @@ function Editor() {
     canvasInst.selection = false;
     setCanvas(canvasInst);
   }, []);
+
+  function addItemToBin() {
+    alert("Hey, you've created your own style 🤑. Congrats! But we don't have this system yet, sorry 😥");
+  }
 
   function addToElementsCollection(element) {
     if (imageIndex === 0) setElements([[...elements[0], element], elements[1]]);
@@ -152,6 +157,7 @@ function Editor() {
           </div>
         </label>
       </div>
+      <Button click={addItemToBin}>ADD TO CART</Button>
     </div>
 
   );

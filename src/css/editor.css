@@ -92,6 +92,10 @@
 #editor_page #tool_bar label div:hover {
   outline: none !important;
 }
+#editor_page .b_button {
+  margin: 15px auto;
+  width: 215px;
+}
 
 @media (min-width: 768px) {
   #editor_page {

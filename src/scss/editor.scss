@@ -74,6 +74,10 @@
       }
     }
   }
+  .b_button {
+    margin: 15px auto;
+    width: 215px;
+  }
 }
 
 @media (min-width: 768px) {
@@ -83,7 +87,7 @@
       margin: 0 auto;
       max-width: 750px;
       width: 100%;
-      .arrow{
+      .arrow {
         cursor: pointer;
       }
     }
