@@ -9,6 +9,7 @@ import text from 'img/text.png';
 import ColorPicker from 'react-color';
 import Button from 'components/Button';
 import 'css/editor.css';
+import { useSelector } from 'react-redux';
 
 function Editor() {
   const domain = useContext(infoContext);
@@ -20,6 +21,7 @@ function Editor() {
   const [elements, setElements] = useState([[], []]);
   const [removedElements, setRemovedElements] = useState([]);
   const fileElement = useRef();
+  const { windowSize } = useSelector(state => state.windowSize);
 
   useEffect(() => {
     const canvasInst = new fabric.Canvas('canvas_editor');
@@ -129,37 +131,62 @@ function Editor() {
   return (
     <div id="editor_page">
       <div id="interface">
+        {windowSize >= 1000 &&
+          <div id="tool_bar">
+            {colorOpen && <ColorPicker onChange={changeColor} color={color} />}
+            <input onChange={addImage} ref={fileElement} type="file" id="file_editor" style={{ display: "none" }} />
+            <button className="editor_button" onClick={() => { setOpenColor(!colorOpen); }}>
+              <img src={colorImage} alt="edirot_image" />
+              <span>Color</span>
+            </button>
+            <button className="editor_button" onClick={addText}>
+              <img src={text} alt="edirot_image" />
+              <span>Text</span>
+            </button>
+            <button className="editor_button" onClick={deleteElement}>
+              <img src={deleteImage} alt="edirot_image" />
+              <span>Delete</span>
+            </button>
+            <label htmlFor="file_editor" tabIndex="0">
+              <div className="editor_button">
+                <img src={file} alt="edirot_image" />
+                <span>File</span>
+              </div>
+            </label>
+          </div>
+        }
         <img src={arrow} alt="arrow_l" style={{ transform: 'rotate(90deg)' }} className="arrow" onClick={() => { changeImageIndex(-1); }} />
         <div id="main_photo" style={{ backgroundImage: `url('http://${domain}/static/${images[imageIndex]}')` }} >
           <canvas width="150" height="175" id="canvas_editor"></canvas>
         </div>
         <img src={arrow} alt="arrow_r" style={{ transform: 'rotate(-90deg)' }} className="arrow" onClick={() => { changeImageIndex(1); }} />
       </div>
-      <div id="tool_bar">
-        {colorOpen && <ColorPicker onChange={changeColor} color={color} />}
-        <input onChange={addImage} ref={fileElement} type="file" id="file_editor" style={{ display: "none" }} />
-        <button className="editor_button" onClick={() => { setOpenColor(!colorOpen); }}>
-          <img src={colorImage} alt="edirot_image" />
-          <span>Color</span>
-        </button>
-        <button className="editor_button" onClick={addText}>
-          <img src={text} alt="edirot_image" />
-          <span>Text</span>
-        </button>
-        <button className="editor_button" onClick={deleteElement}>
-          <img src={deleteImage} alt="edirot_image" />
-          <span>Delete</span>
-        </button>
-        <label htmlFor="file_editor" tabIndex="0">
-          <div className="editor_button">
-            <img src={file} alt="edirot_image" />
-            <span>File</span>
-          </div>
-        </label>
-      </div>
+      { windowSize < 1000 &&
+        <div id="tool_bar">
+          {colorOpen && <ColorPicker onChange={changeColor} color={color} />}
+          <input onChange={addImage} ref={fileElement} type="file" id="file_editor" style={{ display: "none" }} />
+          <button className="editor_button" onClick={() => { setOpenColor(!colorOpen); }}>
+            <img src={colorImage} alt="edirot_image" />
+            <span>Color</span>
+          </button>
+          <button className="editor_button" onClick={addText}>
+            <img src={text} alt="edirot_image" />
+            <span>Text</span>
+          </button>
+          <button className="editor_button" onClick={deleteElement}>
+            <img src={deleteImage} alt="edirot_image" />
+            <span>Delete</span>
+          </button>
+          <label htmlFor="file_editor" tabIndex="0">
+            <div className="editor_button">
+              <img src={file} alt="edirot_image" />
+              <span>File</span>
+            </div>
+          </label>
+        </div>
+      }
       <Button click={addItemToBin}>ADD TO CART</Button>
-    </div>
-
+    </div >
   );
 }
 
