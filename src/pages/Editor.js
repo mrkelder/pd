@@ -45,7 +45,6 @@ function Editor() {
           const scale = scaleX * scaleY * 100; // multiplied by 100 because default scale if 0.1
           const square = width * height;
           totalImgPrice += square * scale / priceIndex;
-          console.log(totalImgPrice)
         }
       }
     }
@@ -63,6 +62,17 @@ function Editor() {
   useEffect(() => {
     getTotalPrice();
   }, [elements, getTotalPrice]);
+
+  useEffect(() => {
+    // Deselecting system
+    function deselect({ target }) {
+      // Fires only if the clicked element isn't canvas, text button or image button
+      const condition = !!target.getAttribute('class') || (target.tagName.toLowerCase() === 'canvas' && target.getAttribute('class') === 'dont_deselect');
+      if (canvas && !condition) canvas.discardActiveObject().renderAll();
+    }
+    window.addEventListener('click', deselect);
+    window.addEventListener('touchstart', deselect);
+  }, [canvas]);
 
   useEffect(() => {
     const canvasInst = new fabric.Canvas('canvas_editor');
@@ -183,22 +193,22 @@ function Editor() {
           <div id="tool_bar">
             {colorOpen && <ColorPicker onChange={changeColor} color={color} />}
             <input onChange={addImage} ref={fileElement} type="file" id="file_editor" style={{ display: "none" }} />
-            <button className="editor_button" onClick={() => { setOpenColor(!colorOpen); }}>
-              <img src={colorImage} alt="edirot_image" />
-              <span>Color</span>
+            <button className="editor_button dont_deselect" onClick={() => { setOpenColor(!colorOpen); }}>
+              <img className="dont_deselect" src={colorImage} alt="edirot_image" />
+              <span className="dont_deselect">Color</span>
             </button>
-            <button className="editor_button" onClick={addText}>
-              <img src={text} alt="edirot_image" />
-              <span>Text</span>
+            <button className="editor_button dont_deselect" onClick={addText}>
+              <img className="dont_deselect" src={text} alt="edirot_image" />
+              <span className="dont_deselect">Text</span>
             </button>
             <button className="editor_button" onClick={deleteElement}>
               <img src={deleteImage} alt="edirot_image" />
               <span>Delete</span>
             </button>
-            <label htmlFor="file_editor" tabIndex="0">
-              <div className="editor_button">
-                <img src={file} alt="edirot_image" />
-                <span>File</span>
+            <label htmlFor="file_editor" tabIndex="0" className="dont_deselect">
+              <div className="editor_button dont_deselect">
+                <img src={file} alt="edirot_image" className="dont_deselect" />
+                <span className="dont_deselect">File</span>
               </div>
             </label>
           </div>
@@ -213,22 +223,22 @@ function Editor() {
         <div id="tool_bar">
           {colorOpen && <ColorPicker onChange={changeColor} color={color} />}
           <input onChange={addImage} ref={fileElement} type="file" id="file_editor" style={{ display: "none" }} />
-          <button className="editor_button" onClick={() => { setOpenColor(!colorOpen); }}>
-            <img src={colorImage} alt="edirot_image" />
-            <span>Color</span>
+          <button className="editor_button dont_deselect" onClick={() => { setOpenColor(!colorOpen); }}>
+            <img src={colorImage} alt="edirot_image" className="dont_deselect" />
+            <span className="dont_deselect">Color</span>
           </button>
-          <button className="editor_button" onClick={addText}>
-            <img src={text} alt="edirot_image" />
-            <span>Text</span>
+          <button className="editor_button dont_deselect" onClick={addText}>
+            <img src={text} alt="edirot_image" className="dont_deselect" />
+            <span className="dont_deselect">Text</span>
           </button>
           <button className="editor_button" onClick={deleteElement}>
             <img src={deleteImage} alt="edirot_image" />
             <span>Delete</span>
           </button>
           <label htmlFor="file_editor" tabIndex="0">
-            <div className="editor_button">
-              <img src={file} alt="edirot_image" />
-              <span>File</span>
+            <div className="dont_deselect">
+              <img src={file} alt="edirot_image" className="dont_deselect" />
+              <span className="dont_deselect">File</span>
             </div>
           </label>
         </div>
