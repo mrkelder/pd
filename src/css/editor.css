@@ -13,6 +13,7 @@
 #editor_page {
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 #editor_page #interface {
   width: 100%;
@@ -92,9 +93,21 @@
 #editor_page #tool_bar label div:hover {
   outline: none !important;
 }
-#editor_page .b_button {
+#editor_page #editor_footer {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+#editor_page #editor_footer .b_button {
   margin: 15px auto;
   width: 215px;
+}
+#editor_page #editor_footer .price {
+  font-size: 1.2rem;
+  color: #333;
+  margin: 0;
+  margin-top: 5px;
+  font-family: "Cursive", Arial, Helvetica, sans-serif;
 }
 
 @media (min-width: 768px) {
@@ -114,6 +127,14 @@
     margin: 0 auto;
     width: 530px;
   }
+  #editor_page #editor_footer {
+    align-items: flex-start;
+    margin: 0 auto;
+    width: 530px;
+  }
+  #editor_page #editor_footer .b_button {
+    margin-left: 0;
+  }
 }
 @media (min-width: 1000px) {
   #editor_page #tool_bar {
@@ -129,6 +150,9 @@
   }
   #editor_page #tool_bar .chrome-picker {
     top: 64px;
+  }
+  #editor_page #editor_footer {
+    margin-left: 0;
   }
 }
 
