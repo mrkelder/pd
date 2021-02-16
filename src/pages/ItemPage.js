@@ -18,7 +18,6 @@ const Item = lazy(() => import('components/Item'));
 function ItemPage() {
   const { push } = useHistory();
   const { windowSize } = useSelector(state => state.windowSize);
-  const body = document.getElementsByTagName('body')[0];
   const payPalButton = useRef(); // ref to PayPal button
   const mainPhoto = useRef();
   const firstPhoto = useRef();
@@ -39,15 +38,8 @@ function ItemPage() {
 
   function showZoom() {
     // Shows/hides a big version of the images
-    window.scroll(0, 0);
-    if (isZoomShown) {
-      payPalButton.current.style = 'block';
-      body.style.overflowY = 'scroll';
-    }
-    else {
-      payPalButton.current.style = 'none';
-      body.style.overflowY = 'hidden';
-    }
+    if (isZoomShown) payPalButton.current.style = 'block';
+    else payPalButton.current.style = 'none';
     setZoomShown(!isZoomShown);
   }
 

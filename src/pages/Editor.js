@@ -1,11 +1,14 @@
 import React, { useContext, useEffect, useState, useRef, useCallback } from 'react';
+import { motion } from 'framer-motion';
 import { fabric } from 'fabric';
 import arrow from 'img/blue_arrow.svg';
 import { infoContext } from 'app/context';
 import file from 'img/file.png';
+import closeImageWhite from 'img/closeWhite.svg';
 import deleteImage from 'img/delete.png';
 import colorImage from 'img/color.png';
 import text from 'img/text.png';
+import fontImage from 'img/font.png';
 import ColorPicker from 'react-color';
 import Button from 'components/Button';
 import 'css/editor.css';
@@ -22,6 +25,9 @@ function Editor() {
   const [elements, setElements] = useState([[], []]);
   const [removedElements, setRemovedElements] = useState([]);
   const [totalPrice, setTotalPrice] = useState(basePrice);
+  const [fontOverlay, setFontOverlay] = useState(0);
+  const [chosenFont, setChosenFont] = useState("Roboto");
+  const fonts = ['Roboto', 'Bold', 'Custom3', 'Custom1', 'Custom2', 'Custom4', 'Cursive', 'Custom5', 'serif', 'Custom6'];
   const fileElement = useRef();
   const { windowSize } = useSelector(state => state.windowSize);
 
@@ -65,10 +71,11 @@ function Editor() {
 
   useEffect(() => {
     // Deselecting system
+    // FIXME: here's some problem that make a text block deselectable right after you create another text block
     function deselect({ target }) {
       // Fires only if the clicked element isn't canvas, text button or image button
       const condition = !!target.getAttribute('class') || (target.tagName.toLowerCase() === 'canvas' && target.getAttribute('class') === 'dont_deselect');
-      if (canvas && !condition) canvas.discardActiveObject().renderAll();
+      if (canvas && !condition && target.getAttribute('class') !== "delete") canvas.discardActiveObject().renderAll();
     }
     window.addEventListener('click', deselect);
     window.addEventListener('touchstart', deselect);
@@ -93,12 +100,23 @@ function Editor() {
     else setElements([elements[0], [...elements[1], element]]);
   }
 
+  function changeFont({ target }) {
+    const fontFamily = target.getAttribute('data-font');
+    setChosenFont(fontFamily);
+    if (canvas.getActiveObject()) {
+      // Changes font of a chosen object
+      canvas.getActiveObject().set({ fontFamily });
+      canvas.renderAll();
+    }
+    setFontOverlay(0);
+  }
+
   function addText() {
     const textbox = new fabric.Textbox('New Text', {
       left: 32,
       top: 35,
       width: 80,
-      fontFamily: 'Bold',
+      fontFamily: chosenFont,
       fill: '#333',
       class: "txt",
       opacity: 1
@@ -133,6 +151,9 @@ function Editor() {
       canvas.getActiveObject().set('fill', color);
       canvas.renderAll();
     }
+    // TODO: implement the next line's system (basically turn scrolling off when onMouseDown)
+    // body.style.overflowY = 'hidden';
+    // const body = document.getElementsByTagName('body')[0];
   }
 
   function changeImageIndex(num) {
@@ -201,9 +222,9 @@ function Editor() {
               <img className="dont_deselect" src={text} alt="edirot_image" />
               <span className="dont_deselect">Text</span>
             </button>
-            <button className="editor_button" onClick={deleteElement}>
-              <img src={deleteImage} alt="edirot_image" />
-              <span>Delete</span>
+            <button className="editor_button delete" onClick={deleteElement}>
+              <img src={deleteImage} alt="edirot_image" className="delete" />
+              <span className="delete">Delete</span>
             </button>
             <label htmlFor="file_editor" tabIndex="0" className="dont_deselect">
               <div className="editor_button dont_deselect">
@@ -218,6 +239,13 @@ function Editor() {
           <canvas width="150" height="175" id="canvas_editor"></canvas>
         </div>
         <img src={arrow} alt="arrow_r" style={{ transform: 'rotate(-90deg)' }} className="arrow" onClick={() => { changeImageIndex(1); }} />
+        {windowSize >= 1000 &&
+          <div id="fonts_block">
+              {
+                fonts.map(font => <button className="font_option" key={`font_${font}`} data-font={font} style={chosenFont === font ? { fontFamily: font, border: '4px solid #197bbd' } : { fontFamily: font }} onClick={changeFont}>Text</button>)
+              }
+          </div>
+        }
       </div>
       { windowSize < 1000 &&
         <div id="tool_bar">
@@ -231,17 +259,32 @@ function Editor() {
             <img src={text} alt="edirot_image" className="dont_deselect" />
             <span className="dont_deselect">Text</span>
           </button>
-          <button className="editor_button" onClick={deleteElement}>
-            <img src={deleteImage} alt="edirot_image" />
-            <span>Delete</span>
+          <button className="editor_button dont_deselect" onClick={() => { setFontOverlay(1); }}>
+            <img src={fontImage} alt="edirot_image" className="dont_deselect" />
+            <span className="dont_deselect">Font</span>
           </button>
-          <label htmlFor="file_editor" tabIndex="0">
+          <button className="editor_button delete" onClick={deleteElement}>
+            <img src={deleteImage} alt="editor_image" className="delete" />
+            <span className="delete">Delete</span>
+          </button>
+          <label htmlFor="file_editor" tabIndex="0" className="dont_deselect">
             <div className="dont_deselect">
               <img src={file} alt="edirot_image" className="dont_deselect" />
               <span className="dont_deselect">File</span>
             </div>
           </label>
         </div>
+      }
+      {
+        windowSize < 1000 && fontOverlay === 1 &&
+        <motion.div id="font_overlay" initial={{ opacity: 0 }} animate={{ opacity: fontOverlay }} transition={{ duration: 0.2 }} onAnimationEnd={({ target }) => { target.style.display = 'none'; }}>
+          <div id="fonts_block">
+            <button id="close_btn" alt="close_btn" style={{ backgroundImage: `url('${closeImageWhite}')` }} onClick={() => { setFontOverlay(0); }} />
+            {
+              fonts.map(font => <button className="font_option" key={`font_${font}`} data-font={font} style={chosenFont === font ? { fontFamily: font, border: '4px solid #197bbd' } : { fontFamily: font }} onClick={changeFont}>Text</button>)
+            }
+          </div>
+        </motion.div>
       }
       <section id="editor_footer">
         <p className="price">Base price: ${basePrice.toFixed(2)}</p>

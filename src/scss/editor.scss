@@ -4,6 +4,46 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  #font_overlay {
+    display: flex;
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    background-color: #333c;
+    align-items: center;
+    justify-content: center;
+    #close_btn {
+      top: 15px;
+      right: 15px;
+      position: absolute;
+      @include img_btn(25px);
+    }
+    #fonts_block {
+      box-sizing: border-box;
+      border-radius: 3px;
+      min-width: 220px;
+      width: 55vw;
+      max-height: 65vh;
+      display: flex;
+      flex-direction: column;
+      border: 2px solid $black;
+      background-color: white;
+      overflow-y: scroll;
+      .font_option {
+        min-height: 50px;
+        margin: 0;
+        text-align: start;
+        font-size: 1.8rem;
+        background-color: white;
+        border: 2px solid $black;
+        border-bottom: none;
+        border-left: none;
+        border-right: none;
+      }
+    }
+  }
   #interface {
     width: 100%;
     overflow: hidden;
@@ -20,7 +60,7 @@
       align-items: flex-end;
       justify-content: center;
       canvas {
-        border: 1px solid black;
+        border: 1px solid $black;
       }
     }
     .arrow {
@@ -67,6 +107,8 @@
         color: $black;
       }
       div {
+        display: flex;
+        flex-direction: column;
         border: none !important;
         &:focus,
         &:hover {
@@ -95,13 +137,10 @@
 
 @media (min-width: 768px) {
   #editor_page {
-    // align-items: flex-start;
     width: 100%;
     #interface {
       margin: 0 auto;
-      max-width: 750px;
-      margin-left: 0;
-      width: 100%;
+      width: 530px;
       .arrow {
         cursor: pointer;
       }
@@ -123,6 +162,38 @@
 
 @media (min-width: 1000px) {
   #editor_page {
+    #interface {
+      width: 100%;
+      margin-left: 0;
+      margin-right: 0;
+      justify-content: space-between;
+      width: 100%;
+      #fonts_block {
+        overflow-x: hidden;
+        box-sizing: border-box;
+        width: 250px;
+        margin-left: 25px;
+        height: 250px;
+        border-radius: 3px;
+        display: flex;
+        flex-direction: column;
+        border: 2px solid $black;
+        background-color: white;
+        overflow-y: scroll;
+        .font_option {
+          cursor: pointer;
+          min-height: 50px;
+          margin: 0;
+          text-align: start;
+          font-size: 1.8rem;
+          background-color: white;
+          border: 2px solid $black;
+          border-bottom: none;
+          border-left: none;
+          border-right: none;
+        }
+      }
+    }
     #tool_bar {
       margin-right: 25px;
       width: 65px;
@@ -139,6 +210,16 @@
     }
     #editor_footer {
       margin-left: 0;
+    }
+  }
+}
+
+@media (min-width: 1440px){
+  #editor_page{
+    #interface{
+      #fonts_block{
+        width: 320px;
+      }
     }
   }
 }

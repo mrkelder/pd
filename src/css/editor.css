@@ -10,10 +10,81 @@
   src: url("../fonts/Roboto-Regular.ttf");
   font-family: "Roboto";
 }
+@font-face {
+  src: url("../fonts/Ballet.ttf");
+  font-family: "Custom1";
+}
+@font-face {
+  src: url("../fonts/Hanalei-Regular.ttf");
+  font-family: "Custom2";
+}
+@font-face {
+  src: url("../fonts/LongCang-Regular.ttf");
+  font-family: "Custom3";
+}
+@font-face {
+  src: url("../fonts/Ranchers-Regular.ttf");
+  font-family: "Custom4";
+}
+@font-face {
+  src: url("../fonts/ReggaeOne-Regular.ttf");
+  font-family: "Custom5";
+}
+@font-face {
+  src: url("../fonts/Cyberpunk-Regular.ttf");
+  font-family: "Custom6";
+}
 #editor_page {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+#editor_page #font_overlay {
+  display: flex;
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  background-color: #333c;
+  align-items: center;
+  justify-content: center;
+}
+#editor_page #font_overlay #close_btn {
+  top: 15px;
+  right: 15px;
+  position: absolute;
+  cursor: pointer;
+  width: 25px;
+  height: 25px;
+  background-size: contain;
+  background-position: 50%;
+  background-repeat: no-repeat;
+  background-color: transparent;
+  border: none;
+}
+#editor_page #font_overlay #fonts_block {
+  box-sizing: border-box;
+  border-radius: 3px;
+  min-width: 220px;
+  width: 55vw;
+  max-height: 65vh;
+  display: flex;
+  flex-direction: column;
+  border: 2px solid #333;
+  background-color: white;
+  overflow-y: scroll;
+}
+#editor_page #font_overlay #fonts_block .font_option {
+  min-height: 50px;
+  margin: 0;
+  text-align: start;
+  font-size: 1.8rem;
+  background-color: white;
+  border: 2px solid #333;
+  border-bottom: none;
+  border-left: none;
+  border-right: none;
 }
 #editor_page #interface {
   width: 100%;
@@ -35,7 +106,7 @@
   justify-content: center;
 }
 #editor_page #interface #main_photo canvas {
-  border: 1px solid black;
+  border: 1px solid #333;
 }
 #editor_page #interface .arrow {
   width: 35px;
@@ -86,6 +157,8 @@
 }
 #editor_page #tool_bar .editor_button div,
 #editor_page #tool_bar label div {
+  display: flex;
+  flex-direction: column;
   border: none !important;
 }
 #editor_page #tool_bar .editor_button div:focus, #editor_page #tool_bar .editor_button div:hover,
@@ -116,9 +189,7 @@
   }
   #editor_page #interface {
     margin: 0 auto;
-    max-width: 750px;
-    margin-left: 0;
-    width: 100%;
+    width: 530px;
   }
   #editor_page #interface .arrow {
     cursor: pointer;
@@ -137,6 +208,38 @@
   }
 }
 @media (min-width: 1000px) {
+  #editor_page #interface {
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+    justify-content: space-between;
+    width: 100%;
+  }
+  #editor_page #interface #fonts_block {
+    overflow-x: hidden;
+    box-sizing: border-box;
+    width: 250px;
+    margin-left: 25px;
+    height: 250px;
+    border-radius: 3px;
+    display: flex;
+    flex-direction: column;
+    border: 2px solid #333;
+    background-color: white;
+    overflow-y: scroll;
+  }
+  #editor_page #interface #fonts_block .font_option {
+    cursor: pointer;
+    min-height: 50px;
+    margin: 0;
+    text-align: start;
+    font-size: 1.8rem;
+    background-color: white;
+    border: 2px solid #333;
+    border-bottom: none;
+    border-left: none;
+    border-right: none;
+  }
   #editor_page #tool_bar {
     margin-right: 25px;
     width: 65px;
@@ -153,6 +256,11 @@
   }
   #editor_page #editor_footer {
     margin-left: 0;
+  }
+}
+@media (min-width: 1440px) {
+  #editor_page #interface #fonts_block {
+    width: 320px;
   }
 }
 
