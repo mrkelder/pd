@@ -72,11 +72,12 @@ function Editor() {
   useEffect(() => {
     // Deselecting system
     // FIXME: here's some problem that make a text block deselectable right after you create another text block
-    // FIXME: problems with color (while you're choosing color a focus deselects objects)
-    function deselect({ target }) {
+    function deselect(element) {
       // Fires only if the clicked element isn't canvas, text button or image button
+      const { target } = element;
+      const isColorPickerChild = element.path.filter(child => child.tagName === 'DIV').findIndex(child => child.getAttribute('class') === 'chrome-picker ');
       const condition = !!target.getAttribute('class') || (target.tagName.toLowerCase() === 'canvas' && target.getAttribute('class') === 'dont_deselect');
-      if (canvas && !condition && target.getAttribute('class') !== "delete") canvas.discardActiveObject().renderAll();
+      if (canvas && !condition && target.getAttribute('class') !== "delete" && isColorPickerChild === -1) canvas.discardActiveObject().renderAll();
     }
     window.addEventListener('click', deselect);
     window.addEventListener('touchstart', deselect);
