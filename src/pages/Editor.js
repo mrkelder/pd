@@ -72,6 +72,7 @@ function Editor() {
   useEffect(() => {
     // Deselecting system
     // FIXME: here's some problem that make a text block deselectable right after you create another text block
+    // FIXME: problems with color (while you're choosing color a focus deselects objects)
     function deselect({ target }) {
       // Fires only if the clicked element isn't canvas, text button or image button
       const condition = !!target.getAttribute('class') || (target.tagName.toLowerCase() === 'canvas' && target.getAttribute('class') === 'dont_deselect');
@@ -129,19 +130,24 @@ function Editor() {
   }
 
   function addImage(e) {
-    const [file] = e.target.files;
-    const reader = new FileReader();
-    reader.onload = f => {
-      const data = f.target.result;
-      fabric.Image.fromURL(data, img => {
-        const oImg = img.set({ left: 0, top: 0, angle: 0, class: "img", opacity: 1 }).scale(0.1);
-        oImg.setControlsVisibility({ mt: false, mb: false, ml: false, mr: false });
-        addToElementsCollection(oImg);
-        canvas.add(oImg).renderAll();
-      });
-    };
-    reader.readAsDataURL(file);
-    setOpenColor(false);
+    try {
+      const [file] = e.target.files;
+      const reader = new FileReader();
+      reader.onload = f => {
+        const data = f.target.result;
+        fabric.Image.fromURL(data, img => {
+          const oImg = img.set({ left: 0, top: 0, angle: 0, class: "img", opacity: 1 }).scale(0.1);
+          oImg.setControlsVisibility({ mt: false, mb: false, ml: false, mr: false });
+          addToElementsCollection(oImg);
+          canvas.add(oImg).renderAll();
+        });
+      };
+      reader.readAsDataURL(file);
+      setOpenColor(false);
+    }
+    catch ({ message }) {
+      console.error(message);
+    }
   }
 
   function changeColor({ rgb: { a, r, g, b } }) {
@@ -241,9 +247,9 @@ function Editor() {
         <img src={arrow} alt="arrow_r" style={{ transform: 'rotate(-90deg)' }} className="arrow" onClick={() => { changeImageIndex(1); }} />
         {windowSize >= 1000 &&
           <div id="fonts_block">
-              {
-                fonts.map(font => <button className="font_option" key={`font_${font}`} data-font={font} style={chosenFont === font ? { fontFamily: font, border: '4px solid #197bbd' } : { fontFamily: font }} onClick={changeFont}>Text</button>)
-              }
+            {
+              fonts.map(font => <button className="font_option" key={`font_${font}`} data-font={font} style={chosenFont === font ? { fontFamily: font, border: '4px solid #197bbd' } : { fontFamily: font }} onClick={changeFont}>Text</button>)
+            }
           </div>
         }
       </div>
