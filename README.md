@@ -1,6 +1,6 @@
 # Client of "PD" hoodie shop 
 
-**Version 0.5.0**
+**Version 0.6.0**
 
 This is a client version of a hoodie shop "Peaceful Disruption". It's an open source so you can use it for free of charge.
 
@@ -92,6 +92,12 @@ Root
     │   │ Kalam-Regular.ttf
     │   │ Righteous-Regular.ttf
     │   │ Roboto-Regular.ttf
+    │   │ Ballet.ttf
+    │   │ Cyberpunk-Regular.ttf
+    │   │ Hanalei-Regular.ttf
+    │   │ LongCang-Regular.ttf
+    │   │ Ranchers-Regular.ttf
+    │   │ ReggaeOne-Regular.ttf
     │
     └───img
     │
@@ -101,6 +107,7 @@ Root
     │   │ Payment.js
     │   │ Shop.js
     │   │ Cart.js
+    │   │ Editor.js
     │
     └───scss
         │ _init.scss
@@ -118,6 +125,7 @@ Root
         │ payment.scss
         │ shop.scss
         │ cart.scss
+        │ editor.scss
 ```
 
 ## App
@@ -305,18 +313,17 @@ A page dedicated to an item.
 
 Values:
 1) windowSize
-2) body - DOM element of body tag.
-3) payPalButton - ref to PayPal button.
-4) mainPhoto - ref to the main photo.
-5) firstPhoto - ref to the first item's available photos.
-6) secondPhoto - ref to the second item's available photos.
-7) domain
-8) buttonPlaced / setButtonPlaced - whether PayPal button has appeared or not.
-9) isZoomShown / setZoomShown - whether a gallery is opened or not.
-10) allPhotos
-11) photoIndex / setPhotoIndex - index of a picked photo.
-12) size / setSize - size of T-shirt, hoodie or whatever.
-13) color / setColor - color of T-shirt, hoodie or whatever.
+2) payPalButton - ref to PayPal button.
+3) mainPhoto - ref to the main photo.
+4) firstPhoto - ref to the first item's available photos.
+5) secondPhoto - ref to the second item's available photos.
+6) domain
+7) buttonPlaced / setButtonPlaced - whether PayPal button has appeared or not.
+8) isZoomShown / setZoomShown - whether a gallery is opened or not.
+9)  allPhotos
+10) photoIndex / setPhotoIndex - index of a picked photo.
+11) size / setSize - size of T-shirt, hoodie or whatever.
+12) color / setColor - color of T-shirt, hoodie or whatever.
 
 Functions:
 1) changePhotoIndex
@@ -407,6 +414,38 @@ Values:
 1) windowSize
 2) details / setDetails - size and color, like **XS / White**.
 
+### Editor.js
+
+A hoodie editor which allows you to create your own style.
+
+Values:
+1) domain
+2) images - images of the current hoodie.
+3) basePrice - original price of a hoodie.
+4) imageIndex / setImageIndex - index of currently chosen side of a hoodie.
+5) canvas / setCanvas
+6) color / setColor
+7) colorOpen / setColorOpen
+8) elements / setElements - all elements in canvas.
+9) removedElements / setRemovedElements
+10) totalPrice / setTotalPrice
+11) fontOverlay / setFontOverlay - overlay to choose a font (only available at mobile devices).
+12) chosenFont / setChosenFont
+13) fonts - all fonts used in this editor.
+14) fileElement
+15) windowSize
+
+Functions:
+1) getTotalPrice - calculates a total price
+2) addItemToBin
+3) addToElementsCollection - adds an element to the *elements* array depending on the perspective we're editing from.
+4) changeFont
+5) addText
+6) addImage
+7) changeColor
+8) changeImageIndex
+9) deleteElement
+
 ## SCSS
 
 1) _init.scss - holds the collections of colors, mixins, font-face's and so on.
@@ -423,3 +462,4 @@ Values:
 12) payment.scss - styles for *Payment.js* page.
 13) shop.scss - styles for *Shop.js* page.
 14) cart.scss - styles for *Cart.js* page and *CartItem.js* component.
+15) editor.scss - styles for *Editor.js* page.
