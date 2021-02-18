@@ -10,6 +10,30 @@
   src: url("../fonts/Roboto-Regular.ttf");
   font-family: "Roboto";
 }
+@font-face {
+  src: url("../fonts/Ballet.ttf");
+  font-family: "Custom1";
+}
+@font-face {
+  src: url("../fonts/Hanalei-Regular.ttf");
+  font-family: "Custom2";
+}
+@font-face {
+  src: url("../fonts/LongCang-Regular.ttf");
+  font-family: "Custom3";
+}
+@font-face {
+  src: url("../fonts/Ranchers-Regular.ttf");
+  font-family: "Custom4";
+}
+@font-face {
+  src: url("../fonts/ReggaeOne-Regular.ttf");
+  font-family: "Custom5";
+}
+@font-face {
+  src: url("../fonts/Cyberpunk-Regular.ttf");
+  font-family: "Custom6";
+}
 #cart_page {
   width: 100%;
   display: flex;

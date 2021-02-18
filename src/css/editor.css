@@ -1,0 +1,267 @@
+@font-face {
+  src: url("../fonts/Righteous-Regular.ttf");
+  font-family: "Bold";
+}
+@font-face {
+  src: url("../fonts/Kalam-Regular.ttf");
+  font-family: "Cursive";
+}
+@font-face {
+  src: url("../fonts/Roboto-Regular.ttf");
+  font-family: "Roboto";
+}
+@font-face {
+  src: url("../fonts/Ballet.ttf");
+  font-family: "Custom1";
+}
+@font-face {
+  src: url("../fonts/Hanalei-Regular.ttf");
+  font-family: "Custom2";
+}
+@font-face {
+  src: url("../fonts/LongCang-Regular.ttf");
+  font-family: "Custom3";
+}
+@font-face {
+  src: url("../fonts/Ranchers-Regular.ttf");
+  font-family: "Custom4";
+}
+@font-face {
+  src: url("../fonts/ReggaeOne-Regular.ttf");
+  font-family: "Custom5";
+}
+@font-face {
+  src: url("../fonts/Cyberpunk-Regular.ttf");
+  font-family: "Custom6";
+}
+#editor_page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+#editor_page #font_overlay {
+  display: flex;
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  background-color: #333c;
+  align-items: center;
+  justify-content: center;
+}
+#editor_page #font_overlay #close_btn {
+  top: 15px;
+  right: 15px;
+  position: absolute;
+  cursor: pointer;
+  width: 25px;
+  height: 25px;
+  background-size: contain;
+  background-position: 50%;
+  background-repeat: no-repeat;
+  background-color: transparent;
+  border: none;
+}
+#editor_page #font_overlay #fonts_block {
+  box-sizing: border-box;
+  border-radius: 3px;
+  min-width: 220px;
+  width: 55vw;
+  max-height: 65vh;
+  display: flex;
+  flex-direction: column;
+  border: 2px solid #333;
+  background-color: white;
+  overflow-y: scroll;
+}
+#editor_page #font_overlay #fonts_block .font_option {
+  min-height: 50px;
+  margin: 0;
+  text-align: start;
+  font-size: 1.8rem;
+  background-color: white;
+  border: 2px solid #333;
+  border-bottom: none;
+  border-left: none;
+  border-right: none;
+}
+#editor_page #interface {
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+#editor_page #interface #main_photo {
+  box-sizing: border-box;
+  flex: 1;
+  height: 350px;
+  background-size: contain;
+  background-position: 50%;
+  background-repeat: no-repeat;
+  background-size: 450px;
+  padding-bottom: 45px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+#editor_page #interface #main_photo canvas {
+  border: 1px solid #333;
+}
+#editor_page #interface .arrow {
+  width: 35px;
+  height: 35px;
+}
+#editor_page #tool_bar {
+  background-color: red;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  height: 65px;
+  position: relative;
+}
+#editor_page #tool_bar .chrome-picker {
+  top: -245px;
+  z-index: 99;
+  left: 0;
+  position: absolute;
+}
+#editor_page #tool_bar .editor_button,
+#editor_page #tool_bar label {
+  padding: 0;
+  flex: 1;
+  cursor: pointer;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  border: 1px solid #c7c7c7;
+  transition: background-color 0.2s;
+}
+#editor_page #tool_bar .editor_button:focus, #editor_page #tool_bar .editor_button:hover,
+#editor_page #tool_bar label:focus,
+#editor_page #tool_bar label:hover {
+  outline: auto;
+}
+#editor_page #tool_bar .editor_button img,
+#editor_page #tool_bar label img {
+  width: 22px;
+}
+#editor_page #tool_bar .editor_button span,
+#editor_page #tool_bar label span {
+  margin-top: 2px;
+  font-family: "Roboto", Arial, Helvetica, sans-serif;
+  color: #333;
+}
+#editor_page #tool_bar .editor_button div,
+#editor_page #tool_bar label div {
+  display: flex;
+  flex-direction: column;
+  border: none !important;
+}
+#editor_page #tool_bar .editor_button div:focus, #editor_page #tool_bar .editor_button div:hover,
+#editor_page #tool_bar label div:focus,
+#editor_page #tool_bar label div:hover {
+  outline: none !important;
+}
+#editor_page #editor_footer {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+#editor_page #editor_footer .b_button {
+  margin: 15px auto;
+  width: 215px;
+}
+#editor_page #editor_footer .price {
+  font-size: 1.2rem;
+  color: #333;
+  margin: 0;
+  margin-top: 5px;
+  font-family: "Cursive", Arial, Helvetica, sans-serif;
+}
+
+@media (min-width: 768px) {
+  #editor_page {
+    width: 100%;
+  }
+  #editor_page #interface {
+    margin: 0 auto;
+    width: 530px;
+  }
+  #editor_page #interface .arrow {
+    cursor: pointer;
+  }
+  #editor_page #tool_bar {
+    margin: 0 auto;
+    width: 530px;
+  }
+  #editor_page #editor_footer {
+    align-items: flex-start;
+    margin: 0 auto;
+    width: 530px;
+  }
+  #editor_page #editor_footer .b_button {
+    margin-left: 0;
+  }
+}
+@media (min-width: 1000px) {
+  #editor_page #interface {
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+    justify-content: space-between;
+    width: 100%;
+  }
+  #editor_page #interface #fonts_block {
+    overflow-x: hidden;
+    box-sizing: border-box;
+    width: 250px;
+    margin-left: 25px;
+    height: 250px;
+    border-radius: 3px;
+    display: flex;
+    flex-direction: column;
+    border: 2px solid #333;
+    background-color: white;
+    overflow-y: scroll;
+  }
+  #editor_page #interface #fonts_block .font_option {
+    cursor: pointer;
+    min-height: 50px;
+    margin: 0;
+    text-align: start;
+    font-size: 1.8rem;
+    background-color: white;
+    border: 2px solid #333;
+    border-bottom: none;
+    border-left: none;
+    border-right: none;
+  }
+  #editor_page #tool_bar {
+    margin-right: 25px;
+    width: 65px;
+    flex-direction: column;
+    height: auto;
+  }
+  #editor_page #tool_bar .editor_button,
+#editor_page #tool_bar label {
+    flex: auto;
+    height: 65px;
+  }
+  #editor_page #tool_bar .chrome-picker {
+    top: 64px;
+  }
+  #editor_page #editor_footer {
+    margin-left: 0;
+  }
+}
+@media (min-width: 1440px) {
+  #editor_page #interface #fonts_block {
+    width: 320px;
+  }
+}
+
+/*# sourceMappingURL=editor.css.map */

@@ -1,6 +1,6 @@
 import React, { Fragment, useContext, useEffect, useRef, useState, lazy, Suspense } from 'react';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { infoContext } from 'app/context';
 import Button from 'components/Button';
 import ItemPreloaded from 'components/ItemPreloaded';
@@ -16,8 +16,8 @@ const Item = lazy(() => import('components/Item'));
 // TODO: "Add to cart" system (put off for the next version)
 
 function ItemPage() {
+  const { push } = useHistory();
   const { windowSize } = useSelector(state => state.windowSize);
-  const body = document.getElementsByTagName('body')[0];
   const payPalButton = useRef(); // ref to PayPal button
   const mainPhoto = useRef();
   const firstPhoto = useRef();
@@ -38,15 +38,8 @@ function ItemPage() {
 
   function showZoom() {
     // Shows/hides a big version of the images
-    window.scroll(0, 0);
-    if (isZoomShown) {
-      payPalButton.current.style = 'block';
-      body.style.overflowY = 'scroll';
-    }
-    else {
-      payPalButton.current.style = 'none';
-      body.style.overflowY = 'hidden';
-    }
+    if (isZoomShown) payPalButton.current.style = 'block';
+    else payPalButton.current.style = 'none';
     setZoomShown(!isZoomShown);
   }
 
@@ -141,7 +134,7 @@ function ItemPage() {
                 </div>
               </div>
               <Button>ADD TO CART</Button>
-              <Button>CREATE YOUR OWN STYLE</Button>
+              <Button click={() => { push('/editor'); }}>CREATE YOUR OWN STYLE</Button>
               <div id="paypal-button-container"></div>
               <Link id="more_payment" to="/payment">More payment options</Link>
               <div id="social_medias">
@@ -211,7 +204,7 @@ function ItemPage() {
                     </div>
                   </div>
                   <Button>ADD TO CART</Button>
-                  <Button>CREATE YOUR OWN STYLE</Button>
+                  <Button click={() => { push('/editor'); }}>CREATE YOUR OWN STYLE</Button>
                   <div id="paypal-button-container" ref={payPalButton}></div>
                   <Link id="more_payment" to="/payment">More payment options</Link>
                   <div id="social_medias">
