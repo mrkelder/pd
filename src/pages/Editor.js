@@ -71,7 +71,6 @@ function Editor() {
 
   useEffect(() => {
     // Deselecting system
-    // FIXME: here's some problem that make a text block deselectable right after you create another text block
     function deselect(element) {
       // Fires only if the clicked element isn't canvas, text button or image button
       const { target } = element;
@@ -79,9 +78,8 @@ function Editor() {
       const condition = !!target.getAttribute('class') || (target.tagName.toLowerCase() === 'canvas' && target.getAttribute('class') === 'dont_deselect');
       if (canvas && !condition && target.getAttribute('class') !== "delete" && isColorPickerChild === -1) canvas.discardActiveObject().renderAll();
     }
-    window.addEventListener('click', deselect);
-    window.addEventListener('touchstart', deselect);
-  }, [canvas]);
+    windowSize < 1000 ? window.addEventListener('touchstart', deselect) : window.addEventListener('click', deselect);
+  }, [canvas, windowSize]);
 
   useEffect(() => {
     const canvasInst = new fabric.Canvas('canvas_editor');
@@ -158,9 +156,6 @@ function Editor() {
       canvas.getActiveObject().set('fill', color);
       canvas.renderAll();
     }
-    // TODO: implement the next line's system (basically turn scrolling off when onMouseDown)
-    // body.style.overflowY = 'hidden';
-    // const body = document.getElementsByTagName('body')[0];
   }
 
   function changeImageIndex(num) {
