@@ -1,0 +1,225 @@
+@import "init";
+
+#editor_page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  #font_overlay {
+    display: flex;
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    background-color: #333c;
+    align-items: center;
+    justify-content: center;
+    #close_btn {
+      top: 15px;
+      right: 15px;
+      position: absolute;
+      @include img_btn(25px);
+    }
+    #fonts_block {
+      box-sizing: border-box;
+      border-radius: 3px;
+      min-width: 220px;
+      width: 55vw;
+      max-height: 65vh;
+      display: flex;
+      flex-direction: column;
+      border: 2px solid $black;
+      background-color: white;
+      overflow-y: scroll;
+      .font_option {
+        min-height: 50px;
+        margin: 0;
+        text-align: start;
+        font-size: 1.8rem;
+        background-color: white;
+        border: 2px solid $black;
+        border-bottom: none;
+        border-left: none;
+        border-right: none;
+      }
+    }
+  }
+  #interface {
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    #main_photo {
+      box-sizing: border-box;
+      flex: 1;
+      height: 350px;
+      @include bg;
+      background-size: 450px;
+      padding-bottom: 45px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      canvas {
+        border: 1px solid $black;
+      }
+    }
+    .arrow {
+      width: 35px;
+      height: 35px;
+    }
+  }
+  #tool_bar {
+    background-color: red;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    height: 65px;
+    position: relative;
+    .chrome-picker {
+      top: -245px;
+      z-index: 99;
+      left: 0;
+      position: absolute;
+    }
+    .editor_button,
+    label {
+      padding: 0;
+      flex: 1;
+      cursor: pointer;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background-color: white;
+      border: 1px solid $grey;
+      transition: background-color 0.2s;
+      &:focus,
+      &:hover {
+        outline: auto;
+      }
+      img {
+        width: 22px;
+      }
+      span {
+        margin-top: 2px;
+        @include font("Roboto");
+        color: $black;
+      }
+      div {
+        display: flex;
+        flex-direction: column;
+        border: none !important;
+        &:focus,
+        &:hover {
+          outline: none !important;
+        }
+      }
+    }
+  }
+  #editor_footer {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    .b_button {
+      margin: 15px auto;
+      width: 215px;
+    }
+    .price {
+      font-size: 1.2rem;
+      color: $black;
+      margin: 0;
+      margin-top: 5px;
+      @include font("Cursive");
+    }
+  }
+}
+
+@media (min-width: 768px) {
+  #editor_page {
+    width: 100%;
+    #interface {
+      margin: 0 auto;
+      width: 530px;
+      .arrow {
+        cursor: pointer;
+      }
+    }
+    #tool_bar {
+      margin: 0 auto;
+      width: 530px;
+    }
+    #editor_footer {
+      align-items: flex-start;
+      margin: 0 auto;
+      width: 530px;
+      .b_button {
+        margin-left: 0;
+      }
+    }
+  }
+}
+
+@media (min-width: 1000px) {
+  #editor_page {
+    #interface {
+      width: 100%;
+      margin-left: 0;
+      margin-right: 0;
+      justify-content: space-between;
+      width: 100%;
+      #fonts_block {
+        overflow-x: hidden;
+        box-sizing: border-box;
+        width: 250px;
+        margin-left: 25px;
+        height: 250px;
+        border-radius: 3px;
+        display: flex;
+        flex-direction: column;
+        border: 2px solid $black;
+        background-color: white;
+        overflow-y: scroll;
+        .font_option {
+          cursor: pointer;
+          min-height: 50px;
+          margin: 0;
+          text-align: start;
+          font-size: 1.8rem;
+          background-color: white;
+          border: 2px solid $black;
+          border-bottom: none;
+          border-left: none;
+          border-right: none;
+        }
+      }
+    }
+    #tool_bar {
+      margin-right: 25px;
+      width: 65px;
+      flex-direction: column;
+      height: auto;
+      .editor_button,
+      label {
+        flex: auto;
+        height: 65px;
+      }
+      .chrome-picker {
+        top: 64px;
+      }
+    }
+    #editor_footer {
+      margin-left: 0;
+    }
+  }
+}
+
+@media (min-width: 1440px){
+  #editor_page{
+    #interface{
+      #fonts_block{
+        width: 320px;
+      }
+    }
+  }
+}
