@@ -1,20 +1,34 @@
-import React, { useEffect, Suspense, lazy } from 'react';
+import React, { useEffect, Suspense, lazy, useContext, useState } from 'react';
 import ItemPreloaded from 'components/ItemPreloaded';
 import redBus from 'img/red_bus.png';
+import axios from 'axios';
+import { infoContext } from 'app/context';
 import 'css/main.css';
+
 const Item = lazy(() => import('components/Item'));
 
 function Main() {
+  const domain = useContext(infoContext);
+  const [items, setItems] = useState([]);
+  
   useEffect(() => {
     window.scroll(0, 0);
   }, []);
 
+  useEffect(() => {
+    async function fetchData() {
+      const { data } = await axios.get(`http://${domain}/getItem`, { params: { type: "*" } });
+      setItems(data);
+    }
+    fetchData();
+  }, [domain]);
+
   return (
     <div id="main_page">
       {
-        new Array(4).fill(20).map((i, index) =>
-          <Suspense key={`hoodie_${index}`} fallback={<ItemPreloaded />}>
-            <Item price={40} name="Awesome hoodie" img="a_hoodie.webp" />
+        items.map(({ price, _id, name, photos }) =>
+          <Suspense key={_id} fallback={<ItemPreloaded />}>
+            <Item price={price} name={name} img={photos[0]} />
           </Suspense>
         )
       }
