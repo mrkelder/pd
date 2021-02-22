@@ -9,8 +9,9 @@ const Item = lazy(() => import('components/Item'));
 
 function Main() {
   const domain = useContext(infoContext);
+  const [itemsLoaded, setItemsLoaded] = useState(false);
   const [items, setItems] = useState([]);
-  
+
   useEffect(() => {
     window.scroll(0, 0);
   }, []);
@@ -19,12 +20,16 @@ function Main() {
     async function fetchData() {
       const { data } = await axios.get(`http://${domain}/getItem`, { params: { type: "*" } });
       setItems(data);
+      setItemsLoaded(true);
     }
     fetchData();
   }, [domain]);
 
   return (
     <div id="main_page">
+      { !itemsLoaded &&
+        new Array(6).fill(0).map((i, index) => <ItemPreloaded key={`pItem_${index}`} />)
+      }
       {
         items.map(({ price, _id, name, photos }) =>
           <Suspense key={_id} fallback={<ItemPreloaded />}>
