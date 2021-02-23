@@ -25,7 +25,7 @@ function Pages() {
             <Switch>
               <Route exact path="/" component={Main} />
               <Route exact path="/shop" component={Shop} />
-              <Route exact path="/item/*" component={ItemPage} />
+              <Route exact path="/item/:id" component={ItemPage} />
               <Route exact path="/cart" component={Cart}/>
               <Route exact path="/editor" component={Editor}/>
               <Route exact path="/*">

@@ -34,6 +34,12 @@
   src: url("../fonts/Cyberpunk-Regular.ttf");
   font-family: "Custom6";
 }
+#h1_error {
+  text-align: center;
+  font-family: "Cursive", Arial, Helvetica, sans-serif;
+  color: #333;
+}
+
 #item_page {
   box-sizing: border-box;
   padding: 0 15px;

@@ -33,7 +33,7 @@ function Main() {
       {
         items.map(({ price, _id, name, photos }) =>
           <Suspense key={_id} fallback={<ItemPreloaded />}>
-            <Item price={price} name={name} img={photos[0]} />
+            <Item _id={_id} price={price} name={name} img={photos[0]} />
           </Suspense>
         )
       }
