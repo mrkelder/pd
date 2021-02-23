@@ -26,7 +26,7 @@ function Item({ _id, name, price, img, type }) {
         <img ref={imgRef} src={img !== 'none' ? `http://${domain}/static/${img}` : ImgNotFound} alt="item_photo" />
       </Link>
       <Link to={`/item/${_id}`}>{name}</Link>
-      <p>${price}.00</p>
+      <p>${price.toFixed(2)}</p>
     </div>
   );
 }
