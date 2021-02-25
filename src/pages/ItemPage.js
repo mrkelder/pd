@@ -66,7 +66,7 @@ function ItemPage() {
 
   useEffect(() => {
     window.scroll(0, 0);
-  }, []);
+  }, [itemId]);
 
   useEffect(() => {
     // The main photo is not loaded
