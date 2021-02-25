@@ -1,16 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext, Suspense } from 'react';
 import { useSelector } from 'react-redux';
+import { infoContext } from 'app/context';
 import { Link } from 'react-router-dom';
 import Item from 'components/Item';
+import axios from 'axios';
+import ItemPreloaded from 'components/ItemPreloaded';
 import 'css/shop.css';
 
 function Shop() {
+  const domain = useContext(infoContext);
   const { windowSize } = useSelector(state => state.windowSize);
   const [filter, setFilter] = useState('title-ascending');
-  const [allItems, setAllItems] = useState([
-    { name: 'Awesome Hoodie', price: 50, bought: 4, date: new Date().toISOString() },
-    { name: 'Yes', price: 32, bought: 2, date: new Date('4').toISOString() }
-  ]);
+  const [allItems, setAllItems] = useState(null);
+
+  useEffect(() => {
+    async function fetchData() {
+      const { data } = await axios.get(`http://${domain}/getItem`, { params: { type: "*" } });
+      setAllItems(data.sort((a, b) => { if (a.name[0] < b.name[0]) return -1; else if (a.name[0] > b.name[0]) return 1; else return 0; }));
+    }
+    fetchData();
+  }, [domain]);
 
   function changeSequence({ target: { value } }) {
     const copiedArray = allItems;
@@ -18,8 +27,8 @@ function Shop() {
       case 'best-selling':
         // Amount of buys
         copiedArray.sort((a, b) => {
-          if (a.bought < b.bought) return -1;
-          else if (a.bought > b.bought) return 1;
+          if (a.bought > b.bought) return -1;
+          else if (a.bought < b.bought) return 1;
           else return 0;
         });
         break;
@@ -102,9 +111,16 @@ function Shop() {
         </select>
       </div>
       <div id="shop_items">
-        {
-          allItems.map(({ price, name }, index) => <Item type={windowSize < 768 ? 'small' : 'big'} img="a_hoodie.webp" name={name} price={price} key={`item_${index}`} />)
+        {allItems === null ?
+          new Array(6).fill(0).map((i, index) => <ItemPreloaded type={windowSize < 768 ? 'small' : 'big'} key={`child_${index}`} />)
+          :
+          allItems.map(({ price, name, _id, photos }) =>
+            <Suspense key={_id} fallback={<ItemPreloaded type={windowSize < 768 ? 'small' : 'big'} />}>
+              <Item _id={_id} type={windowSize < 768 ? 'small' : 'big'} img={photos[0]} name={name} price={price} key={`item_${_id}`} />
+            </Suspense>
+          )
         }
+
       </div>
     </div>
   );

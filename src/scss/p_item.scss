@@ -29,11 +29,14 @@
 }
 
 .p_item_s {
-  margin: 10px;
-  width: 180px;
+  margin: 5px;
+  width: 130px;
+  .p_item_name{
+    width: 125px;
+  }
   .p_item_img {
-    width: 180px;
-    height: 180px;
+    width: 130px;
+    height: 130px;
     background-color: $grey;
   }
 }

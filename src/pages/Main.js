@@ -18,7 +18,7 @@ function Main() {
 
   useEffect(() => {
     async function fetchData() {
-      const { data } = await axios.get(`http://${domain}/getItem`, { params: { type: "*" } });
+      const { data } = await axios.get(`http://${domain}/getItem`, { params: { type: "*", limit: 6, skip: 2 } });
       setItems(data);
       setItemsLoaded(true);
     }
