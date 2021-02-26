@@ -1,5 +1,11 @@
 @import "init";
 
+#h1_error{
+  text-align: center;
+  @include font("Cursive");
+  color: $black;
+}
+
 #item_page {
   box-sizing: border-box;
   padding: 0 15px;

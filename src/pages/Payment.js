@@ -18,6 +18,8 @@ import { loadStripe } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
 import 'css/payment.css';
 
+// TODO: don't forget that after a successful purchase you have to add +1 to all bough items' filds called "bought"
+
 const stripePromise = loadStripe('pk_test_51IC5ZBADb9E0nwKcSjPJqFvgMJRktxAc2r1kRVaQe8sBB1tq05TVRX2RtfHUBWgBsNObX8Sn4y7YbU6NvD33anYf00ark0zPfX');
 
 const BinItem = lazy(() => import('components/BinItem'));
