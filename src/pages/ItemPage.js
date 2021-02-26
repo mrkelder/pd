@@ -1,5 +1,5 @@
 import React, { Fragment, useContext, useEffect, useRef, useState, lazy, Suspense } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Link, useHistory, useParams } from 'react-router-dom';
 import { infoContext } from 'app/context';
 import Button from 'components/Button';
@@ -14,12 +14,11 @@ import axios from 'axios';
 import 'css/itemPage.css';
 const Item = lazy(() => import('components/Item'));
 
-// TODO: "Add to cart" system (put off for the next version)
-
 function ItemPage() {
   const { id: itemId } = useParams();
   const { push } = useHistory();
   const { windowSize } = useSelector(state => state.windowSize);
+  const dispatch = useDispatch();
   const payPalButton = useRef(); // ref to PayPal button
   const mainPhoto = useRef();
   const firstPhoto = useRef();
@@ -32,7 +31,11 @@ function ItemPage() {
   const [size, setSize] = useState(undefined);
   const [color, setColor] = useState(undefined);
   const [item, setItem] = useState(null); // item's object
-  const [error, setError] = useState(false); // TODO: don't forget about setting up the error
+  const [error, setError] = useState(false);
+
+  function addItemToCart() {
+    dispatch({ type: "cart/pushElement", payload: item });
+  }
 
   function changePhotoIndex(number) {
     if (allPhotos.length - 1 < photoIndex + number) setPhotoIndex(0);
@@ -160,7 +163,7 @@ function ItemPage() {
                       </select>
                     </div>
                   </div>
-                  <Button>ADD TO CART</Button>
+                  <Button click={addItemToCart}>ADD TO CART</Button>
                   <Button click={() => { push('/editor'); }}>CREATE YOUR OWN STYLE</Button>
                   <div id="paypal-button-container"></div>
                   <Link id="more_payment" to="/payment">More payment options</Link>
@@ -234,7 +237,7 @@ function ItemPage() {
                           </select>
                         </div>
                       </div>
-                      <Button>ADD TO CART</Button>
+                      <Button click={addItemToCart}>ADD TO CART</Button>
                       <Button click={() => { push('/editor'); }}>CREATE YOUR OWN STYLE</Button>
                       <div id="paypal-button-container" ref={payPalButton}></div>
                       <Link id="more_payment" to="/payment">More payment options</Link>
