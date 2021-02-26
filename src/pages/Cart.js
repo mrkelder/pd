@@ -9,6 +9,7 @@ import red_discount from 'img/red_discount.svg';
 import 'css/cart.css';
 
 function Cart() {
+  const { items } = useSelector(state => state.cart);
   const { windowSize } = useSelector(state => state.windowSize);
   const [details, setDetails] = useState('');
 
@@ -26,9 +27,8 @@ function Cart() {
         </section>
       }
       <section id="cart_items">
-        <CartItem />
         {
-          new Array(1).fill(1).map((i, index) => <CartItem img="a_hoodie.webp" price={5} key={`cart_${index}`} />)
+          items.map(({ photos, price, _id, amount }) => <CartItem img={photos[0]} price={price} id={_id} quantity={amount} key={`cart_${_id}`} />)
         }
       </section>
       <section id="payment">
