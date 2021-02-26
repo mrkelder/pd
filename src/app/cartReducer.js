@@ -1,8 +1,6 @@
 const defaultState = { items: localStorage.getItem("cartItems") ? JSON.parse(localStorage.getItem("cartItems")) : [] };
 
 // TODO: when you add an item you also specify some options
-// TODO: remove item
-// TODO: change amount
 
 const cartReducer = (state = defaultState, { type, payload }) => {
   switch (type) {
@@ -27,6 +25,10 @@ const cartReducer = (state = defaultState, { type, payload }) => {
       });
       localStorage.setItem("cartItems", JSON.stringify(newItems));
       return { items: newItems };
+    case 'cart/removeElement':
+      const removedItems = state.items.filter(item => item._id !== payload._id);
+      localStorage.setItem("cartItems", JSON.stringify(removedItems));
+      return { items: removedItems };
     default: return state;
   }
 };
