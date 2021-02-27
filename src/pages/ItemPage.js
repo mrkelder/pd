@@ -1,5 +1,5 @@
 import React, { Fragment, useContext, useEffect, useRef, useState, lazy, Suspense } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Link, useHistory, useParams } from 'react-router-dom';
 import { infoContext } from 'app/context';
 import Button from 'components/Button';
@@ -14,12 +14,12 @@ import axios from 'axios';
 import 'css/itemPage.css';
 const Item = lazy(() => import('components/Item'));
 
-// TODO: "Add to cart" system (put off for the next version)
-
 function ItemPage() {
   const { id: itemId } = useParams();
   const { push } = useHistory();
   const { windowSize } = useSelector(state => state.windowSize);
+  const { items } = useSelector(state => state.cart);
+  const dispatch = useDispatch();
   const payPalButton = useRef(); // ref to PayPal button
   const mainPhoto = useRef();
   const firstPhoto = useRef();
@@ -32,7 +32,11 @@ function ItemPage() {
   const [size, setSize] = useState(undefined);
   const [color, setColor] = useState(undefined);
   const [item, setItem] = useState(null); // item's object
-  const [error, setError] = useState(false); // TODO: don't forget about setting up the error
+  const [error, setError] = useState(false);
+
+  function addItemToCart() {
+    dispatch({ type: "cart/pushElement", payload: { ...item, size, color } });
+  }
 
   function changePhotoIndex(number) {
     if (allPhotos.length - 1 < photoIndex + number) setPhotoIndex(0);
@@ -55,6 +59,7 @@ function ItemPage() {
         const { data } = await axios.get(`http://${domain}/getItem`, { params: { type: itemId } });
         setItem(data[0]);
         setSize(data[0].size[0]);
+        setColor(data[0].color[0]);
       }
       catch ({ message }) {
         console.error(message);
@@ -160,7 +165,7 @@ function ItemPage() {
                       </select>
                     </div>
                   </div>
-                  <Button>ADD TO CART</Button>
+                  <Button click={addItemToCart}>{item !== null && items.findIndex(i => i._id === item._id) !== -1 ? 'IN THE CART' : 'ADD TO CART'}</Button>
                   <Button click={() => { push('/editor'); }}>CREATE YOUR OWN STYLE</Button>
                   <div id="paypal-button-container"></div>
                   <Link id="more_payment" to="/payment">More payment options</Link>
@@ -234,7 +239,7 @@ function ItemPage() {
                           </select>
                         </div>
                       </div>
-                      <Button>ADD TO CART</Button>
+                      <Button click={addItemToCart}>{item !== null && items.findIndex(i => i._id === item._id) !== -1 ? 'IN THE CART' : 'ADD TO CART'}</Button>
                       <Button click={() => { push('/editor'); }}>CREATE YOUR OWN STYLE</Button>
                       <div id="paypal-button-container" ref={payPalButton}></div>
                       <Link id="more_payment" to="/payment">More payment options</Link>

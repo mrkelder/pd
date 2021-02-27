@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Breadcrumbs } from '@material-ui/core';
-import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useHistory  } from 'react-router-dom';
 import CartItem from 'components/CartItem';
 import Button from 'components/Button';
 import arrow from 'img/arrow.svg';
@@ -9,8 +9,23 @@ import red_discount from 'img/red_discount.svg';
 import 'css/cart.css';
 
 function Cart() {
+  const { items, sIns } = useSelector(state => state.cart);
   const { windowSize } = useSelector(state => state.windowSize);
-  const [details, setDetails] = useState('');
+  const dispatch = useDispatch();
+  const { push } = useHistory();
+  const [details, setDetails] = useState(sIns);
+  const [subTotal, setSubTotal] = useState(0);
+
+  function changeDetails({ target: { value } }) {
+    setDetails(value);
+    dispatch({ type: "cart/specialInstr", payload: { sIns: value } });
+  }
+
+  useEffect(() => {
+    if (items.length === 1) setSubTotal(items[0].price * items[0].amount);
+    else if (items.lengt > 1) setSubTotal(items.reduce((a, b) => a.amount * a.price + b.amount * b.price));
+    else setSubTotal(0);
+  }, [items]);
 
   return (
     <div id="cart_page">
@@ -26,25 +41,27 @@ function Cart() {
         </section>
       }
       <section id="cart_items">
-        <CartItem />
+        {items.length === 0 &&
+          <h2 id="cart_epmty">The cart is empty</h2>
+        }
         {
-          new Array(1).fill(1).map((i, index) => <CartItem img="a_hoodie.webp" price={5} key={`cart_${index}`} />)
+          items.map(({ photos, price, _id, amount, name, color, size }) => <CartItem img={photos[0]} option={`${size} / ${color}`} name={name} price={price} id={_id} quantity={amount} key={`cart_${_id}`} />)
         }
       </section>
       <section id="payment">
         <div id="details">
           <h2>Special instructions for seller</h2>
-          <textarea value={details} onChange={({ target: { value } }) => { setDetails(value); }} />
+          <textarea value={details} onChange={changeDetails} />
         </div>
         <div id="checkout">
           <div id="free_shipping">
             <img src={red_discount} alt="red_discount" />
             <span>FREE SHIPPING -$10.00</span>
           </div>
-          <span id="sub">Subtotal $230.00</span>
+          <span id="sub">Subtotal ${subTotal.toFixed(2)}</span>
           <span id="taxes">Taxes and shipping calculated at checkout</span>
-          <Button>CONTINUE SHOPPING</Button>
-          <Button>CHECK OUT</Button>
+          <Button click={() => { push("/shop"); }}>CONTINUE SHOPPING</Button>
+          <Button click={() => { push("/payment"); }}>CHECK OUT</Button>
         </div>
       </section>
     </div>
