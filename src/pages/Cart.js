@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Breadcrumbs } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useHistory  } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import CartItem from 'components/CartItem';
 import Button from 'components/Button';
 import arrow from 'img/arrow.svg';
@@ -23,7 +23,7 @@ function Cart() {
 
   useEffect(() => {
     if (items.length === 1) setSubTotal(items[0].price * items[0].amount);
-    else if (items.lengt > 1) setSubTotal(items.reduce((a, b) => a.amount * a.price + b.amount * b.price));
+    else if (items.length > 1) setSubTotal(items.reduce((a, b) => a.amount * a.price + b.amount * b.price));
     else setSubTotal(0);
   }, [items]);
 
@@ -61,7 +61,7 @@ function Cart() {
           <span id="sub">Subtotal ${subTotal.toFixed(2)}</span>
           <span id="taxes">Taxes and shipping calculated at checkout</span>
           <Button click={() => { push("/shop"); }}>CONTINUE SHOPPING</Button>
-          <Button click={() => { push("/payment"); }}>CHECK OUT</Button>
+          <Button click={() => { if (items.length > 0) push("/payment"); }}>CHECK OUT</Button>
         </div>
       </section>
     </div>

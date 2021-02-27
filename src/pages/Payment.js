@@ -1,7 +1,7 @@
 import React, { Fragment, lazy, useState, Suspense, useEffect, useRef } from 'react';
 import { Breadcrumbs, Button, Typography, RadioGroup, createStyles, Radio, FormControlLabel, TextField, createMuiTheme, ThemeProvider, Checkbox, Select, MenuItem, FormControl, InputLabel } from '@material-ui/core';
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import BinItemPreloaded from 'components/BinItemPreloaded';
 import CheckoutForm from 'components/CheckoutForm';
@@ -18,7 +18,7 @@ import { loadStripe } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
 import 'css/payment.css';
 
-// TODO: don't forget that after a successful purchase you have to add +1 to all bough items' filds called "bought"
+// TODO: don't forget that after a successful purchase you have to add +1 to all bought items' filds called "bought"
 
 const stripePromise = loadStripe('pk_test_51IC5ZBADb9E0nwKcSjPJqFvgMJRktxAc2r1kRVaQe8sBB1tq05TVRX2RtfHUBWgBsNObX8Sn4y7YbU6NvD33anYf00ark0zPfX');
 
@@ -48,13 +48,17 @@ function BreadCrumb({ children, status, index, stageChanger }) {
 }
 
 function Payment() {
-  const { windowSize } = useSelector(state => state.windowSize);
+  const { push } = useHistory();
   const [submitStyle, setSubmitStyle] = useState({ height: '65px', fontSize: '1rem', textTransform: 'none', fontWeight: 'bold', fontFamily: 'Arial' });
   const [isSummaryOpened, setSummaryOpened] = useState(false);
   const [styleForBreadCrumbs, setStyleForBreadCrumbs] = useState(null); // width for bread crumbs
   const [allCountries, setAllCountries] = useState([]); // list of countries to select
+  const [subTotal, setSubTotal] = useState(0);
   // eslint-disable-next-line
   const re = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+  /********************* Redux state *********************/
+  const { windowSize } = useSelector(state => state.windowSize);
+  const { items } = useSelector(state => state.cart);
   /********************* Input management *********************/
   const [shipping, setShipping] = useState('fs');
   const [email, setEmail] = useState('');
@@ -206,6 +210,13 @@ function Payment() {
     }
   }
 
+
+  useEffect(() => {
+    if (items.length === 1) setSubTotal(items[0].price * items[0].amount);
+    else if (items.length > 1) setSubTotal(items.reduce((a, b) => a.amount * a.price + b.amount * b.price));
+    else push("/shop");
+  }, [items, push]);
+
   useEffect(() => {
     // Changes a shape of a submit button
     if (windowSize < 768)
@@ -246,18 +257,18 @@ function Payment() {
                 <img src={blue_arrow} alt="arrow" style={isSummaryOpened ? { transform: 'rotate(180deg)' } : { transform: 'rotate(0)' }} />
               </div>
               <div>
-                <span>{stage === 0 ? '$310.00' : shipping === 'fs' ? `$${(320 + 27.88).toFixed(2)}` : `$${(320 + 40.10).toFixed(2)}`}</span>
-                <span>{stage === 0 ? '$310.00' : shipping === 'fs' ? `$${(310 + 27.88).toFixed(2)}` : `$${(310 + 40.10).toFixed(2)}`}</span>
+                <span>{stage === 0 ? `$${(subTotal - 10).toFixed(2)}` : shipping === 'fs' ? `$${(subTotal + 27.88).toFixed(2)}` : `$${(subTotal + 40.10).toFixed(2)}`}</span>
+                <span>{stage === 0 ? `$${(subTotal - 10).toFixed(2)}` : shipping === 'fs' ? `$${(subTotal - 10 + 27.88).toFixed(2)}` : `$${(subTotal - 10 + 40.10).toFixed(2)}`}</span>
               </div>
             </div>
             <motion.div animate={isSummaryOpened ? { height: 'auto' } : { height: 0 }} transition={{ duration: .2 }} initial={false} id="summary_items" >
               {
-                new Array(3).fill(3).map((i, index) => <Suspense fallback={<BinItemPreloaded />} key={`bin_item_${index}`}><BinItem img="a_hoodie.webp" /></Suspense>)
+                items.map(({ _id, photos, name, price, amount, size, color }) => <Suspense fallback={<BinItemPreloaded />} key={`bin_item_${_id}`}><BinItem img={photos[0]} price={price} amount={amount} name={name} option={`${size} / ${color}`} /></Suspense>)
               }
               <hr />
               <div className="info_block">
                 <div><p>Subtotal</p></div>
-                <div><b>$320.00</b></div>
+                <div><b>${subTotal.toFixed(2)}</b></div>
               </div>
               <div className="info_block">
                 <div>
@@ -278,7 +289,7 @@ function Payment() {
                 <div><p>Total</p></div>
                 <div>
                   <p>CAD</p>
-                  <b>{stage === 0 ? '$310.00' : shipping === 'fs' ? `$${(310 + 27.88).toFixed(2)}` : `$${(310 + 40.10).toFixed(2)}`}</b>
+                  <b>{stage === 0 ? `$${(subTotal - 10).toFixed(2)}` : shipping === 'fs' ? `$${(subTotal - 10 + 27.88).toFixed(2)}` : `$${(subTotal - 10 + 40.10).toFixed(2)}`}</b>
                 </div>
               </div>
             </motion.div>
@@ -488,12 +499,12 @@ function Payment() {
         {windowSize >= 1000 &&
           <section id="summary_items" >
             {
-              new Array(3).fill(3).map((i, index) => <Suspense fallback={<BinItemPreloaded />} key={`bin_item_${index}`}><BinItem img="a_hoodie.webp" /></Suspense>)
+              items.map(({ _id, photos, name, price, amount, size, color }) => <Suspense fallback={<BinItemPreloaded />} key={`bin_item_${_id}`}><BinItem img={photos[0]} price={price} amount={amount} name={name} option={`${size} / ${color}`} /></Suspense>)
             }
             <hr />
             <div className="info_block">
               <div><p>Subtotal</p></div>
-              <div><b>$320.00</b></div>
+              <div><b>${subTotal.toFixed(2)}</b></div>
             </div>
             <div className="info_block">
               <div>
@@ -514,7 +525,7 @@ function Payment() {
               <div><p>Total</p></div>
               <div>
                 <p>CAD</p>
-                <b>{stage === 0 ? '$310.00' : shipping === 'fs' ? `$${(310 + 27.88).toFixed(2)}` : `$${(310 + 40.10).toFixed(2)}`}</b>
+                <b>{stage === 0 ? `$${(subTotal - 10).toFixed(2)}` : shipping === 'fs' ? `$${(subTotal - 10 + 27.88).toFixed(2)}` : `$${(subTotal - 10 + 40.10).toFixed(2)}`}</b>
               </div>
             </div>
           </section>
