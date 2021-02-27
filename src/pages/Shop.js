@@ -23,70 +23,72 @@ function Shop() {
 
   function changeSequence({ target: { value } }) {
     const copiedArray = allItems;
-    switch (value) {
-      case 'best-selling':
-        // Amount of buys
-        copiedArray.sort((a, b) => {
-          if (a.bought > b.bought) return -1;
-          else if (a.bought < b.bought) return 1;
-          else return 0;
-        });
-        break;
-      case 'title-ascending':
-        // Alphabetically, A-Z
-        copiedArray.sort((a, b) => {
-          if (a.name[0] < b.name[0]) return -1;
-          else if (a.name[0] > b.name[0]) return 1;
-          else return 0;
-        });
-        break;
-      case 'title-descending':
-        // Alphabetically, Z-A
-        copiedArray.sort((a, b) => {
-          if (a.name[0] > b.name[0]) return -1;
-          else if (a.name[0] < b.name[0]) return 1;
-          else return 0;
-        });
-        break;
-      case 'price-ascending':
-        // Price, low to high
-        copiedArray.sort((a, b) => {
-          if (a.price < b.price) return -1;
-          else if (a.price > b.price) return 1;
-          else return 0;
-        });
-        break;
-      case 'price-descending':
-        // Price, hight to low
-        copiedArray.sort((a, b) => {
-          if (a.price > b.price) return -1;
-          else if (a.price < b.price) return 1;
-          else return 0;
-        });
-        break;
-      case 'created-ascending':
-        // Date, old to new
-        copiedArray.sort((a, b) => {
-          if (new Date(a.date).getTime() < new Date(b.date).getTime()) return -1;
-          else if (new Date(a.date).getTime() > new Date(b.date).getTime()) return 1;
-          else return 0;
-        });
-        break;
-      case 'created-descending':
-        // Date, new to old
-        copiedArray.sort((a, b) => {
-          if (new Date(a.date).getTime() > new Date(b.date).getTime()) return -1;
-          else if (new Date(a.date).getTime() < new Date(b.date).getTime()) return 1;
-          else return 0;
-        });
-        break;
-      default:
-        // How the f#ck you managed to get this error, hackerman???
-        alert('Pardon 😠?!');
-        break;
+    if (copiedArray !== null) {
+      switch (value) {
+        case 'best-selling':
+          // Amount of buys
+          copiedArray.sort((a, b) => {
+            if (a.bought > b.bought) return -1;
+            else if (a.bought < b.bought) return 1;
+            else return 0;
+          });
+          break;
+        case 'title-ascending':
+          // Alphabetically, A-Z
+          copiedArray.sort((a, b) => {
+            if (a.name[0] < b.name[0]) return -1;
+            else if (a.name[0] > b.name[0]) return 1;
+            else return 0;
+          });
+          break;
+        case 'title-descending':
+          // Alphabetically, Z-A
+          copiedArray.sort((a, b) => {
+            if (a.name[0] > b.name[0]) return -1;
+            else if (a.name[0] < b.name[0]) return 1;
+            else return 0;
+          });
+          break;
+        case 'price-ascending':
+          // Price, low to high
+          copiedArray.sort((a, b) => {
+            if (a.price < b.price) return -1;
+            else if (a.price > b.price) return 1;
+            else return 0;
+          });
+          break;
+        case 'price-descending':
+          // Price, hight to low
+          copiedArray.sort((a, b) => {
+            if (a.price > b.price) return -1;
+            else if (a.price < b.price) return 1;
+            else return 0;
+          });
+          break;
+        case 'created-ascending':
+          // Date, old to new
+          copiedArray.sort((a, b) => {
+            if (new Date(a.date).getTime() < new Date(b.date).getTime()) return -1;
+            else if (new Date(a.date).getTime() > new Date(b.date).getTime()) return 1;
+            else return 0;
+          });
+          break;
+        case 'created-descending':
+          // Date, new to old
+          copiedArray.sort((a, b) => {
+            if (new Date(a.date).getTime() > new Date(b.date).getTime()) return -1;
+            else if (new Date(a.date).getTime() < new Date(b.date).getTime()) return 1;
+            else return 0;
+          });
+          break;
+        default:
+          // How the f#ck you managed to get this error, hackerman???
+          alert('Pardon 😠?!');
+          break;
+      }
+      setAllItems(copiedArray);
+      setFilter(value);
     }
-    setAllItems(copiedArray);
-    setFilter(value);
   }
 
   return (
