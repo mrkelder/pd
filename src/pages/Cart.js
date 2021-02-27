@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Breadcrumbs } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useHistory  } from 'react-router-dom';
 import CartItem from 'components/CartItem';
 import Button from 'components/Button';
 import arrow from 'img/arrow.svg';
@@ -12,6 +12,7 @@ function Cart() {
   const { items, sIns } = useSelector(state => state.cart);
   const { windowSize } = useSelector(state => state.windowSize);
   const dispatch = useDispatch();
+  const { push } = useHistory();
   const [details, setDetails] = useState(sIns);
   const [subTotal, setSubTotal] = useState(0);
 
@@ -59,8 +60,8 @@ function Cart() {
           </div>
           <span id="sub">Subtotal ${subTotal.toFixed(2)}</span>
           <span id="taxes">Taxes and shipping calculated at checkout</span>
-          <Button>CONTINUE SHOPPING</Button>
-          <Button>CHECK OUT</Button>
+          <Button click={() => { push("/shop"); }}>CONTINUE SHOPPING</Button>
+          <Button click={() => { push("/payment"); }}>CHECK OUT</Button>
         </div>
       </section>
     </div>
