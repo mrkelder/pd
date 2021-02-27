@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Breadcrumbs } from '@material-ui/core';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import CartItem from 'components/CartItem';
 import Button from 'components/Button';
@@ -9,10 +9,16 @@ import red_discount from 'img/red_discount.svg';
 import 'css/cart.css';
 
 function Cart() {
-  const { items } = useSelector(state => state.cart);
+  const { items, sIns } = useSelector(state => state.cart);
   const { windowSize } = useSelector(state => state.windowSize);
-  const [details, setDetails] = useState('');
+  const dispatch = useDispatch();
+  const [details, setDetails] = useState(sIns);
   const [subTotal, setSubTotal] = useState(0);
+
+  function changeDetails({ target: { value } }) {
+    setDetails(value);
+    dispatch({ type: "cart/specialInstr", payload: { sIns: value } });
+  }
 
   useEffect(() => {
     if (items.length === 1) setSubTotal(items[0].price * items[0].amount);
@@ -44,7 +50,7 @@ function Cart() {
       <section id="payment">
         <div id="details">
           <h2>Special instructions for seller</h2>
-          <textarea value={details} onChange={({ target: { value } }) => { setDetails(value); }} />
+          <textarea value={details} onChange={changeDetails} />
         </div>
         <div id="checkout">
           <div id="free_shipping">
