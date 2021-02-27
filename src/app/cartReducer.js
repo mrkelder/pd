@@ -1,7 +1,5 @@
 const defaultState = { items: localStorage.getItem("cartItems") ? JSON.parse(localStorage.getItem("cartItems")) : [] };
 
-// TODO: when you add an item you also specify some options
-
 const cartReducer = (state = defaultState, { type, payload }) => {
   switch (type) {
     case 'cart/pushElement':

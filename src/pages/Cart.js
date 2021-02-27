@@ -28,7 +28,7 @@ function Cart() {
       }
       <section id="cart_items">
         {
-          items.map(({ photos, price, _id, amount }) => <CartItem img={photos[0]} price={price} id={_id} quantity={amount} key={`cart_${_id}`} />)
+          items.map(({ photos, price, _id, amount, name , color , size}) => <CartItem img={photos[0]} option={`${size} / ${color}`} name={name} price={price} id={_id} quantity={amount} key={`cart_${_id}`} />)
         }
       </section>
       <section id="payment">

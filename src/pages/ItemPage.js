@@ -18,6 +18,7 @@ function ItemPage() {
   const { id: itemId } = useParams();
   const { push } = useHistory();
   const { windowSize } = useSelector(state => state.windowSize);
+  const { items } = useSelector(state => state.cart);
   const dispatch = useDispatch();
   const payPalButton = useRef(); // ref to PayPal button
   const mainPhoto = useRef();
@@ -34,7 +35,7 @@ function ItemPage() {
   const [error, setError] = useState(false);
 
   function addItemToCart() {
-    dispatch({ type: "cart/pushElement", payload: item });
+    dispatch({ type: "cart/pushElement", payload: { ...item, size, color } });
   }
 
   function changePhotoIndex(number) {
@@ -58,6 +59,7 @@ function ItemPage() {
         const { data } = await axios.get(`http://${domain}/getItem`, { params: { type: itemId } });
         setItem(data[0]);
         setSize(data[0].size[0]);
+        setColor(data[0].color[0]);
       }
       catch ({ message }) {
         console.error(message);
@@ -163,7 +165,7 @@ function ItemPage() {
                       </select>
                     </div>
                   </div>
-                  <Button click={addItemToCart}>ADD TO CART</Button>
+                  <Button click={addItemToCart}>{item !== null && items.findIndex(i => i._id === item._id) !== -1 ? 'IN THE CART' : 'ADD TO CART'}</Button>
                   <Button click={() => { push('/editor'); }}>CREATE YOUR OWN STYLE</Button>
                   <div id="paypal-button-container"></div>
                   <Link id="more_payment" to="/payment">More payment options</Link>
@@ -237,7 +239,7 @@ function ItemPage() {
                           </select>
                         </div>
                       </div>
-                      <Button click={addItemToCart}>ADD TO CART</Button>
+                      <Button click={addItemToCart}>{item !== null && items.findIndex(i => i._id === item._id) !== -1 ? 'IN THE CART' : 'ADD TO CART'}</Button>
                       <Button click={() => { push('/editor'); }}>CREATE YOUR OWN STYLE</Button>
                       <div id="paypal-button-container" ref={payPalButton}></div>
                       <Link id="more_payment" to="/payment">More payment options</Link>
