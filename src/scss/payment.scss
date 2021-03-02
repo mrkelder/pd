@@ -207,8 +207,11 @@
       }
       #choose_shipping {
         padding-left: 3px;
+        hr {
+          margin-left: 10px;
+        }
         .change_info_option {
-          height: 40px;
+          max-height: 50px;
           align-items: flex-start;
           flex-direction: row;
           justify-content: space-between;

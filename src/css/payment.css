@@ -251,9 +251,13 @@
 #payment_page #input_sec #third_stage #choose_shipping {
   padding-left: 3px;
 }
+#payment_page #input_sec #second_stage #choose_shipping hr,
+#payment_page #input_sec #third_stage #choose_shipping hr {
+  margin-left: 10px;
+}
 #payment_page #input_sec #second_stage #choose_shipping .change_info_option,
 #payment_page #input_sec #third_stage #choose_shipping .change_info_option {
-  height: 40px;
+  max-height: 50px;
   align-items: flex-start;
   flex-direction: row;
   justify-content: space-between;
