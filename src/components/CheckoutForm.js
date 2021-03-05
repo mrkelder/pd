@@ -42,11 +42,12 @@ function CheckoutForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} id="checkout_form">
       <CardNumberElement options={{ placeholder: "Card number" }} />
       <CardExpiryElement options={{ placeholder: "Expiration date (MM / YY)" }} />
       <CardCvcElement />
-      {/* <Button disabled={!stripe} className="c_input submit_btn" variant="contained" size="medium" color="primary">Confirm order</Button> */}
+      <button disabled={!stripe} type="submit" style={{ display: "none" }} id="checkout_button"></button>
+      {/* <Button className="c_input submit_btn" variant="contained" size="medium" color="primary">Confirm order</Button> */}
     </form>
   );
 }

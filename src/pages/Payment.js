@@ -512,7 +512,7 @@ function Payment() {
                     </motion.div>
                   </div>
                 </RadioGroup>
-                <Button type="submit" onClick={e => { e.preventDefault(); nextStage(); }} className="c_input submit_btn" variant="contained" size="medium" color="primary" style={(submitStyle, { textTransform: 'none' })}>{paymentSystem === 'card' ? 'Pay now' : 'Complete order'}</Button>
+                <Button type="submit" form="checkout_form" onClick={e => { e.preventDefault(); nextStage(); if(paymentSystem === "card") document.getElementById("checkout_button").click(); }} className="c_input submit_btn" variant="contained" size="medium" color="primary" style={(submitStyle, { textTransform: 'none' })}>{paymentSystem === 'card' ? 'Pay now' : 'Complete order'}</Button>
               </div>
             }
           </ThemeProvider>
