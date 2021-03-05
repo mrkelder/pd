@@ -18,7 +18,7 @@ function BinItem({ name, price, amount, option, img }) {
           <span>{option}</span>
         </div>
       </div>
-      <span className="bin_item_price">${price}.00</span>
+      <span className="bin_item_price">${price.toFixed(2)}</span>
     </div>
   );
 }
