@@ -2,7 +2,7 @@ import React, { Fragment, lazy, useState, Suspense, useEffect, useRef } from 're
 import { Breadcrumbs, Button, Typography, RadioGroup, createStyles, Radio, FormControlLabel, TextField, createMuiTheme, ThemeProvider, Checkbox, Select, MenuItem, FormControl, InputLabel } from '@material-ui/core';
 import { motion } from 'framer-motion';
 import { Link, useHistory } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import BinItemPreloaded from 'components/BinItemPreloaded';
 import CheckoutForm from 'components/CheckoutForm';
 import logo from 'img/logo.gif';
@@ -49,6 +49,7 @@ function BreadCrumb({ children, status, index, stageChanger }) {
 
 function Payment() {
   const { push } = useHistory();
+  const dispatch = useDispatch();
   const [submitStyle, setSubmitStyle] = useState({ height: '65px', fontSize: '1rem', textTransform: 'none', fontWeight: 'bold', fontFamily: 'Arial' });
   const [isSummaryOpened, setSummaryOpened] = useState(false);
   const [styleForBreadCrumbs, setStyleForBreadCrumbs] = useState(null); // width for bread crumbs
@@ -59,27 +60,28 @@ function Payment() {
   /********************* Redux state *********************/
   const { windowSize } = useSelector(state => state.windowSize);
   const { items } = useSelector(state => state.cart);
+  const { billingAddress: billingAd, shippingType, paymentType, currentStage, shippingStage: sSRedux, paymentStage: pSRedux, keepUp, info: { aD, city: reduxCity, country, email: reduxEmail, fN, lN, optional: reduxOptional, postal }, addBA: { fN: fNAd, lN: lNAd, aD: aDAd, optional: oAd, city: cAd, country: counAd, postal: pAd } } = useSelector(state => state.payment);
   /********************* Input management *********************/
-  const [shipping, setShipping] = useState('fs');
-  const [email, setEmail] = useState('');
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [address, setAddress] = useState('');
-  const [optional, setOptional] = useState('');
-  const [city, setCity] = useState('');
-  const [postalCode, setPostalCode] = useState('');
-  const [chosenCountry, setChosenCountry] = useState('none');
-  const [newsCheckbox, setNewsCheckbox] = useState(false);
-  const [paymentSystem, setPaymentSystem] = useState('card');
-  const [billingAddress, setBillingAddress] = useState('default');
+  const [shipping, setShipping] = useState(shippingType);
+  const [email, setEmail] = useState(reduxEmail);
+  const [firstName, setFirstName] = useState(fN);
+  const [lastName, setLastName] = useState(lN);
+  const [address, setAddress] = useState(aD);
+  const [optional, setOptional] = useState(reduxOptional);
+  const [city, setCity] = useState(reduxCity);
+  const [postalCode, setPostalCode] = useState(postal);
+  const [chosenCountry, setChosenCountry] = useState(country);
+  const [newsCheckbox, setNewsCheckbox] = useState(keepUp);
+  const [paymentSystem, setPaymentSystem] = useState(paymentType);
+  const [billingAddress, setBillingAddress] = useState(billingAd);
   /********************* Billing address management *********************/
-  const [firstNameAd, setFirstNameAd] = useState('');
-  const [lastNameAd, setLastNameAd] = useState('');
-  const [addressAd, setAddressAd] = useState('');
-  const [optionalAd, setOptionalAd] = useState('');
-  const [cityAd, setCityAd] = useState('');
-  const [postalCodeAd, setPostalCodeAd] = useState('');
-  const [chosenCountryAd, setChosenCountryAd] = useState('none');
+  const [firstNameAd, setFirstNameAd] = useState(fNAd);
+  const [lastNameAd, setLastNameAd] = useState(lNAd);
+  const [addressAd, setAddressAd] = useState(aDAd);
+  const [optionalAd, setOptionalAd] = useState(oAd);
+  const [cityAd, setCityAd] = useState(cAd);
+  const [postalCodeAd, setPostalCodeAd] = useState(pAd);
+  const [chosenCountryAd, setChosenCountryAd] = useState(counAd);
   /********************* Billing validation statuses *********************/
   const [fNameEAd, setFNameEAd] = useState(false);
   const [lNameEAd, setLNameEAd] = useState(false);
@@ -96,9 +98,17 @@ function Payment() {
   /********************* Compared elements for bread crubms' width *********************/
   const compared_h2 = useRef();
   /********************* Stage managers *********************/
-  const [stage, setStage] = useState(0); // stage of purchase
-  const [shippingStage, setShippingStage] = useState(false);
-  const [paymentStage, setPaymentStage] = useState(false);
+  const [stage, setStage] = useState(currentStage); // stage of purchase
+  const [shippingStage, setShippingStage] = useState(sSRedux);
+  const [paymentStage, setPaymentStage] = useState(pSRedux);
+
+  function changeForm(country = chosenCountry) {
+    dispatch({ type: "payment/changeInfo", payload: { email, fN: firstName, lN: lastName, aD: address, optional, country, city, postal: postalCode } });
+  }
+
+  function changeAdForm(country = chosenCountryAd) {
+    dispatch({ type: "payment/changeAdInfo", payload: { fN: firstNameAd, lN: lastNameAd, aD: addressAd, optional: optionalAd, country, city: cityAd, postal: postalCodeAd } });
+  }
 
   function openSummary() {
     setSummaryOpened(!isSummaryOpened);
@@ -109,14 +119,17 @@ function Payment() {
   }
 
   function changeShipping({ target: { value } }) {
+    dispatch({ type: "payment/changeShipping", payload: value });
     setShipping(value);
   }
 
   function changeCountry({ target: { value } }) {
+    changeForm(value);
     setChosenCountry(value);
   }
 
   function changeCountryAd({ target: { value } }) {
+    changeAdForm(value);
     setChosenCountryAd(value);
   }
 
@@ -192,12 +205,26 @@ function Payment() {
     return true;
   }
 
+  function changeBilling({ target: { value } }) {
+    dispatch({ type: "payment/changeBilling", payload: value });
+    setBillingAddress(value);
+  }
+
+  function changeCardType({ target: { value } }) {
+    setPaymentSystem(value);
+    dispatch({ type: "payment/changePayment", payload: value });
+  }
+
   function nextStage() {
     if (checkInputs() && stage === 0) {
+      dispatch({ type: "payment/changeStage", payload: { shippingStage: true, paymentStage: false } });
+      dispatch({ type: "payment/changeCurrentStage", payload: 1 });
       setStage(1);
       setShippingStage(true);
     }
     else if (checkInputs() && stage === 1) {
+      dispatch({ type: "payment/changeStage", payload: { shippingStage: true, paymentStage: true } });
+      dispatch({ type: "payment/changeCurrentStage", payload: 2 });
       setStage(2);
       setPaymentStage(true);
     }
@@ -306,27 +333,27 @@ function Payment() {
             {stage === 0 &&
               <form name="shipping">
                 <h2 ref={compared_h2}>Contact Information</h2>
-                <Input name="shippingEmail" value={email} error={emailE} onChange={({ target: { value } }) => { setEmail(value) }} label="Email" />
+                <Input name="shippingEmail" value={email} error={emailE} onChange={({ target: { value } }) => { setEmail(value); changeForm(); }} label="Email" />
                 <FormControlLabel
                   control={
                     <Checkbox
                       name="checkedB"
                       color="primary"
                       checked={newsCheckbox}
-                      onChange={() => { setNewsCheckbox(!newsCheckbox) }}
+                      onChange={() => { setNewsCheckbox(!newsCheckbox); dispatch({ type: "payment/keepUp", payload: { value: !newsCheckbox } }); }}
                     />
                   }
                   label={<Typography style={styles.formControlLabel}>Keep me up to date on news and exclusive offers</Typography>}
                 />
                 <h2>Shipping address</h2>
                 <div className="inline_inputs">
-                  <Input value={firstName} error={fNameE} onChange={({ target: { value } }) => { setFirstName(value) }} label="First name" name="checkout[shipping_address][first_name]" />
+                  <Input value={firstName} error={fNameE} onChange={({ target: { value } }) => { setFirstName(value); changeForm(); }} label="First name" name="checkout[shipping_address][first_name]" />
                   <div className="gap" />
-                  <Input value={lastName} error={lNameE} onChange={({ target: { value } }) => { setLastName(value) }} label="Last name" name="checkout[shipping_address][last_name]" />
+                  <Input value={lastName} error={lNameE} onChange={({ target: { value } }) => { setLastName(value); changeForm(); }} label="Last name" name="checkout[shipping_address][last_name]" />
                 </div>
-                <Input value={address} error={addressE} onChange={({ target: { value } }) => { setAddress(value) }} label="Address" name="checkout[shipping_address][address1]" />
-                <Input value={optional} onChange={({ target: { value } }) => { setOptional(value) }} label="Apartment, suite, etc. (optional)" name="checkout[shipping_address][address2]" />
-                <Input value={city} error={cityE} onChange={({ target: { value } }) => { setCity(value) }} label="City" name="checkout[shipping_address][city]" />
+                <Input value={address} error={addressE} onChange={({ target: { value } }) => { setAddress(value); changeForm(); }} label="Address" name="checkout[shipping_address][address1]" />
+                <Input value={optional} onChange={({ target: { value } }) => { setOptional(value); changeForm(); }} label="Apartment, suite, etc. (optional)" name="checkout[shipping_address][address2]" />
+                <Input value={city} error={cityE} onChange={({ target: { value } }) => { setCity(value); changeForm(); }} label="City" name="checkout[shipping_address][city]" />
                 <div className="inline_inputs">
                   <FormControl variant="outlined" className="c_input" size="small">
                     <InputLabel id="demo-simple-select-outlined-label">Country</InputLabel>
@@ -338,7 +365,7 @@ function Payment() {
                     </Select>
                   </FormControl>
                   <div className="gap" />
-                  <Input value={postalCode} onChange={({ target: { value } }) => { setPostalCode(value) }} label="Postal code" />
+                  <Input value={postalCode} onChange={({ target: { value } }) => { setPostalCode(value); changeForm(); }} label="Postal code or province" />
                 </div>
                 <Button type="submit" onClick={e => { e.preventDefault(); nextStage(); }} className="c_input submit_btn" variant="contained" size="medium" color="primary" style={submitStyle}>Continue to shipping</Button>
               </form>
@@ -416,7 +443,7 @@ function Payment() {
                 </div>
                 <h2 ref={compared_h2}>Payment</h2>
                 <span className="message">All transactions are secure and encrypted.</span>
-                <RadioGroup name="gender2" value={paymentSystem} onChange={({ target: { value } }) => { setPaymentSystem(value); }} >
+                <RadioGroup name="gender2" value={paymentSystem} onChange={changeCardType} >
                   <div className="choice_block">
                     <div className="choice_heading">
                       <div>
@@ -444,7 +471,7 @@ function Payment() {
                 </RadioGroup>
                 <h2>Billing address</h2>
                 <span className="message">Select the address that matches your card or payment method.</span>
-                <RadioGroup name="gender3" value={billingAddress} onChange={({ target: { value } }) => { setBillingAddress(value); }}>
+                <RadioGroup name="gender3" value={billingAddress} onChange={changeBilling}>
                   <div className="choice_block">
                     <div className="choice_heading">
                       <div>
@@ -461,13 +488,13 @@ function Payment() {
                     <motion.div className="choice_content" animate={billingAddress === 'difAddress' ? { height: 'auto' } : { height: 0 }} transition={{ duration: .2 }} initial={false}>
                       <form name="billingAddress">
                         <div className="inline_inputs">
-                          <Input value={firstNameAd} error={fNameEAd} onChange={({ target: { value } }) => { setFirstNameAd(value) }} label="First name" name="checkout[shipping_address][first_name]" />
+                          <Input value={firstNameAd} error={fNameEAd} onChange={({ target: { value } }) => { setFirstNameAd(value); changeAdForm(); }} label="First name" name="checkout[shipping_address][first_name]" />
                           <div className="gap" />
-                          <Input value={lastNameAd} error={lNameEAd} onChange={({ target: { value } }) => { setLastNameAd(value) }} label="Last name" name="checkout[shipping_address][last_name]" />
+                          <Input value={lastNameAd} error={lNameEAd} onChange={({ target: { value } }) => { setLastNameAd(value); changeAdForm(); }} label="Last name" name="checkout[shipping_address][last_name]" />
                         </div>
-                        <Input value={addressAd} error={addressEAd} onChange={({ target: { value } }) => { setAddressAd(value) }} label="Address" name="checkout[shipping_address][address1]" />
-                        <Input value={optionalAd} onChange={({ target: { value } }) => { setOptionalAd(value) }} label="Apartment, suite, etc. (optional)" name="checkout[shipping_address][address2]" />
-                        <Input value={cityAd} error={cityEAd} onChange={({ target: { value } }) => { setCityAd(value) }} label="City" name="checkout[shipping_address][city]" />
+                        <Input value={addressAd} error={addressEAd} onChange={({ target: { value } }) => { setAddressAd(value); changeAdForm(); }} label="Address" name="checkout[shipping_address][address1]" />
+                        <Input value={optionalAd} onChange={({ target: { value } }) => { setOptionalAd(value); changeAdForm(); }} label="Apartment, suite, etc. (optional)" name="checkout[shipping_address][address2]" />
+                        <Input value={cityAd} error={cityEAd} onChange={({ target: { value } }) => { setCityAd(value); changeAdForm(); }} label="City" name="checkout[shipping_address][city]" />
                         <div className="inline_inputs">
                           <FormControl variant="outlined" className="c_input" size="small">
                             <InputLabel id="demo-simple-select-outlined-label">Country</InputLabel>
@@ -479,7 +506,7 @@ function Payment() {
                             </Select>
                           </FormControl>
                           <div className="gap" />
-                          <Input value={postalCodeAd} onChange={({ target: { value } }) => { setPostalCodeAd(value) }} label="Postal code" />
+                          <Input value={postalCodeAd} onChange={({ target: { value } }) => { setPostalCodeAd(value); changeAdForm(); }} label="Postal code or province" />
                         </div>
                       </form>
                     </motion.div>
