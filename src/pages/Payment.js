@@ -59,7 +59,7 @@ function Payment() {
   const re = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
   /********************* Redux state *********************/
   const { windowSize } = useSelector(state => state.windowSize);
-  const { items } = useSelector(state => state.cart);
+  const { items, sIns } = useSelector(state => state.cart);
   const { billingAddress: billingAd, shippingType, paymentType, currentStage, shippingStage: sSRedux, paymentStage: pSRedux, keepUp, info: { aD, city: reduxCity, country, email: reduxEmail, fN, lN, optional: reduxOptional, postal }, addBA: { fN: fNAd, lN: lNAd, aD: aDAd, optional: oAd, city: cAd, country: counAd, postal: pAd } } = useSelector(state => state.payment);
   /********************* Input management *********************/
   const [shipping, setShipping] = useState(shippingType);
@@ -386,7 +386,7 @@ function Payment() {
                       <span>Ship to</span>
                       <span onClick={() => { stageChanger(0); }} tabIndex="0" onKeyDown={({ key }) => { if (key !== 'Tab' && key !== 'Shift') stageChanger(0); }}>Change</span>
                     </div>
-                    <address>{address}, {city}, {[...postalCode].length === 0 ? 'now postal code' : postalCode}, {chosenCountry[0].toUpperCase()}{[...chosenCountry].filter((i, index) => index !== 0)}</address>
+                    <address>{address}, {city}, {[...postalCode].length === 0 ? 'no postal code' : postalCode}, {chosenCountry[0].toUpperCase()}{[...chosenCountry].filter((i, index) => index !== 0)}</address>
                   </div>
                 </div>
                 <h2 ref={compared_h2}>Shipping to</h2>
@@ -454,7 +454,22 @@ function Payment() {
                     </div>
                     <motion.div className="choice_content" animate={paymentSystem === 'card' ? { height: 'auto' } : { height: 0 }} transition={{ duration: .2 }} initial={false}>
                       <Elements stripe={stripePromise}>
-                        <CheckoutForm />
+                        <CheckoutForm
+                          address={address}
+                          items={items}
+                          country={country}
+                          email={email}
+                          city={city}
+                          postal={postalCode}
+                          details={sIns}
+                          shipping={shipping}
+                          totalPrice={shipping === 'fs' ? (subTotal - 10 + 27.88).toFixed(2) : (subTotal - 10 + 40.10).toFixed(2)} fN={firstName} lN={lastName}
+                          actualBilling={billingAddress === "difAddress" ?
+                            `${firstNameAd}, ${lastNameAd}, ${addressAd}, ${optionalAd}, ${cityAd}, ${postalCodeAd.length > 0 ? postalCodeAd : 'no postal code'}, ${chosenCountryAd}`
+                            :
+                            `${firstName}, ${lastName}, ${address}, ${optional}, ${city}, ${postalCode.length > 0 ? postalCode : 'no postal code'}, ${chosenCountry}`
+                          }
+                        />
                       </Elements>
                     </motion.div>
                     <div className="choice_heading">
@@ -512,7 +527,7 @@ function Payment() {
                     </motion.div>
                   </div>
                 </RadioGroup>
-                <Button type="submit" form="checkout_form" onClick={e => { e.preventDefault(); nextStage(); if(paymentSystem === "card") document.getElementById("checkout_button").click(); }} className="c_input submit_btn" variant="contained" size="medium" color="primary" style={(submitStyle, { textTransform: 'none' })}>{paymentSystem === 'card' ? 'Pay now' : 'Complete order'}</Button>
+                <Button type="submit" form="checkout_form" onClick={e => { e.preventDefault(); nextStage(); if (paymentSystem === "card") document.getElementById("checkout_button").click(); }} className="c_input submit_btn" variant="contained" size="medium" color="primary" style={(submitStyle, { textTransform: 'none' })}>{paymentSystem === 'card' ? 'Pay now' : 'Complete order'}</Button>
               </div>
             }
           </ThemeProvider>
