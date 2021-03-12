@@ -30,6 +30,10 @@ const cartReducer = (state = defaultState, { type, payload }) => {
       const removedItems = state.items.filter(item => item._id !== payload._id);
       localStorage.setItem("cartItems", JSON.stringify(removedItems));
       return { items: removedItems, sIns: state.sIns };
+    case 'cart/removeElements':
+      const cleanState = { sIns: state.sIns, items: [] };
+      localStorage.setItem("cartItems", JSON.stringify([]));
+      return cleanState;
     case 'cart/specialInstr':
       localStorage.setItem("sIns", payload.sIns);
       return { items: state.items, sIns: payload.sIns };

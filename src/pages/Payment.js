@@ -537,7 +537,7 @@ function Payment() {
                         </motion.div>
                       </div>
                     </RadioGroup>
-                    <Button type="submit" form="checkout_form" onClick={e => { e.preventDefault(); nextStage(); if (paymentSystem === "card") document.getElementById("checkout_button").click(); }} className="c_input submit_btn" variant="contained" size="medium" color="primary" style={(submitStyle, { textTransform: 'none' })}>{purchaseWaiting ? <CircularProgress style={{ color: "white" }}/> : paymentSystem === 'card' ? 'Pay now' : 'Complete order'}</Button>
+                    <Button type="submit" form="checkout_form" onClick={e => { e.preventDefault(); nextStage(); if (paymentSystem === "card") document.getElementById("checkout_button").click(); }} className="c_input submit_btn" variant="contained" size="medium" color="primary" style={(submitStyle, { textTransform: 'none' })}>{purchaseWaiting ? <CircularProgress style={{ color: "white" }} /> : paymentSystem === 'card' ? 'Pay now' : 'Complete order'}</Button>
                   </div>
                 }
               </ThemeProvider>
@@ -596,13 +596,13 @@ function Payment() {
             <div className="result">
               <img src={successImg} alt="success" />
               <h2>Congratulations! Your purchase has been proccessed!</h2>
-              <Link to="/">Go to the main page</Link>
+              <Link onClick={() => { dispatch({ type: "payment/updatePayment" }); dispatch({ type: "cart/removeElements" }); }} to="/">Go to the main page</Link>
             </div>
             :
             <div className="result">
               <img src={failImg} alt="failure" />
               <h2>Some problem occurred!</h2>
-              <p onClick={() => { setSuccess(null) }} tabIndex="0" onKeyDown={({ key }) => { if (key !== 'Tab') setSuccess(null); }}>Try again</p>
+              <p onClick={() => { setSuccess(null); }} tabIndex="0" onKeyDown={({ key }) => { if (key !== 'Tab') setSuccess(null); }}>Try again</p>
             </div>
           }
         </Fragment>
