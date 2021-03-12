@@ -34,6 +34,32 @@
   src: url("../fonts/Cyberpunk-Regular.ttf");
   font-family: "Custom6";
 }
+#payment_page .result {
+  margin-top: 25px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+#payment_page .result img {
+  width: 125px;
+}
+#payment_page .result h2 {
+  text-align: center;
+  color: #333;
+  max-width: 360px;
+  font-size: 1.2rem;
+  font-family: "Roboto", Arial, Helvetica, sans-serif;
+}
+#payment_page .result p {
+  margin-top: 0;
+}
+#payment_page .result a, #payment_page .result p {
+  color: #333;
+  font-size: 1.1rem;
+  text-decoration: underline;
+  font-family: "Roboto", Arial, Helvetica, sans-serif;
+  cursor: pointer;
+}
 #payment_page hr {
   margin: 15px 10px;
   max-width: 526px;

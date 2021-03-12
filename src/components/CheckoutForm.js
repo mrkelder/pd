@@ -3,7 +3,7 @@ import { useStripe, useElements, CardNumberElement, CardExpiryElement, CardCvcEl
 import 'css/checkout.css';
 import axios from 'axios';
 
-function CheckoutForm({ totalPrice, fN, lN, email, postal, country, city, items, address, actualBilling, details, shipping }) {
+function CheckoutForm({setWaiting, totalPrice, fN, lN, email, postal, country, city, items, address, actualBilling, details, shipping, setSuccess }) {
   const stripe = useStripe();
   const elements = useElements();
 
@@ -13,6 +13,7 @@ function CheckoutForm({ totalPrice, fN, lN, email, postal, country, city, items,
       // Stripe.js has not loaded yet
       return;
     }
+    setWaiting(true);
     const { data: client_secret } = await axios.get("http://localhost:8080/getPaymentSecret", {
       params: {
         price: totalPrice * 100,
@@ -31,11 +32,13 @@ function CheckoutForm({ totalPrice, fN, lN, email, postal, country, city, items,
 
     if (result.error) {
       // Show error to your customer
-      console.log(result.error.message);
+      setSuccess(false);
+      setWaiting(false);
     } else {
       // The payment has been processed!
       if (result.paymentIntent.status === 'succeeded') {
-        console.log('Success')
+        setSuccess(true);
+        setWaiting(false);
       }
     }
   };
