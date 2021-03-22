@@ -1,12 +1,13 @@
 import { infoContext } from 'app/context';
 import React, { useContext, useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import imgNotFound from 'img/imageNotFound.png';
 
 function CartItem({ img, name, price, option, quantity, id }) {
   const { windowSize } = useSelector(state => state.windowSize);
+  const dispatch = useDispatch();
   const [valueQ, setValueQ] = useState(1);
   const domain = useContext(infoContext);
 
@@ -14,9 +15,19 @@ function CartItem({ img, name, price, option, quantity, id }) {
     setValueQ(quantity);
   }, [quantity]);
 
+  function removeItem() {
+    dispatch({ type: "cart/removeElement", payload: { _id: id } });
+  }
+
   function changeValue({ target: { value } }) {
-    if (value > 0) setValueQ(value);
-    else setValueQ(1);
+    if (value > 0) {
+      dispatch({ type: "cart/changeAmount", payload: { _id: id, number: Number(value) } });
+      setValueQ(value);
+    }
+    else {
+      dispatch({ type: "cart/changeAmount", payload: { _id: id, number: 1 } });
+      setValueQ(1);
+    }
   }
 
   return (
@@ -27,7 +38,7 @@ function CartItem({ img, name, price, option, quantity, id }) {
       <div className="cart_item_options">
         <h2>{name.toUpperCase()}</h2>
         <span className="cart_item_option">{option}</span>
-        <span className="cart_item_remove" tabIndex="0">Remove</span>
+        <span className="cart_item_remove" tabIndex="0" onClick={removeItem}>Remove</span>
       </div>
       <div className="cart_item_info">
         <div>

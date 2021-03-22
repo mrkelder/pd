@@ -1,52 +1,55 @@
 import React from 'react';
-import { useStripe, useElements, CardElement, CardNumberElement, CardExpiryElement, CardCvcElement } from '@stripe/react-stripe-js';
+import { useStripe, useElements, CardNumberElement, CardExpiryElement, CardCvcElement } from '@stripe/react-stripe-js';
 import 'css/checkout.css';
+import axios from 'axios';
 
-function CheckoutForm() {
+function CheckoutForm({ successFunc , setWaiting, totalPrice, fN, lN, email, postal, country, city, items, address, actualBilling, details, shipping, setSuccess }) {
   const stripe = useStripe();
   const elements = useElements();
 
-  const handleSubmit = async (event) => {
-    // We don't want to let default form submission happen here,
-    // which would refresh the page.
+  const handleSubmit = async event => {
     event.preventDefault();
-
     if (!stripe || !elements) {
-      // Stripe.js has not yet loaded.
-      // Make sure to disable form submission until Stripe.js has loaded.
+      // Stripe.js has not loaded yet
       return;
     }
-
-    const result = await stripe.confirmCardPayment('{CLIENT_SECRET}', {
+    setWaiting(true);
+    const { data: client_secret } = await axios.get("http://localhost:8080/getPaymentSecret", {
+      params: {
+        price: totalPrice * 100,
+        description: `${address}, ${city}, ${[...postal].length === 0 ? 'no postal code' : postal}, ${country},${items.map(item => ` ${item.name} (x${item.amount})`)}. Actual billing: ${actualBilling}. Special instructions: ${details}. Shipping: ${shipping === 'fs' ? 'Canada Post Small Packet International Surface' : 'Canada Post Small Packet International Air'}`
+      }
+    });
+    const result = await stripe.confirmCardPayment(client_secret, {
       payment_method: {
-        card: elements.getElement(CardElement),
+        card: elements.getElement(CardNumberElement),
         billing_details: {
-          name: 'Jenny Rosen',
+          name: `${fN} ${lN}`,
+          email
         },
       }
     });
 
     if (result.error) {
-      // Show error to your customer (e.g., insufficient funds)
-      console.log(result.error.message);
+      // Show error to your customer
+      setSuccess(false);
+      setWaiting(false);
     } else {
-      // The payment has been processed!
+      // The payment has been processed
       if (result.paymentIntent.status === 'succeeded') {
-        // Show a success message to your customer
-        // There's a risk of the customer closing the window before callback
-        // execution. Set up a webhook or plugin to listen for the
-        // payment_intent.succeeded event that handles any business critical
-        // post-payment actions.
+        setSuccess(true);
+        setWaiting(false);
+        successFunc();
       }
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} id="checkout_form">
       <CardNumberElement options={{ placeholder: "Card number" }} />
       <CardExpiryElement options={{ placeholder: "Expiration date (MM / YY)" }} />
       <CardCvcElement />
-      {/* <Button disabled={!stripe} className="c_input submit_btn" variant="contained" size="medium" color="primary">Confirm order</Button> */}
+      <button disabled={!stripe} type="submit" style={{ display: "none" }} id="checkout_button"></button>
     </form>
   );
 }
