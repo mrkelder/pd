@@ -1,6 +1,32 @@
 @import "init";
 
 #payment_page {
+  .result {
+    margin-top: 25px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    img {
+      width: 125px;
+    }
+    h2 {
+      text-align: center;
+      color: $black;
+      max-width: 360px;
+      font-size: 1.2rem;
+      @include font("Roboto");
+    }
+    p{
+      margin-top: 0;
+    }
+    a, p {
+      color: $black;
+      font-size: 1.1rem;
+      text-decoration: underline;
+      @include font("Roboto");
+      cursor: pointer;
+    }
+  }
   hr {
     margin: 15px 10px;
     max-width: 526px;
