@@ -1,4 +1,4 @@
-import React, { Fragment, lazy, useState, Suspense, useEffect, useRef } from 'react';
+import React, { Fragment, lazy, useState, Suspense, useEffect, useRef, useContext } from 'react';
 import { Breadcrumbs, Button, Typography, RadioGroup, createStyles, Radio, FormControlLabel, TextField, createMuiTheme, ThemeProvider, Checkbox, Select, MenuItem, FormControl, InputLabel, CircularProgress } from '@material-ui/core';
 import { motion } from 'framer-motion';
 import { Link, useHistory } from 'react-router-dom';
@@ -18,9 +18,8 @@ import failImg from 'img/fail.png';
 import axios from 'axios';
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
+import { infoContext } from 'app/context';
 import 'css/payment.css';
-
-// TODO: don't forget that after a successful purchase you have to add +1 to all bought items' filds called "bought"
 
 const stripePromise = loadStripe('pk_test_51IC5ZBADb9E0nwKcSjPJqFvgMJRktxAc2r1kRVaQe8sBB1tq05TVRX2RtfHUBWgBsNObX8Sn4y7YbU6NvD33anYf00ark0zPfX');
 
@@ -52,6 +51,7 @@ function BreadCrumb({ children, status, index, stageChanger }) {
 function Payment() {
   const { push } = useHistory();
   const dispatch = useDispatch();
+  const domain = useContext(infoContext);
   const [purchaseWaiting, setPurchaseWaiting] = useState(false);
   const [success, setSuccess] = useState(null);
   const [submitStyle, setSubmitStyle] = useState({ height: '65px', fontSize: '1rem', textTransform: 'none', fontWeight: 'bold', fontFamily: 'Arial' });
@@ -105,6 +105,10 @@ function Payment() {
   const [stage, setStage] = useState(currentStage); // stage of purchase
   const [shippingStage, setShippingStage] = useState(sSRedux);
   const [paymentStage, setPaymentStage] = useState(pSRedux);
+
+  function sendBoughtItem() {
+    axios.put(`http://${domain}/addBought`, items.map(obj => obj._id));
+  }
 
   function changeForm(country = chosenCountry) {
     dispatch({ type: "payment/changeInfo", payload: { email, fN: firstName, lN: lastName, aD: address, optional, country, city, postal: postalCode } });
@@ -241,10 +245,9 @@ function Payment() {
     }
   }
 
-
   useEffect(() => {
     if (items.length === 1) setSubTotal(items[0].price * items[0].amount);
-    else if (items.length > 1) setSubTotal(items.reduce((a, b) => a.amount * a.price + b.amount * b.price));
+    else if (items.length > 1) setSubTotal(items.reduce((value, item) => value + item.amount * item.price, 0));
     else push("/shop");
   }, [items, push]);
 
@@ -268,8 +271,6 @@ function Payment() {
     }
     fetchData();
   }, []);
-
-  console.log(success)
 
   return (
     <div id="payment_page">
@@ -463,6 +464,7 @@ function Payment() {
                         <motion.div className="choice_content" animate={paymentSystem === 'card' ? { height: 'auto' } : { height: 0 }} transition={{ duration: .2 }} initial={false}>
                           <Elements stripe={stripePromise}>
                             <CheckoutForm
+                              successFunc={sendBoughtItem}
                               setWaiting={setPurchaseWaiting}
                               setSuccess={setSuccess}
                               address={address}

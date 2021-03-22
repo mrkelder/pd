@@ -1,13 +1,11 @@
 import React from 'react';
 import { useStripe, useElements, CardNumberElement, CardExpiryElement, CardCvcElement } from '@stripe/react-stripe-js';
 import 'css/checkout.css';
-import { useDispatch } from 'react-redux';
 import axios from 'axios';
 
-function CheckoutForm({ setWaiting, totalPrice, fN, lN, email, postal, country, city, items, address, actualBilling, details, shipping, setSuccess }) {
+function CheckoutForm({ successFunc , setWaiting, totalPrice, fN, lN, email, postal, country, city, items, address, actualBilling, details, shipping, setSuccess }) {
   const stripe = useStripe();
   const elements = useElements();
-  const dispatch = useDispatch();
 
   const handleSubmit = async event => {
     event.preventDefault();
@@ -37,10 +35,11 @@ function CheckoutForm({ setWaiting, totalPrice, fN, lN, email, postal, country, 
       setSuccess(false);
       setWaiting(false);
     } else {
-      // The payment has been processed!
+      // The payment has been processed
       if (result.paymentIntent.status === 'succeeded') {
         setSuccess(true);
         setWaiting(false);
+        successFunc();
       }
     }
   };
