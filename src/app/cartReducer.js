@@ -6,7 +6,7 @@ const defaultState = {
 const cartReducer = (state = defaultState, { type, payload }) => {
   switch (type) {
     case 'cart/pushElement':
-      if (state.items.findIndex(({ _id }) => _id === payload._id) === -1) {
+      if (state.items.findIndex(({ _id }) => _id === payload._id) === -1 || payload._id === "unique") {
         const newItems = [...state.items, { ...payload, amount: 1 }];
         localStorage.setItem("cartItems", JSON.stringify(newItems));
         return { items: newItems, sIns: state.sIns };

@@ -12,13 +12,13 @@ import fontImage from 'img/font.png';
 import ColorPicker from 'react-color';
 import Button from 'components/Button';
 import { useDispatch, useSelector } from 'react-redux';
+import { nanoid } from 'nanoid';
 import { useHistory } from 'react-router-dom';
 import 'css/editor.css';
 
 function Editor() {
   const { push } = useHistory();
   const dispatch = useDispatch();
-  const { elements: ReduxElements, removedElements: ReduxRemovedElements } = useSelector(state => state.editor);
   const { windowSize } = useSelector(state => state.windowSize);
   const { item } = useSelector(state => state.editor);
   const domain = useContext(infoContext);
@@ -101,18 +101,21 @@ function Editor() {
   }, [getTotalPrice, canvas]);
 
   function addItemToBin() {
-    alert("Hey, you've created your own style 🤑. Congrats! But we don't have this system yet, sorry 😥");
+    const newItem = {
+      ...item,
+      name: `Custom ${item.name}`,
+      _id: `unique ${nanoid() || Math.random()}`,
+      customs: { elements, removedElements },
+      price: Number(totalPrice.toFixed(2)),
+      color: "default",
+      size: "default"
+    };
+    dispatch({ type: "cart/pushElement", payload: newItem });
   }
 
   function addToElementsCollection(element) {
-    if (imageIndex === 0) {
-      setElements([[...elements[0], element], elements[1]]);
-      dispatch({ type: "editor/addElement", payload: { element, index: 0 } });
-    }
-    else {
-      setElements([elements[0], [...elements[1], element]]);
-      dispatch({ type: "editor/addElement", payload: { element, index: 1 } });
-    }
+    if (imageIndex === 0) setElements([[...elements[0], element], elements[1]]);
+    else setElements([elements[0], [...elements[1], element]]);
   }
 
   function changeFont({ target }) {
@@ -222,7 +225,6 @@ function Editor() {
       element.set({ class: 'deleted' });
       canvas.discardActiveObject().renderAll();
       setRemovedElements([...removedElements, element]);
-      dispatch({ type: "editor/removeElement", payload: element });
     }
     setOpenColor(false);
   }
