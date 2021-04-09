@@ -109,13 +109,12 @@ function Editor() {
       ...item,
       name: `Custom ${item.name}`,
       _id: `unique ${uniqueId}`,
-      customs: { elements, removedElements },
+      elements: actualElements,
       price: Number(totalPrice.toFixed(2)),
       color: "default",
       size: "default"
     };
-    // dispatch({ type: "cart/pushElement", payload: newItem });
-    await axios.post(`http://${domain}/createImgForCustom`, { elements: actualElements, uniqueId });
+    dispatch({ type: "cart/pushElement", payload: newItem });
   }
 
   function addToElementsCollection(element) {
