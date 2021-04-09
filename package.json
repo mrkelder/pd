@@ -1,6 +1,6 @@
 {
   "name": "pd",
-  "version": "0.7.0",
+  "version": "1.0.0",
   "private": true,
   "dependencies": {
     "@material-ui/core": "^4.11.2",
@@ -12,6 +12,7 @@
     "axios": "^0.21.1",
     "fabric": "^4.3.1",
     "framer-motion": "^3.1.4",
+    "nanoid": "^3.1.22",
     "prop-types": "^15.7.2",
     "react": "^17.0.1",
     "react-color": "^2.19.3",

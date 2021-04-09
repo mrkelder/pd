@@ -1,6 +1,6 @@
 # Client of "PD" hoodie shop 
 
-**Version 0.7.0**
+**Version 1.0.0**
 
 This is a client version of a hoodie shop "Peaceful Disruption". It's an open source so you can use it for free of charge.
 

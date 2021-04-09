@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState, useRef, useCallback } from 'react';
+import React, { useContext, useEffect, useState, useRef, useCallback, Fragment } from 'react';
 import { motion } from 'framer-motion';
 import { fabric } from 'fabric';
 import arrow from 'img/blue_arrow.svg';
@@ -11,12 +11,17 @@ import text from 'img/text.png';
 import fontImage from 'img/font.png';
 import ColorPicker from 'react-color';
 import Button from 'components/Button';
+import { useDispatch, useSelector } from 'react-redux';
+import { nanoid } from 'nanoid';
+import { useHistory } from 'react-router-dom';
 import 'css/editor.css';
-import { useSelector } from 'react-redux';
 
 function Editor() {
+  const { push } = useHistory();
+  const dispatch = useDispatch();
+  const { windowSize } = useSelector(state => state.windowSize);
+  const { item } = useSelector(state => state.editor);
   const domain = useContext(infoContext);
-  const images = ['a_hoodie.webp', 'a_hoodie_back.webp'];
   const basePrice = 130;
   const [imageIndex, setImageIndex] = useState(0);
   const [canvas, setCanvas] = useState(null);
@@ -24,12 +29,12 @@ function Editor() {
   const [colorOpen, setOpenColor] = useState(false);
   const [elements, setElements] = useState([[], []]);
   const [removedElements, setRemovedElements] = useState([]);
+  const [removedIds, setRemovedIds] = useState([]);
   const [totalPrice, setTotalPrice] = useState(basePrice);
   const [fontOverlay, setFontOverlay] = useState(0);
   const [chosenFont, setChosenFont] = useState("Roboto");
-  const fonts = ['Roboto', 'Bold', 'Custom3', 'Custom1', 'Custom2', 'Custom4', 'Cursive', 'Custom5', 'serif', 'Custom6'];
+  const fonts = ['Roboto', 'Bold', 'Custom3', 'Custom2', 'Custom4', 'Cursive', 'Custom5', 'serif', 'Custom6'];
   const fileElement = useRef();
-  const { windowSize } = useSelector(state => state.windowSize);
 
   const getTotalPrice = useCallback(() => {
     // Gets size of each element and calculates a total price
@@ -65,6 +70,11 @@ function Editor() {
     setTotalPrice(totalImgPrice + totalTxtPrice + basePrice);
   }, [elements]);
 
+
+  useEffect(() => {
+    if (!item) push("/");
+  }, [item, push]);
+
   useEffect(() => {
     getTotalPrice();
   }, [elements, getTotalPrice]);
@@ -91,8 +101,19 @@ function Editor() {
     if (canvas) canvas.on('object:modified', getTotalPrice)
   }, [getTotalPrice, canvas]);
 
-  function addItemToBin() {
-    alert("Hey, you've created your own style 🤑. Congrats! But we don't have this system yet, sorry 😥");
+  async function addItemToBin() {
+    const uniqueId = nanoid() || Math.random();
+    const actualElements = [elements[0].filter(el => !removedIds.includes(el.id)), elements[1].filter(el => !removedIds.includes(el.id))];
+    const newItem = {
+      ...item,
+      name: `Custom ${item.name}`,
+      _id: `unique ${uniqueId}`,
+      elements: actualElements,
+      price: Number(totalPrice.toFixed(2)),
+      color: "default",
+      size: "default"
+    };
+    dispatch({ type: "cart/pushElement", payload: newItem });
   }
 
   function addToElementsCollection(element) {
@@ -119,7 +140,8 @@ function Editor() {
       fontFamily: chosenFont,
       fill: '#333',
       class: "txt",
-      opacity: 1
+      opacity: 1,
+      id: nanoid() || String(Math.random())
     });
     textbox.setControlsVisibility({ mt: false, mb: false });
     canvas.add(textbox).setActiveObject(textbox);
@@ -135,7 +157,7 @@ function Editor() {
       reader.onload = f => {
         const data = f.target.result;
         fabric.Image.fromURL(data, img => {
-          const oImg = img.set({ left: 0, top: 0, angle: 0, class: "img", opacity: 1 }).scale(0.1);
+          const oImg = img.set({ left: 0, top: 0, angle: 0, class: "img", opacity: 1, id: nanoid() || String(Math.random()) }).scale(0.1);
           oImg.setControlsVisibility({ mt: false, mb: false, ml: false, mr: false });
           addToElementsCollection(oImg);
           canvas.add(oImg).renderAll();
@@ -161,15 +183,17 @@ function Editor() {
   function changeImageIndex(num) {
     const nextIndex = imageIndex + num;
     let eventualIndex = nextIndex;
-    if (nextIndex < 0) {
-      setImageIndex(images.length - 1);
-      eventualIndex = images.length - 1;
+    if (item.photos !== null) {
+      if (nextIndex < 0) {
+        setImageIndex(item.photos.length - 1);
+        eventualIndex = item.photos.length - 1;
+      }
+      else if (nextIndex > item.photos.length - 1) {
+        setImageIndex(0);
+        eventualIndex = 0;
+      }
+      else setImageIndex(nextIndex);
     }
-    else if (nextIndex > images.length - 1) {
-      setImageIndex(0);
-      eventualIndex = 0;
-    }
-    else setImageIndex(nextIndex);
 
     canvas.getObjects().forEach(element => {
       element.set({ selectable: false });
@@ -204,6 +228,7 @@ function Editor() {
       element.hoverCursor = 'default';
       element.set({ class: 'deleted' });
       canvas.discardActiveObject().renderAll();
+      setRemovedIds([...removedIds, element.id]);
       setRemovedElements([...removedElements, element]);
     }
     setOpenColor(false);
@@ -211,88 +236,92 @@ function Editor() {
 
   return (
     <section id="editor_page">
-      <div id="interface">
-        {windowSize >= 1000 &&
-          <div id="tool_bar">
-            {colorOpen && <ColorPicker onChange={changeColor} color={color} />}
-            <input onChange={addImage} ref={fileElement} type="file" id="file_editor" style={{ display: "none" }} />
-            <button className="editor_button dont_deselect" onClick={() => { setOpenColor(!colorOpen); }}>
-              <img className="dont_deselect" src={colorImage} alt="edirot_image" />
-              <span className="dont_deselect">Color</span>
-            </button>
-            <button className="editor_button dont_deselect" onClick={addText}>
-              <img className="dont_deselect" src={text} alt="edirot_image" />
-              <span className="dont_deselect">Text</span>
-            </button>
-            <button className="editor_button delete" onClick={deleteElement}>
-              <img src={deleteImage} alt="edirot_image" className="delete" />
-              <span className="delete">Delete</span>
-            </button>
-            <label htmlFor="file_editor" tabIndex="0" className="dont_deselect">
-              <div className="editor_button dont_deselect">
-                <img src={file} alt="edirot_image" className="dont_deselect" />
-                <span className="dont_deselect">File</span>
+      { item &&
+        <Fragment>
+          <div id="interface">
+            {windowSize >= 1000 &&
+              <div id="tool_bar">
+                {colorOpen && <ColorPicker onChange={changeColor} color={color} />}
+                <input onChange={addImage} ref={fileElement} type="file" id="file_editor" style={{ display: "none" }} />
+                <button className="editor_button dont_deselect" onClick={() => { setOpenColor(!colorOpen); }}>
+                  <img className="dont_deselect" src={colorImage} alt="edirot_image" />
+                  <span className="dont_deselect">Color</span>
+                </button>
+                <button className="editor_button dont_deselect" onClick={addText}>
+                  <img className="dont_deselect" src={text} alt="edirot_image" />
+                  <span className="dont_deselect">Text</span>
+                </button>
+                <button className="editor_button delete" onClick={deleteElement}>
+                  <img src={deleteImage} alt="edirot_image" className="delete" />
+                  <span className="delete">Delete</span>
+                </button>
+                <label htmlFor="file_editor" tabIndex="0" className="dont_deselect">
+                  <div className="editor_button dont_deselect">
+                    <img src={file} alt="edirot_image" className="dont_deselect" />
+                    <span className="dont_deselect">File</span>
+                  </div>
+                </label>
               </div>
-            </label>
-          </div>
-        }
-        <img src={arrow} alt="arrow_l" style={{ transform: 'rotate(90deg)' }} className="arrow" onClick={() => { changeImageIndex(-1); }} />
-        <div id="main_photo" style={{ backgroundImage: `url('http://${domain}/static/${images[imageIndex]}')` }} >
-          <canvas width="150" height="175" id="canvas_editor"></canvas>
-        </div>
-        <img src={arrow} alt="arrow_r" style={{ transform: 'rotate(-90deg)' }} className="arrow" onClick={() => { changeImageIndex(1); }} />
-        {windowSize >= 1000 &&
-          <div id="fonts_block">
-            {
-              fonts.map(font => <button className="font_option" key={`font_${font}`} data-font={font} style={chosenFont === font ? { fontFamily: font, border: '4px solid #197bbd' } : { fontFamily: font }} onClick={changeFont}>Text</button>)
             }
-          </div>
-        }
-      </div>
-      { windowSize < 1000 &&
-        <div id="tool_bar">
-          {colorOpen && <ColorPicker onChange={changeColor} color={color} />}
-          <input onChange={addImage} ref={fileElement} type="file" id="file_editor" style={{ display: "none" }} />
-          <button className="editor_button dont_deselect" onClick={() => { setOpenColor(!colorOpen); }}>
-            <img src={colorImage} alt="edirot_image" className="dont_deselect" />
-            <span className="dont_deselect">Color</span>
-          </button>
-          <button className="editor_button dont_deselect" onClick={addText}>
-            <img src={text} alt="edirot_image" className="dont_deselect" />
-            <span className="dont_deselect">Text</span>
-          </button>
-          <button className="editor_button dont_deselect" onClick={() => { setFontOverlay(1); }}>
-            <img src={fontImage} alt="edirot_image" className="dont_deselect" />
-            <span className="dont_deselect">Font</span>
-          </button>
-          <button className="editor_button delete" onClick={deleteElement}>
-            <img src={deleteImage} alt="editor_image" className="delete" />
-            <span className="delete">Delete</span>
-          </button>
-          <label htmlFor="file_editor" tabIndex="0" className="dont_deselect">
-            <div className="dont_deselect">
-              <img src={file} alt="edirot_image" className="dont_deselect" />
-              <span className="dont_deselect">File</span>
+            <img src={arrow} alt="arrow_l" style={{ transform: 'rotate(90deg)' }} className="arrow" onClick={() => { changeImageIndex(-1); }} />
+            <div id="main_photo" style={{ backgroundImage: `url('http://${domain}/static/${item.photos[imageIndex]}')` }} >
+              <canvas width="150" height="175" id="canvas_editor"></canvas>
             </div>
-          </label>
-        </div>
-      }
-      {
-        windowSize < 1000 && fontOverlay === 1 &&
-        <motion.div id="font_overlay" initial={{ opacity: 0 }} animate={{ opacity: fontOverlay }} transition={{ duration: 0.2 }} onAnimationEnd={({ target }) => { target.style.display = 'none'; }}>
-          <div id="fonts_block">
-            <button id="close_btn" alt="close_btn" style={{ backgroundImage: `url('${closeImageWhite}')` }} onClick={() => { setFontOverlay(0); }} />
-            {
-              fonts.map(font => <button className="font_option" key={`font_${font}`} data-font={font} style={chosenFont === font ? { fontFamily: font, border: '4px solid #197bbd' } : { fontFamily: font }} onClick={changeFont}>Text</button>)
+            <img src={arrow} alt="arrow_r" style={{ transform: 'rotate(-90deg)' }} className="arrow" onClick={() => { changeImageIndex(1); }} />
+            {windowSize >= 1000 &&
+              <div id="fonts_block">
+                {
+                  fonts.map(font => <button className="font_option" key={`font_${font}`} data-font={font} style={chosenFont === font ? { fontFamily: font, border: '4px solid #197bbd' } : { fontFamily: font }} onClick={changeFont}>Text</button>)
+                }
+              </div>
             }
           </div>
-        </motion.div>
+          {windowSize < 1000 &&
+            <div id="tool_bar">
+              {colorOpen && <ColorPicker onChange={changeColor} color={color} />}
+              <input onChange={addImage} ref={fileElement} type="file" id="file_editor" style={{ display: "none" }} />
+              <button className="editor_button dont_deselect" onClick={() => { setOpenColor(!colorOpen); }}>
+                <img src={colorImage} alt="edirot_image" className="dont_deselect" />
+                <span className="dont_deselect">Color</span>
+              </button>
+              <button className="editor_button dont_deselect" onClick={addText}>
+                <img src={text} alt="edirot_image" className="dont_deselect" />
+                <span className="dont_deselect">Text</span>
+              </button>
+              <button className="editor_button dont_deselect" onClick={() => { setFontOverlay(1); }}>
+                <img src={fontImage} alt="edirot_image" className="dont_deselect" />
+                <span className="dont_deselect">Font</span>
+              </button>
+              <button className="editor_button delete" onClick={deleteElement}>
+                <img src={deleteImage} alt="editor_image" className="delete" />
+                <span className="delete">Delete</span>
+              </button>
+              <label htmlFor="file_editor" tabIndex="0" className="dont_deselect">
+                <div className="dont_deselect">
+                  <img src={file} alt="edirot_image" className="dont_deselect" />
+                  <span className="dont_deselect">File</span>
+                </div>
+              </label>
+            </div>
+          }
+          {
+            windowSize < 1000 && fontOverlay === 1 &&
+            <motion.div id="font_overlay" initial={{ opacity: 0 }} animate={{ opacity: fontOverlay }} transition={{ duration: 0.2 }} onAnimationEnd={({ target }) => { target.style.display = 'none'; }}>
+              <div id="fonts_block">
+                <button id="close_btn" alt="close_btn" style={{ backgroundImage: `url('${closeImageWhite}')` }} onClick={() => { setFontOverlay(0); }} />
+                {
+                  fonts.map(font => <button className="font_option" key={`font_${font}`} data-font={font} style={chosenFont === font ? { fontFamily: font, border: '4px solid #197bbd' } : { fontFamily: font }} onClick={changeFont}>Text</button>)
+                }
+              </div>
+            </motion.div>
+          }
+          <section id="editor_footer">
+            <p className="price">Base price: ${basePrice.toFixed(2)}</p>
+            <p className="price">Total price: ${totalPrice.toFixed(2)}</p>
+            <Button click={addItemToBin}>ADD TO CART</Button>
+          </section>
+        </Fragment>
       }
-      <section id="editor_footer">
-        <p className="price">Base price: ${basePrice.toFixed(2)}</p>
-        <p className="price">Total price: ${totalPrice.toFixed(2)}</p>
-        <Button click={addItemToBin}>ADD TO CART</Button>
-      </section>
     </section>
   );
 }
