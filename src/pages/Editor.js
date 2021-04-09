@@ -14,7 +14,6 @@ import Button from 'components/Button';
 import { useDispatch, useSelector } from 'react-redux';
 import { nanoid } from 'nanoid';
 import { useHistory } from 'react-router-dom';
-import axios from 'axios';
 import 'css/editor.css';
 
 function Editor() {
