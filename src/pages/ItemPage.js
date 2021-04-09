@@ -166,7 +166,7 @@ function ItemPage() {
                     </div>
                   </div>
                   <Button click={addItemToCart}>{item !== null && items.findIndex(i => i._id === item._id) !== -1 ? 'IN THE CART' : 'ADD TO CART'}</Button>
-                  <Button click={() => { push('/editor'); }}>CREATE YOUR OWN STYLE</Button>
+                  <Button click={() => { push('/editor'); dispatch({ type: "editor/changeItem", payload: item }); }}>CREATE YOUR OWN STYLE</Button>
                   <div id="paypal-button-container"></div>
                   <Link id="more_payment" to="/payment">More payment options</Link>
                   <div id="social_medias">
@@ -240,7 +240,7 @@ function ItemPage() {
                         </div>
                       </div>
                       <Button click={addItemToCart}>{item !== null && items.findIndex(i => i._id === item._id) !== -1 ? 'IN THE CART' : 'ADD TO CART'}</Button>
-                      <Button click={() => { push('/editor'); }}>CREATE YOUR OWN STYLE</Button>
+                      <Button click={() => { push('/editor'); dispatch({ type: "editor/changeItem", payload: item }); }}>CREATE YOUR OWN STYLE</Button>
                       <div id="paypal-button-container" ref={payPalButton}></div>
                       <Link id="more_payment" to="/payment">More payment options</Link>
                       <div id="social_medias">
