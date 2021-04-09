@@ -14,6 +14,7 @@ import Button from 'components/Button';
 import { useDispatch, useSelector } from 'react-redux';
 import { nanoid } from 'nanoid';
 import { useHistory } from 'react-router-dom';
+import axios from 'axios';
 import 'css/editor.css';
 
 function Editor() {
@@ -29,10 +30,11 @@ function Editor() {
   const [colorOpen, setOpenColor] = useState(false);
   const [elements, setElements] = useState([[], []]);
   const [removedElements, setRemovedElements] = useState([]);
+  const [removedIds, setRemovedIds] = useState([]);
   const [totalPrice, setTotalPrice] = useState(basePrice);
   const [fontOverlay, setFontOverlay] = useState(0);
   const [chosenFont, setChosenFont] = useState("Roboto");
-  const fonts = ['Roboto', 'Bold', 'Custom3', 'Custom1', 'Custom2', 'Custom4', 'Cursive', 'Custom5', 'serif', 'Custom6'];
+  const fonts = ['Roboto', 'Bold', 'Custom3', 'Custom2', 'Custom4', 'Cursive', 'Custom5', 'serif', 'Custom6'];
   const fileElement = useRef();
 
   const getTotalPrice = useCallback(() => {
@@ -100,17 +102,20 @@ function Editor() {
     if (canvas) canvas.on('object:modified', getTotalPrice)
   }, [getTotalPrice, canvas]);
 
-  function addItemToBin() {
+  async function addItemToBin() {
+    const uniqueId = nanoid() || Math.random();
+    const actualElements = [elements[0].filter(el => !removedIds.includes(el.id)), elements[1].filter(el => !removedIds.includes(el.id))];
     const newItem = {
       ...item,
       name: `Custom ${item.name}`,
-      _id: `unique ${nanoid() || Math.random()}`,
+      _id: `unique ${uniqueId}`,
       customs: { elements, removedElements },
       price: Number(totalPrice.toFixed(2)),
       color: "default",
       size: "default"
     };
-    dispatch({ type: "cart/pushElement", payload: newItem });
+    // dispatch({ type: "cart/pushElement", payload: newItem });
+    await axios.post(`http://${domain}/createImgForCustom`, { elements: actualElements, uniqueId });
   }
 
   function addToElementsCollection(element) {
@@ -137,7 +142,8 @@ function Editor() {
       fontFamily: chosenFont,
       fill: '#333',
       class: "txt",
-      opacity: 1
+      opacity: 1,
+      id: nanoid() || String(Math.random())
     });
     textbox.setControlsVisibility({ mt: false, mb: false });
     canvas.add(textbox).setActiveObject(textbox);
@@ -153,7 +159,7 @@ function Editor() {
       reader.onload = f => {
         const data = f.target.result;
         fabric.Image.fromURL(data, img => {
-          const oImg = img.set({ left: 0, top: 0, angle: 0, class: "img", opacity: 1 }).scale(0.1);
+          const oImg = img.set({ left: 0, top: 0, angle: 0, class: "img", opacity: 1, id: nanoid() || String(Math.random()) }).scale(0.1);
           oImg.setControlsVisibility({ mt: false, mb: false, ml: false, mr: false });
           addToElementsCollection(oImg);
           canvas.add(oImg).renderAll();
@@ -224,6 +230,7 @@ function Editor() {
       element.hoverCursor = 'default';
       element.set({ class: 'deleted' });
       canvas.discardActiveObject().renderAll();
+      setRemovedIds([...removedIds, element.id]);
       setRemovedElements([...removedElements, element]);
     }
     setOpenColor(false);
