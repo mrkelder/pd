@@ -148,3 +148,7 @@ Root
         │ cart.scss
         │ editor.scss
 ```
+
+## Components
+
+- [BinItem](./docs/BinItem.md)
