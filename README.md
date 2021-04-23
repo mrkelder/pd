@@ -155,3 +155,4 @@ Root
 - [Button](./docs/Button.md)
 - [CartItem](./docs/CartItem.md)
 - [CheckoutForm](./docs/CheckoutForm.md)
+- [Item](./docs/Item.md)
