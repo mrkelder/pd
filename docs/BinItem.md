@@ -1,6 +1,6 @@
 # BinItem
 
-![Bin Item Photo](./screenshots/BinItem.PNG)
+![Photo](./screenshots/BinItem.PNG)
 
 This component is used in **Cart.js** page to show the items a user added to his bin.
 

@@ -1,6 +1,6 @@
 # CartItem
 
-![Bin Item Photo](./screenshots/CartItem.PNG)
+![Photo](./screenshots/CartItem.PNG)
 
 Item stored in a bin. Here you can modify either change amount or remove item from the bin at all.
 

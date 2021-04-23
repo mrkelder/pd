@@ -1,6 +1,6 @@
 # Button
 
-![Bin Item Photo](./screenshots/Button.PNG)
+![Photo](./screenshots/Button.PNG)
 
 Basically a button with black border.
 
