@@ -153,3 +153,4 @@ Root
 
 - [BinItem](./docs/BinItem.md)
 - [Button](./docs/Button.md)
+- [CartItem](./docs/CartItem.md)
