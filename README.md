@@ -1,6 +1,6 @@
 # Peaceful Disruption
 
-![Version](https://img.shields.io/badge/version-1.0.1-green) ![Node Version](https://img.shields.io/badge/React-17.0.2-blue)
+![Version 1.0.2](https://img.shields.io/badge/version-1.0.2-green) ![React Version 17.0.2](https://img.shields.io/badge/React-17.0.2-blue)
 
 This is a client version of a hoodie shop written in react.
 
