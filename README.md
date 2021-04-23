@@ -152,3 +152,4 @@ Root
 ## Components
 
 - [BinItem](./docs/BinItem.md)
+- [Button](./docs/Button.md)
