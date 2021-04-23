@@ -156,3 +156,4 @@ Root
 - [CartItem](./docs/CartItem.md)
 - [CheckoutForm](./docs/CheckoutForm.md)
 - [Item](./docs/Item.md)
+- [SideBar](./docs/SideBar.md)
